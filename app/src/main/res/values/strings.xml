@@ -1,9 +1,31 @@
 <resources>
     <string name="app_name">ProjectT2E</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quick_facts">Quick Facts</string>
+    <string name="about_college">About College</string>
+    <string name="about">About</string>
+    <string name="college_image">Image of college</string>
+    <string name="courses_offered">Courses Offered</string>
+    <string name="facilities">Facilities</string>
+    <string name="title_quiz">Quiz</string>
+    <string name="title_activities">activities</string>
+    <string name="title_profile">Profile</string>
+    <string name="personal">Personal</string>
+    <string name="applicaton">Application</string>
+    <string name="your_name">Your Name</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="play_now">Play Now</string>
+    <string name="welcome_quiz">WELOCME</string>
+    <string name="categories">Categories</string>
+    <string name="question_num">Question 1</string>
+
+    <string name="question_1">What is the current capital city of Australia?</string>
+    <string name="option_1">Option 1</string>
+    <string name="option_2">Option 2</string>
+    <string name="option_3">Option 3</string>
+    <string name="option_4">Option 4</string>
+    <string name="name">Name</string>
+
 </resources>

@@ -2,13 +2,11 @@ package com.think2exam.projectt2e;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.think2exam.projectt2e.ui.activities.ActivitiesFragment;
 import com.think2exam.projectt2e.ui.home.HomeFragment;
 import com.think2exam.projectt2e.ui.profile.ProfileFragment;
 import com.think2exam.projectt2e.ui.quiz.QuizFragment;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
