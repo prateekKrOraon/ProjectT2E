@@ -1,32 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_height="match_parent"
-    android:id="@+id/fragment_home">
-
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="College info"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_home" />
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/homeBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+      <androidx.core.widget.NestedScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+
+          <LinearLayout
+              android:background="@color/homeBackground"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:isScrollContainer="true"
+              android:orientation="vertical">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical"
+                  android:layout_marginLeft="10dp"
+                  android:text="Featured"
+                  android:layout_marginTop="20dp"
+                  android:textColor="@color/colorPrimaryDark"
+                  android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                  />
+
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="140dp"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginBottom="10dp"
+                  android:background="@color/homeBackground">
+
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/top_college_recycler_view"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_above="@+id/page_indicator"/>
+
+                 <com.chahinem.pageindicator.PageIndicator
+                     android:id="@+id/page_indicator"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_margin="10dp"
+                     app:piSelectedColor="@color/red"
+                     android:layout_alignParentBottom="true"
+                     android:layout_centerHorizontal="true"/>
+
+              </RelativeLayout>
+
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Explore by Categories"
+                  android:gravity="center_vertical"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginLeft="10dp"
+                  android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                  />
+
+              <include
+                  android:id="@+id/category_university"
+                  layout="@layout/colleges_category_layout"
+                  android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:layout_margin="10dp"/>
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:weightSum="100">
+
+                  <include
+                      android:id="@+id/category_iit"
+                      layout="@layout/colleges_category_layout"
+                      android:layout_width="match_parent"
+                      android:layout_height="120dp"
+                      android:layout_weight="50"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"/>
+                  <include
+                      android:id="@+id/category_nit"
+                      layout="@layout/colleges_category_layout"
+                      android:layout_width="match_parent"
+                      android:layout_height="120dp"
+                      android:layout_weight="50"
+                      android:layout_marginRight="10dp" />
+
+              </LinearLayout>
+
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Quizes you must play"
+                  android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                  android:gravity="center_vertical"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginLeft="10dp"/>
+
+              <include
+                  android:id="@+id/quiz_cardview"
+                  layout="@layout/quizes_learn_more_layout"
+                  android:layout_height="100dp"
+                  android:layout_width="match_parent"
+                  android:layout_margin="10dp"
+                  />
+
+
+
+
+
+          </LinearLayout>
+
+
+
+      </androidx.core.widget.NestedScrollView>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
