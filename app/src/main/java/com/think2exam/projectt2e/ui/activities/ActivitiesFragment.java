@@ -18,8 +18,9 @@ public class ActivitiesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_search, container, false);
-
+        View root = inflater.inflate(R.layout.fragment_activities, container, false);
+        final TextView textView = root.findViewById(R.id.text_activities);
+        textView.setText("Activities Fragment");
         return root;
     }
 }
