@@ -7,18 +7,17 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/bottom_nav_bar_search"
+        android:icon="@drawable/search_color_accent_24dp"
+        android:title="@string/title_search" />
+
+    <item
         android:id="@+id/bottom_nav_bar_quiz"
         android:icon="@drawable/outline_school_black_48"
         android:title="@string/title_quiz" />
 
     <item
-        android:id="@+id/bottom_nav_bar_activities"
-        android:icon="@drawable/outline_poll_black_48"
-        android:title="@string/title_activities" />
-
-    <item
         android:id="@+id/bottom_nav_bar_profile"
         android:icon="@drawable/outline_person_black_48"
-        android:title="@string/title_profile" />
-
+        android:title="@string/title_my_account" />
 </menu>

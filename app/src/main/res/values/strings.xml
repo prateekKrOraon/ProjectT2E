@@ -10,7 +10,7 @@
     <string name="courses_offered">Courses Offered</string>
     <string name="facilities">Facilities</string>
     <string name="title_quiz">Quiz</string>
-    <string name="title_activities">activities</string>
+    <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="personal">Personal</string>
     <string name="applicaton">Application</string>
@@ -27,5 +27,23 @@
     <string name="option_3">Option 3</string>
     <string name="option_4">Option 4</string>
     <string name="name">Name</string>
+    <string name="phone_no">Phone Number</string>
+    <string name="phone_dummy_data">+91-9931XXXXXX</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="more">More</string>
+    <string name="locate_college">Locate on map</string>
+    <string name="visit_web">Visit Website</string>
+
+    <string name="jee_main_des">I was correcting Apoorvs answer. And I did answer his question...his problem was that currently the gridview occupies a small portion of the NestedScrollView and not full space of NestedScrollView and scrolls inside that portion. He wanted to know how to fix that. Apoorvs answer was only partially right. My answer now, as I just</string>
+    <string name="jee_adv_des"></string>
+    <string name="neet_des"></string>
+    <string name="university_des">I was correcting Apoorvs answer. And I did answer his ques r. And I did answer his ques</string>
+    <string name="iit_des">I was correcting Apoorvs answer. And I did answer his ques</string>
+    <string name="nit_des">I was correcting Apoorvs answer. And I did answer his q I was correcting  answer his ques ues</string>
+    <string name="quiz_des">I was correcting Apoorvs answer. And I did answer his q I was correcting  answer his ques ues</string>
+    <string name="about_quiz">About\n\nDescription\n\nRules and Regulation\n\nManual</string>
+
+    <string name="title_my_account">My Account</string>
+    <string name="slider_button_text">Explore Campus</string>
 
 </resources>

@@ -12,4 +12,11 @@
     <color name="blue_grey_37">#37474F</color>
     <color name="answer_correct">#8BC34A</color>
     <color name="answer_wrong">#F44336</color>
+    <color name="red">#FF4545</color>
+
+    <color name="homeBackground">#e6e6f0</color>
+    <color name="linkColor">#070DEE</color>
+    <color name="category_des">#646563</color>
+    <color name="green">#57EE7B</color>
+    <color name="holo_dark">#000000</color>
 </resources>

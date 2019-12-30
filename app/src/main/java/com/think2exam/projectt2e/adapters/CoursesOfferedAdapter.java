@@ -14,7 +14,7 @@ import com.think2exam.projectt2e.view_holders.CoursesOfferedViewHolder;
 
 import java.util.ArrayList;
 
-public class CoursesOfferedAdapter extends BaseAdapter {
+public class    CoursesOfferedAdapter extends BaseAdapter {
     ArrayList<CoursesOfferedModal> list;
     Context context;
     public CoursesOfferedAdapter(Context context, ArrayList<CoursesOfferedModal> list){
