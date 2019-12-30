@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationViewListener(bottomNavigationView);
     }
 
+
+
     private void switchFragment(Fragment fragment,String id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

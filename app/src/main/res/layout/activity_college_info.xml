@@ -56,44 +56,58 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="10dp"
-                        android:id="@+id/college_info_col_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="30sp"
-                        android:textAppearance="?android:textAppearanceLarge"/>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/nit_logo"
+                        app:civ_border_width="0dp"/>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="10dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/outline_room_black_48"
-                            android:tint="@color/colorPrimary" />
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_gravity="center_horizontal"
-                            android:layout_width="wrap_content"
+                            android:paddingRight="10dp"
+                            android:paddingTop="10dp"
+                            android:id="@+id/college_info_col_name"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:textSize="20sp"
-                            android:id="@+id/college_info_location"/>
+                            android:textSize="30sp"
+                            android:textAppearance="?android:textAppearanceLarge"/>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="10dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/outline_room_black_48"
+                                android:tint="@color/colorPrimary" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:textSize="20sp"
+                                android:id="@+id/college_info_location"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             </androidx.cardview.widget.CardView>
 
@@ -150,7 +164,7 @@
                 app:cardCornerRadius="4dp"
                 android:layout_margin="5dp">
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -179,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"/>
 
-                </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.cardview.widget.CardView>
 
@@ -264,6 +278,73 @@
                         android:stretchMode="spacingWidthUniform"/>
 
                 </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                app:cardCornerRadius="4dp"
+                android:layout_margin="5dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:text="@string/more"
+                        android:textColor="@color/black"
+                        android:paddingBottom="10dp"
+                        android:textAlignment="center"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/locate_on_map"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_margin="10dp"
+                            android:text="@string/locate_college"
+                            android:layout_weight="1"
+                            android:textColor="@color/colorPrimary"
+                            android:background="@drawable/quiz_button_border"
+                            android:textSize="18sp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/visit_web"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_margin="10dp"
+                            android:textColor="@color/colorPrimary"
+                            android:text="@string/visit_web"
+                            android:layout_weight="1"
+                            android:background="@drawable/quiz_button_border"
+                            android:textSize="18sp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.cardview.widget.CardView>
 

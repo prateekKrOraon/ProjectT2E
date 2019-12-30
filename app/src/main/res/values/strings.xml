@@ -27,5 +27,11 @@
     <string name="option_3">Option 3</string>
     <string name="option_4">Option 4</string>
     <string name="name">Name</string>
+    <string name="phone_no">Phone Number</string>
+    <string name="phone_dummy_data">+91-9931XXXXXX</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="more">More</string>
+    <string name="locate_college">Locate on map</string>
+    <string name="visit_web">Visit Website</string>
 
 </resources>

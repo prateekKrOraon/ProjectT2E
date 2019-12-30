@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
     private void initializeOptions(View root) {
 
         //Creating list for personal section of profile
-        personalOptions.add(new ProfileOptionsModal("My Profile",R.drawable.outline_person_black_48));
+        personalOptions.add(new ProfileOptionsModal("Edit Profile",R.drawable.outline_person_black_48));
         personalOptions.add(new ProfileOptionsModal("Points Summary",R.drawable.ic_trophy_outline_white_48dp));
 
         LinearLayoutManager personalManger = new LinearLayoutManager(this.getContext());
