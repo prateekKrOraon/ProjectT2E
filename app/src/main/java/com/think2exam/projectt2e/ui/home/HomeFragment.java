@@ -3,35 +3,38 @@ package com.think2exam.projectt2e.ui.home;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ViewFlipper;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.chahinem.pageindicator.PageIndicator;
-import com.google.android.material.card.MaterialCardView;
-import com.think2exam.projectt2e.MainActivity;
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.adapters.CategoryAdapter;
+import com.think2exam.projectt2e.adapters.CityAdapter;
+import com.think2exam.projectt2e.adapters.StateAdapter;
+import com.think2exam.projectt2e.adapters.TopCollegeAdapter;
+import com.think2exam.projectt2e.adapters.ViewPagerAdapter;
+import com.think2exam.projectt2e.modals.CategoryModel;
+import com.think2exam.projectt2e.modals.CityModel;
+import com.think2exam.projectt2e.modals.FeaturedCollegeModel;
+import com.think2exam.projectt2e.modals.StateModel;
+import com.think2exam.projectt2e.modals.TopCollegeModel;
+import com.think2exam.projectt2e.adapters.SnapHelperOneByOne;
+import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
+import com.think2exam.projectt2e.modals.ViewPagerModel;
 import com.think2exam.projectt2e.ui.activities.AboutQuizActivity;
-import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.ui.home.top_college.SnapHelperOneByOne;
-import com.think2exam.projectt2e.ui.home.top_college.TopCollegeSliderAdapter;
 
 
 import java.util.ArrayList;
@@ -40,13 +43,16 @@ import java.util.TimerTask;
 
 public class HomeFragment extends Fragment {
     public static final String id = "home_fragment";
-    private static ViewPager mPager;
-    private static int currentPage = 0;
-    private static int NUM_PAGES = 0;
     private static  View parentView;
+    private ArrayList<CityModel> CityModelArrayList;
+    private ArrayList<StateModel> StateModelArrayList;
+    private ArrayList<CategoryModel> CategoryModelArrayList;
+    private ArrayList<TopCollegeModel> TopCollegeModelArrayList;
 
-    ArrayList<String> TopCollegeArrayList;
     private static Context mainActivityContext;
+    private ArrayList<FeaturedCollegeModel> featuredCollegeModels;
+    private ArrayList<ViewPagerModel> viewPagerModels;
+    private static int currentPage=0,numPages=0;
 
     public HomeFragment() {
     }
@@ -63,130 +69,111 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         parentView = root;
 
-        //initiating top slider
-        initSlider(inflater);
+        //set ArrayList
+        setArrayList();
 
-        MaterialCardView categoryIit = root.findViewById(R.id.category_iit);
-        MaterialCardView categoryNit = root.findViewById(R.id.category_nit);
-        final MaterialCardView categoryUniversity = root.findViewById(R.id.category_university);
-        MaterialCardView quiz_cardview = parentView.findViewById(R.id.quiz_cardview);
-        final TextView iit_Cn = (TextView)categoryIit.findViewById(R.id.category_cn);
-        final TextView nit_Cn = (TextView)categoryNit.findViewById(R.id.category_cn);
-        final TextView university_Cn = (TextView)categoryUniversity.findViewById(R.id.category_cn);
-        TextView gk_topic = quiz_cardview.findViewById(R.id.quiz_topic);
-        LinearLayout iit_explore_btn = (LinearLayout)categoryIit.findViewById(R.id.explore_btn);
-        LinearLayout nit_explore_btn = (LinearLayout)categoryNit.findViewById(R.id.explore_btn);
-        LinearLayout university_explore_btn = (LinearLayout)categoryUniversity.findViewById(R.id.explore_btn);
-        LinearLayout quiz_explore_btn = quiz_cardview.findViewById(R.id.learn_more_btn);
-        ImageView iit_back_img = categoryIit.findViewById(R.id.college_image);
-        final ImageView nit_back_img = categoryNit.findViewById(R.id.college_image);
-        ImageView university_back_img = categoryUniversity.findViewById(R.id.college_image);
-        ImageView quiz_back_img = quiz_cardview.findViewById(R.id.quize_image);
-        final TextView iit_des = categoryIit.findViewById(R.id.category_des);
-        final TextView nit_des = categoryNit.findViewById(R.id.category_des);
-        final TextView university_des = categoryUniversity.findViewById(R.id.category_des);
-        final TextView quiz_des = quiz_cardview.findViewById(R.id.quiz_des);
+        //setting viewpager slideshow
+        initViewPagerSlider();
 
-        iit_Cn.setText("IIT's");
-        nit_Cn.setText("NIT's");
-        university_Cn.setText("University's");
-        gk_topic.setText("Quiz");
+        //setting featured college
+        initFeaturedCollegeSlider();
 
-        Glide.with(this)
-                .load(R.drawable.university_back)
-                .into(university_back_img);
-        Glide.with(this)
-                .load(R.drawable.iit_back)
-                .into(iit_back_img);
-        Glide.with(this)
-                .load(R.drawable.nit_back)
-                .into(nit_back_img);
-        Glide.with(this)
-                .load(R.drawable.quize)
-                .into(quiz_back_img);
+        //Recycler view for top colleges
+        RecyclerView tcRecyclerView = root.findViewById(R.id.home_top_colleges_recycler_view);
+        RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        TopCollegeAdapter topCollegeAdapter = new TopCollegeAdapter(TopCollegeModelArrayList,mainActivityContext);
+        tcRecyclerView.setHasFixedSize(true);
+        tcRecyclerView.setLayoutManager(tcLayoutManager);
+        tcRecyclerView.setAdapter(topCollegeAdapter);
 
-        categoryIit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nit_des.setText("");
-                university_des.setText("");
-                quiz_des.setText("");
-                iit_des.setText(getResources().getString(R.string.iit_des));
-            }
-        });
-        categoryNit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iit_des.setText("");
-                university_des.setText("");
-                quiz_des.setText("");
-                nit_des.setText(getResources().getString(R.string.nit_des));
-            }
-        });
-        categoryUniversity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iit_des.setText("");
-                nit_des.setText("");
-                quiz_des.setText("");
-                university_des.setText(getResources().getString(R.string.university_des));
-            }
-        });
-        quiz_cardview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nit_des.setText("");
-                iit_des.setText("");
-                university_des.setText("");
-                quiz_des.setText(getResources().getString(R.string.quiz_des));
-            }
-        });
+        //Recycler view for City
+        RecyclerView ctRecyclerView = root.findViewById(R.id.home_city_recycler_view);
+        RecyclerView.LayoutManager ctLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) ctLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        CityAdapter cityAdapter = new CityAdapter(CityModelArrayList,mainActivityContext);
+        ctRecyclerView.setHasFixedSize(true);
+        ctRecyclerView.setLayoutManager(ctLayoutManager);
+        ctRecyclerView.setAdapter(cityAdapter);
 
+        //Recycler view for state
+        RecyclerView stRecyclerView = root.findViewById(R.id.home_state_recycler_view);
+        RecyclerView.LayoutManager stLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) stLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        StateAdapter stateAdapter = new StateAdapter(StateModelArrayList,mainActivityContext);
+        stRecyclerView.setHasFixedSize(true);
+        stRecyclerView.setLayoutManager(stLayoutManager);
+        stRecyclerView.setAdapter(stateAdapter);
 
-        iit_explore_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mainActivityContext, CollegeListActivity.class);
-                intent.putExtra("tag",iit_Cn.getText().toString());
-                startActivity(intent);
-            }
-        });
+        //Recycler view for category
+        RecyclerView catRecyclerView   = root.findViewById(R.id.home_category_recycler_view);
+        RecyclerView.LayoutManager catLayoutManager = new GridLayoutManager(mainActivityContext,3);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(CategoryModelArrayList,mainActivityContext);
+        catRecyclerView.setHasFixedSize(true);
+        catRecyclerView.setLayoutManager(catLayoutManager);
+        catRecyclerView.setAdapter(categoryAdapter);
 
-        nit_explore_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mainActivityContext, CollegeListActivity.class);
-                intent.putExtra("tag",nit_Cn.getText().toString());
-                startActivity(intent);
-            }
-        });
-
-        university_explore_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mainActivityContext, CollegeListActivity.class);
-                intent.putExtra("tag",university_Cn.getText().toString());
-                startActivity(intent);
-            }
-        });
-
-        quiz_explore_btn.setOnClickListener(new View.OnClickListener() {
+        //learn more quiz
+        LinearLayout learn_more_btn = root.findViewById(R.id.learn_more_btn);
+        learn_more_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivityContext, AboutQuizActivity.class);
-                startActivity(intent);
+                mainActivityContext.startActivity(intent);
             }
         });
-
-
 
 
 
         return root;
     }
 
+    private void setArrayList()
+    {
+        viewPagerModels = new ArrayList<>();
+        viewPagerModels.add(new ViewPagerModel("Do you want to find colleges in India?",R.drawable.university_back));
+        viewPagerModels.add(new ViewPagerModel("Then ProjectT2E is here for you",R.drawable.iit_back));
+        viewPagerModels.add(new ViewPagerModel("College Of Engineering Tezpur, Click here",R.drawable.tezpur_university));
 
-    private void initSlider(LayoutInflater inflater) {
+        featuredCollegeModels = new ArrayList<>();
+        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Sikkim","#rank 1","Ravangla"));
+        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Silchar","#rank 1","Silchar"));
+        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Patna","#rank 1","Patna"));
+        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Rourkela","#rank 1","Rourkela"));
+        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Tricy","#rank 1","Tricypolly"));
+
+        CityModelArrayList = new ArrayList<>();
+        CityModelArrayList.add(new CityModel("Banglore",R.drawable.city1));
+        CityModelArrayList.add(new CityModel("Hyderabad",R.drawable.city2));
+        CityModelArrayList.add(new CityModel("Chennai",R.drawable.city3));
+        CityModelArrayList.add(new CityModel("Kota",R.drawable.city4));
+        CityModelArrayList.add(new CityModel("Guwahati",R.drawable.top_college3));
+
+        StateModelArrayList = new ArrayList<>();
+        StateModelArrayList.add(new StateModel("Assam",R.drawable.state));
+        StateModelArrayList.add(new StateModel("Delhi",R.drawable.state));
+        StateModelArrayList.add(new StateModel("Mumbai",R.drawable.state));
+
+        CategoryModelArrayList = new ArrayList<>();
+        CategoryModelArrayList.add(new CategoryModel("Engineering",R.drawable.engineering));
+        CategoryModelArrayList.add(new CategoryModel("Management",R.drawable.management));
+        CategoryModelArrayList.add(new CategoryModel("Architecture",R.drawable.architecture));
+        CategoryModelArrayList.add(new CategoryModel("Medical",R.drawable.medical));
+        CategoryModelArrayList.add(new CategoryModel("Pharmacy",R.drawable.pharmacy));
+
+
+        TopCollegeModelArrayList = new ArrayList<>();
+        TopCollegeModelArrayList.add(new TopCollegeModel("Top IIT",R.drawable.iit));
+        TopCollegeModelArrayList.add(new TopCollegeModel("Top NIT",R.drawable.nit));
+        TopCollegeModelArrayList.add(new TopCollegeModel("Top AIIMS",R.drawable.aiims));
+        TopCollegeModelArrayList.add(new TopCollegeModel("Top IIM",R.drawable.top_college1));
+        TopCollegeModelArrayList.add(new TopCollegeModel("Top Univerity",R.drawable.university));
+        TopCollegeModelArrayList.add(new TopCollegeModel("Top Private College",R.drawable.top_college2));
+
+    }
+
+
+    private void initFeaturedCollegeSlider() {
 
 
         RecyclerView tcRecyclerView = parentView.findViewById(R.id.top_college_recycler_view);
@@ -196,25 +183,38 @@ public class HomeFragment extends Fragment {
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(tcRecyclerView);
 
-        TopCollegeArrayList = new ArrayList<>();
-        TopCollegeArrayList.add("1");
-        TopCollegeArrayList.add("2");
-        TopCollegeArrayList.add("3");
-        TopCollegeArrayList.add("4");
-        TopCollegeArrayList.add("5");
-
-        TopCollegeSliderAdapter topCollegeSliderAdapter = new TopCollegeSliderAdapter(TopCollegeArrayList,mainActivityContext);
+        FeaturedCollegeAdapter featuredCollegeAdapter = new FeaturedCollegeAdapter(featuredCollegeModels,mainActivityContext);
         tcRecyclerView.setLayoutManager(tcLayoutManager);
-        tcRecyclerView.setAdapter(topCollegeSliderAdapter);
+        tcRecyclerView.setAdapter(featuredCollegeAdapter);
 
         PageIndicator pageIndicator = parentView.findViewById(R.id.page_indicator);
         pageIndicator.attachTo(tcRecyclerView);
 
 
-        //Set circle indicator radius
+    }
 
-
-
+    private void initViewPagerSlider()
+    {
+        final ViewPager viewPager = parentView.findViewById(R.id.view_pager);
+        viewPager.setAdapter(new ViewPagerAdapter(mainActivityContext,viewPagerModels));
+        numPages = viewPagerModels.size();
+        final Handler handler = new Handler();
+        final Runnable update = new Runnable() {
+            @Override
+            public void run() {
+                if(currentPage == numPages){
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++,true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        },5000,5000);
 
     }
 }

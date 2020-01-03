@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
-import com.think2exam.projectt2e.modals.SearchCatItem;
+import com.think2exam.projectt2e.modals.SearchCategoryModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
 import com.think2exam.projectt2e.ui.activities.SearchCategoryActivity;
 
@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SearchCatAdapter extends RecyclerView.Adapter<SearchCatAdapter.SearchCatViewHolder> {
 
 
-    private ArrayList<SearchCatItem> searchCatItems;
+    private ArrayList<SearchCategoryModel> searchCatItems;
     private Context context;
     public static class SearchCatViewHolder extends RecyclerView.ViewHolder{
 
@@ -43,7 +43,7 @@ public class SearchCatAdapter extends RecyclerView.Adapter<SearchCatAdapter.Sear
 
     }
 
-    public SearchCatAdapter(ArrayList<SearchCatItem> arrayList, Context context)
+    public SearchCatAdapter(ArrayList<SearchCategoryModel> arrayList, Context context)
     {
         this.searchCatItems = arrayList;
         this.context = context;

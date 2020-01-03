@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#BB86FC</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#80FFFFFF</color>
     <color name="controlNormal">#FFFFFF</color>
     <color name="black">#000000</color>
 
@@ -14,9 +15,9 @@
     <color name="answer_wrong">#F44336</color>
     <color name="red">#FF4545</color>
 
-    <color name="homeBackground">#e6e6f0</color>
+    <color name="homeBackground">#f5f6f7</color>
     <color name="linkColor">#070DEE</color>
-    <color name="category_des">#646563</color>
+    <color name="homeBackground2">#e6e6f0</color>
     <color name="green">#57EE7B</color>
     <color name="holo_dark">#000000</color>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
@@ -25,17 +26,11 @@ tools:context=".ui.activities.QuizCategoryActivity">
 
 </com.google.android.material.appbar.AppBarLayout>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical">
 
         <TextView
@@ -49,17 +44,17 @@ tools:context=".ui.activities.QuizCategoryActivity">
             android:layout_margin="20dp"
             android:letterSpacing="0.1"/>
 
-        <GridView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/quiz_cat_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/categories_gird"
-            android:columnWidth="200dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="15dp"
-            android:stretchMode="spacingWidthUniform"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+
 
     </LinearLayout>
 
-</ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

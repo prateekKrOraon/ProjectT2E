@@ -65,7 +65,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/search_edittext"
@@ -77,11 +79,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:outlineSpotShadowColor="@color/colorPrimary"
-                        android:outlineAmbientShadowColor="@color/colorPrimary"
-                        android:textColorLink="@color/colorPrimary"
-                        android:textColorHighlight="@color/colorPrimary"
-                        android:outlineProvider="background"
+                        android:clickable="true"
                         android:layout_toLeftOf="@+id/icon_layout"
                         android:textColor="@color/holo_dark" />
                     <LinearLayout
