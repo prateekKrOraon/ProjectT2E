@@ -32,7 +32,7 @@
               android:layout_width="50dp"
               android:layout_height="50dp"
               android:layout_gravity="center_horizontal"
-              android:tint="@color/colorPrimaryDark"
+              android:tint="@color/colorAccent"
               android:src="@drawable/search_color_accent_24dp"/>
 
           <TextView

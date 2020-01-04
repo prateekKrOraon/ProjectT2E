@@ -34,7 +34,11 @@ public class MainActivity extends AppCompatActivity {
         //setting support toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        try {
+            getSupportActionBar().setTitle("Think2Exam");
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
         //setting initial fragment to be home fragment
         switchFragment(mHomeFragment,HomeFragment.id);
 

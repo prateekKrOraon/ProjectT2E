@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#BB86FC</color>
+    <!--<color name="colorPrimary">#6200EE</color>-->
+    <color name="colorPrimary">#FFFFFF</color>
+    <!--<color name="colorPrimaryDark">#3700B3</color>-->
+    <color name="colorPrimaryDark">#000000</color>
+    <!--<color name="colorAccent">#BB86FC</color>-->
+    <color name="colorAccent">#EF5350</color>
     <color name="white">#FFFFFF</color>
     <color name="controlNormal">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="app_bar_color">#6200EE</color>
 
+    <color name="grey_light">#FAFAFA</color>
     <color name="blue">#1565C0</color>
+    <color name="blue_matte">#42A5F5</color>
+    <color name="blue_dark">#448AFF</color>
+    <color name="grey">#AAAAAA</color>
     <color name="grey_42">#424242</color>
     <color name="blue_grey_37">#37474F</color>
-    <color name="answer_correct">#8BC34A</color>
+    <color name="answer_correct">#4CAF50</color>
     <color name="answer_wrong">#F44336</color>
     <color name="red">#FF4545</color>
 
-    <color name="homeBackground">#e6e6f0</color>
+    <color name="homeBackground">#FAFAFA</color>
     <color name="linkColor">#070DEE</color>
     <color name="category_des">#646563</color>
-    <color name="green">#57EE7B</color>
+    <color name="green">#4CAF50</color>
     <color name="holo_dark">#000000</color>
 </resources>

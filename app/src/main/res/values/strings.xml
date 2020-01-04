@@ -17,9 +17,9 @@
     <string name="your_name">Your Name</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="play_now">Play Now</string>
-    <string name="welcome_quiz">WELOCME</string>
+    <string name="welcome_quiz">Welcome</string>
     <string name="categories">Categories</string>
-    <string name="question_num">Question 1</string>
+    <string name="question_num">Question 1/10</string>
 
     <string name="question_1">What is the current capital city of Australia?</string>
     <string name="option_1">Option 1</string>
@@ -45,5 +45,19 @@
 
     <string name="title_my_account">My Account</string>
     <string name="slider_button_text">Explore Campus</string>
+    <string name="result_win">Congratulations!</string>
+    <string name="result_win_subtitle">You have passed this stage</string>
+    <string name="result_button">Back to Topics</string>
+    <string name="score_dummy">8/10</string>
+    <string name="rules">Rules</string>
+    <string name="correctly_answered">Correctly answered</string>
+    <string name="back_btn">Back Button</string>
+    <string name="summary_level">Level 5</string>
+    <string name="matches_played">Matches Played</string>
+    <string name="wins">Wins</string>
+    <string name="avg_points">Average Points</string>
+    <string name="correct_answer">Correct Answers</string>
+    <string name="wrong_answers">Wrong Answers</string>
+    <string name="did_not_answer">Did not answer</string>
 
 </resources>

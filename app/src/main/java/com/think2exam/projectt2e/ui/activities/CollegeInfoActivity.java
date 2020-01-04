@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -81,9 +82,19 @@ public class CollegeInfoActivity extends AppCompatActivity {
         facilities.add(new CollegeFacilitiesModal("Sports",R.drawable.outline_poll_black_48));
         facilities.add(new CollegeFacilitiesModal("Cafeteria",R.drawable.outline_home_black_48));
 
+
         CollegeFacilitiesAdapter adapter = new CollegeFacilitiesAdapter(this,facilities);
         GridView facilitiesProvided = findViewById(R.id.college_info_facilities);
         facilitiesProvided.setAdapter(adapter);
+        ViewGroup.LayoutParams params = facilitiesProvided.getLayoutParams();
+        params.height = (((facilities.size())/4)*facilitiesProvided.getMinimumHeight());
+        if(facilities.size()%4 > 0){
+            params.height += facilitiesProvided.getMinimumHeight()+(facilities.size()%4)*10;
+        }
+        facilitiesProvided.setLayoutParams(params);
+        facilitiesProvided.setVerticalScrollBarEnabled(false);
+        facilitiesProvided.requestLayout();
+
     }
 
     private void initializeCoursesOffered() {
@@ -97,7 +108,12 @@ public class CollegeInfoActivity extends AppCompatActivity {
         ListView coursesOffered = findViewById(R.id.offered_course_list);
         coursesOffered.setAdapter(adapter);
 
-        setListViewHeightBasedOnChildren(coursesOffered);
+        ViewGroup.LayoutParams params = coursesOffered.getLayoutParams();
+        params.height = (courses.size()*coursesOffered.getMinimumHeight());
+        coursesOffered.setLayoutParams(params);
+        coursesOffered.setVerticalScrollBarEnabled(false);
+        coursesOffered.requestLayout();
+        //setListViewHeightBasedOnChildren(coursesOffered);
 
     }
 
@@ -117,8 +133,58 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         QuickFactsAdapter quickFactsAdapter = new QuickFactsAdapter(this,quickFactsList);
         GridView quickFacts = findViewById(R.id.quick_facts);
+
+        ViewGroup.LayoutParams params =  quickFacts.getLayoutParams();
+
         quickFacts.setAdapter(quickFactsAdapter);
 
+
+        params.height = (((quickFactsList.size())/2)*quickFacts.getMinimumHeight());
+        if(quickFactsList.size()%2 > 0){
+            params.height += quickFacts.getMinimumHeight()+(quickFactsList.size()%4)*10;
+        }
+        quickFacts.setLayoutParams(params);
+        quickFacts.setVerticalScrollBarEnabled(false);
+        quickFacts.requestLayout();
+
+
+        //setGridViewHeightBasedOnChildren(quickFacts);
+
+
+
+    }
+
+
+    public static void setGridViewHeightBasedOnChildren(GridView gridView){
+        ListAdapter listAdapter = gridView.getAdapter();
+
+        if (listAdapter == null){
+            return;
+        }
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+
+            view = listAdapter.getView(i, view, gridView);
+
+            if (i == 0) {
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+
+        params.height = totalHeight;
+
+        gridView.setLayoutParams(params);
+        gridView.requestLayout();
     }
 
     //Measures the height of the courses offered listView
@@ -133,7 +199,9 @@ public class CollegeInfoActivity extends AppCompatActivity {
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
         int totalHeight = 0;
 
-        View view = null;for (int i = 0; i < listAdapter.getCount(); i++) {
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
 
             view = listAdapter.getView(i, view, listView);
 
@@ -147,7 +215,7 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
 
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight;
 
         listView.setLayoutParams(params);
         listView.requestLayout();

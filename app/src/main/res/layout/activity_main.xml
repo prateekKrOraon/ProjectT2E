@@ -11,14 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme"
+        app:elevation="0dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             app:popupTheme="@style/AppTheme"
+            app:titleTextColor="@color/white"
             android:theme="@style/ToolbarTheme">
 
         </androidx.appcompat.widget.Toolbar>
@@ -39,8 +41,10 @@
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:foregroundGravity="fill"
         app:itemIconSize="30dp"
         app:itemBackground="@color/white"
+        android:background="@color/white"
         app:itemIconTint="@drawable/bottom_nav_bar_selector"
         app:itemTextColor="@drawable/bottom_nav_bar_selector"
         app:layout_constraintBottom_toBottomOf="parent"
