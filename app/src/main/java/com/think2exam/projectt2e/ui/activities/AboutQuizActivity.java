@@ -33,7 +33,7 @@ public class AboutQuizActivity extends AppCompatActivity {
         ptp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AboutQuizActivity.this, "It will redirected to Quiz section", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AboutQuizActivity.this, "Quiz section", Toast.LENGTH_SHORT).show();
             }
         });
     }

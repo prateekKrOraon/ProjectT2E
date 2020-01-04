@@ -3,31 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="120dp"
-    android:weightSum="100"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:layout_marginLeft="5dp"
+    android:weightSum="100"
     android:layout_height="match_parent">
 
     <com.google.android.material.card.MaterialCardView
         app:cardBackgroundColor="@color/white"
         android:id="@+id/state_card_view"
         android:layout_width="match_parent"
-        android:layout_weight="90"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="70dp"
         android:layout_margin="5dp"
+        android:layout_weight="100"
         android:layout_height="wrap_content"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground">
         <ImageView
             android:id="@+id/state_icon"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/university"
+            android:layout_height="wrap_content"
             android:tint="@color/colorPrimaryDark"
             android:layout_margin="10dp"/>
 
@@ -37,8 +36,8 @@
         android:id="@+id/state_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:textAlignment="center"
-        android:layout_weight="10"
         android:text="city"/>
 
 </LinearLayout>
