@@ -11,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.google.android.material.appbar.AppBarLayout;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CollegeFacilitiesAdapter;
 import com.think2exam.projectt2e.adapters.CoursesOfferedAdapter;
@@ -30,13 +33,17 @@ public class CollegeInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_college_info);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_college_info);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Info Screen");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         //have to use imageURI
+
+        ImageButton backBtn = findViewById(R.id.college_info_back_btn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         AppCompatImageView imageView = findViewById(R.id.college_info_col_image);
         imageView.setImageDrawable(
             getResources()

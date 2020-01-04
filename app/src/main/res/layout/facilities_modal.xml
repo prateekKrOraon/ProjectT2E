@@ -9,7 +9,7 @@
         android:layout_height="35dp"
         android:scaleType="fitCenter"
         android:id="@+id/facilities_icon"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/colorAccent"
         android:layout_gravity="center"/>
 
     <androidx.appcompat.widget.AppCompatTextView

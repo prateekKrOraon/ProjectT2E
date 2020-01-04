@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/homeBackground"
+    android:background="@color/grey_light"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -15,41 +15,41 @@
         android:theme="@style/AppTheme">
 
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical">
-           <RelativeLayout
-               android:layout_width="match_parent"
-               android:layout_height="match_parent">
+                android:layout_height="match_parent">
 
-               <ImageView
-                   android:id="@+id/back_btn"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_centerVertical="true"
-                   android:tint="@color/white"
-                   android:background="?android:attr/selectableItemBackground"
-                   android:src="@drawable/back_arow_24dp"
-                   />
+                <ImageView
+                    android:id="@+id/back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:tint="@color/white"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/back_arow_24dp"
+                    />
 
 
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="@string/app_name"
-                   android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                   android:textStyle="bold"
-                   android:textColor="@color/colorPrimary"
-                   android:layout_toRightOf="@+id/back_btn"
-                   android:layout_centerVertical="true"
-                   android:layout_marginLeft="10dp"
-                   android:id="@+id/toolbar_title"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_toRightOf="@+id/back_btn"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/toolbar_title"/>
 
 
-           </RelativeLayout>
+            </RelativeLayout>
 
 
             <com.google.android.material.card.MaterialCardView
@@ -66,7 +66,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/search_edittext"
@@ -78,11 +80,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:outlineSpotShadowColor="@color/colorPrimary"
-                        android:outlineAmbientShadowColor="@color/colorPrimary"
-                        android:textColorLink="@color/colorPrimary"
-                        android:textColorHighlight="@color/colorPrimary"
-                        android:outlineProvider="background"
+                        android:clickable="true"
                         android:layout_toLeftOf="@+id/icon_layout"
                         android:textColor="@color/holo_dark" />
                     <LinearLayout
@@ -123,7 +121,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
+        </LinearLayout>
 
 
 
@@ -138,7 +136,7 @@
             android:layout_height="3dp"
             android:layout_gravity="bottom"
             android:background="@color/white"
-            android:progressTint="@color/colorAccent"
+            android:progressTint="@color/colorPrimary"
             android:max="0"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 

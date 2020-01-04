@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,54 +10,44 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_college_info"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/AppTheme"
-            android:theme="@style/ToolbarTheme">
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/colorAccent"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <ScrollView
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toLeftOf="parent">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/college_info_col_image"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:contentDescription="@string/college_image"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
-                android:layout_margin="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                app:cardCornerRadius="4dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/college_info_col_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"
+                    android:contentDescription="@string/college_image"
+                    android:scaleType="centerCrop" />
+
+                <ImageButton
+                    android:layout_margin="10dp"
+                    android:layout_gravity="top"
+                    android:id="@+id/college_info_back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_arow_24dp"
+                    android:tint="@color/colorAccent"
+                    android:backgroundTint="@android:color/transparent"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="0dp"
+                    android:layout_gravity="bottom">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="65dp"
@@ -91,7 +81,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:src="@drawable/outline_room_black_48"
-                                android:tint="@color/colorPrimary" />
+                                android:tint="@color/colorAccent" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_gravity="center_horizontal"
@@ -106,6 +96,43 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_college_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:titleTextColor="@color/white">
+
+                </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                app:cardCornerRadius="4dp">
+
 
 
             </androidx.cardview.widget.CardView>
@@ -135,7 +162,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"/>
@@ -184,7 +211,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"/>
@@ -225,7 +252,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"/>
 
@@ -267,7 +294,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"/>
@@ -312,7 +339,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"/>
@@ -330,8 +357,8 @@
                             android:layout_margin="10dp"
                             android:text="@string/locate_college"
                             android:layout_weight="1"
-                            android:textColor="@color/colorPrimary"
-                            android:background="@drawable/quiz_button_border"
+                            android:textColor="@color/white"
+                            android:background="@drawable/stadium_border_button"
                             android:textSize="15sp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
@@ -341,10 +368,10 @@
                             android:layout_height="wrap_content"
                             android:padding="10dp"
                             android:layout_margin="10dp"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/white"
                             android:text="@string/visit_web"
                             android:layout_weight="1"
-                            android:background="@drawable/quiz_button_border"
+                            android:background="@drawable/stadium_border_button"
                             android:textSize="15sp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
@@ -356,6 +383,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

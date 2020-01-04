@@ -9,7 +9,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:contentDescription="icon"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/colorAccent"
         android:scaleType="fitCenter"
         />
 

@@ -1,4 +1,4 @@
-package com.think2exam.projectt2e.ui.home.top_college;
+package com.think2exam.projectt2e.adapters;
 import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
