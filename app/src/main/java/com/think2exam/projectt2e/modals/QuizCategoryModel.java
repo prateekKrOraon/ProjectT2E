@@ -1,10 +1,10 @@
 package com.think2exam.projectt2e.modals;
 
-public class SearchCatItem {
+public class QuizCategoryModel {
 
     private String name;
     private int icon;
-    public SearchCatItem(String name, int icon)
+    public QuizCategoryModel(String name, int icon)
     {
         this.name = name;
         this.icon = icon;

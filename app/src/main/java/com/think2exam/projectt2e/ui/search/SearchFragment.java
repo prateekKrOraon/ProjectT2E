@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.SearchCatAdapter;
-import com.think2exam.projectt2e.modals.SearchCatItem;
+import com.think2exam.projectt2e.modals.SearchCategoryModel;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class SearchFragment extends Fragment {
     public SearchFragment(){}
 
     public Context mainActivityContext;
-    ArrayList<SearchCatItem> SearchCatList;
+    ArrayList<SearchCategoryModel> SearchCatList;
 
     @SuppressLint("ValidFragment")
     public SearchFragment(Context context)
@@ -53,10 +53,10 @@ public class SearchFragment extends Fragment {
     public void setItems()
     {
         SearchCatList = new ArrayList<>();
-        SearchCatList.add(new SearchCatItem("ALL",R.drawable.iit));
-        SearchCatList.add(new SearchCatItem("INSTITUTE",R.drawable.nit));
-        SearchCatList.add(new SearchCatItem("COURSE",R.drawable.course));
-        SearchCatList.add(new SearchCatItem("CITY",R.drawable.city));
-        SearchCatList.add(new SearchCatItem("STATE",R.drawable.state));
+        SearchCatList.add(new SearchCategoryModel("ALL",R.drawable.iit));
+        SearchCatList.add(new SearchCategoryModel("INSTITUTE",R.drawable.nit));
+        SearchCatList.add(new SearchCategoryModel("COURSE",R.drawable.course));
+        SearchCatList.add(new SearchCategoryModel("CITY",R.drawable.city));
+        SearchCatList.add(new SearchCategoryModel("STATE",R.drawable.state));
     }
 }
