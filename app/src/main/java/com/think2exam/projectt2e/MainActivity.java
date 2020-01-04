@@ -2,6 +2,7 @@ package com.think2exam.projectt2e;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.think2exam.projectt2e.ui.home.HomeFragment;
 import com.think2exam.projectt2e.ui.profile.ProfileFragment;
@@ -15,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     HomeFragment mHomeFragment;
     QuizFragment mQuizFragment;
@@ -36,16 +37,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //setting initial fragment to be home fragment
-        switchFragment(mHomeFragment,HomeFragment.id);
+        switchFragment(mHomeFragment, HomeFragment.id);
 
         //Initializing Bottom navigation
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_bar);
+        final BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_bar);
 
         //Event listener for bottom navigation view
         bottomNavigationViewListener(bottomNavigationView);
+
+
+
+
+
+
     }
-
-
 
     private void switchFragment(Fragment fragment,String id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -64,16 +69,16 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId()){
                     case R.id.bottom_nav_bar_home:
-                        switchFragment(mHomeFragment,HomeFragment.id);
+                        switchFragment(mHomeFragment, HomeFragment.id);
                         break;
                     case R.id.bottom_nav_bar_quiz:
-                        switchFragment(mQuizFragment,QuizFragment.id);
+                        switchFragment(mQuizFragment, QuizFragment.id);
                         break;
                     case R.id.bottom_nav_bar_search:
                         switchFragment(mSearchFragment, SearchFragment.id);
                         break;
                     case R.id.bottom_nav_bar_profile:
-                        switchFragment(mProfileFragment,ProfileFragment.id);
+                        switchFragment(mProfileFragment, ProfileFragment.id);
                         break;
                     default:
                         return false;
@@ -82,5 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

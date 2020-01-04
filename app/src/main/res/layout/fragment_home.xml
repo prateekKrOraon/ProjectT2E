@@ -21,102 +21,166 @@
               android:isScrollContainer="true"
               android:orientation="vertical">
 
+              <androidx.viewpager.widget.ViewPager
+                  android:id="@+id/view_pager"
+                  android:layout_width="match_parent"
+                  android:layout_height="180dp"/>
+
+
+
               <TextView
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:gravity="center_vertical"
                   android:layout_marginLeft="10dp"
-                  android:text="Featured"
+                  android:text="Featured Colleges"
                   android:layout_marginTop="20dp"
                   android:textColor="@color/colorPrimaryDark"
                   android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                   />
 
 
-              <RelativeLayout
+              <LinearLayout
                   android:layout_width="match_parent"
-                  android:layout_height="140dp"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginBottom="10dp"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
                   android:background="@color/homeBackground">
 
                  <androidx.recyclerview.widget.RecyclerView
                      android:id="@+id/top_college_recycler_view"
                      android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_above="@+id/page_indicator"/>
+                     android:layout_height="wrap_content"/>
 
                  <com.chahinem.pageindicator.PageIndicator
                      android:id="@+id/page_indicator"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:layout_margin="10dp"
                      app:piSelectedColor="@color/red"
-                     android:layout_alignParentBottom="true"
-                     android:layout_centerHorizontal="true"/>
+                     android:layout_margin="5dp"
+                     android:layout_gravity="center_horizontal"/>
 
-              </RelativeLayout>
+              </LinearLayout>
 
-
-              <TextView
+              <androidx.coordinatorlayout.widget.CoordinatorLayout
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:text="Explore by Categories"
-                  android:gravity="center_vertical"
-                  android:layout_marginTop="20dp"
+                  android:foregroundGravity="left"
                   android:layout_marginLeft="10dp"
-                  android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                  />
+                  android:layout_marginRight="10dp"
+                  android:layout_marginBottom="20dp"
+                  android:foreground="@drawable/home_quiz_icon"
+                  android:layout_height="140dp">
 
-              <include
-                  android:id="@+id/category_university"
-                  layout="@layout/colleges_category_layout"
-                  android:layout_width="match_parent"
-                  android:layout_height="100dp"
-                  android:layout_margin="10dp"/>
+                  <include
+                      android:id="@+id/quiz_cardview"
+                      layout="@layout/quizes_learn_more_layout"
+                      android:layout_height="100dp"
+                      android:layout_width="match_parent"
+                      android:layout_gravity="bottom"
+                      />
+
+              </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
               <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:weightSum="100">
+                  android:orientation="vertical">
 
-                  <include
-                      android:id="@+id/category_iit"
-                      layout="@layout/colleges_category_layout"
+                  <TextView
                       android:layout_width="match_parent"
-                      android:layout_height="120dp"
-                      android:layout_weight="50"
+                      android:layout_height="wrap_content"
                       android:layout_marginLeft="10dp"
-                      android:layout_marginRight="10dp"/>
-                  <include
-                      android:id="@+id/category_nit"
-                      layout="@layout/colleges_category_layout"
+                      android:layout_marginBottom="5dp"
+                      android:text="Explore top colleges"
+                      android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/home_top_colleges_recycler_view"
                       android:layout_width="match_parent"
-                      android:layout_height="120dp"
-                      android:layout_weight="50"
-                      android:layout_marginRight="10dp" />
+                      android:background="@color/homeBackground2"
+                      android:layout_height="100dp"/>
+
 
               </LinearLayout>
 
 
-              <TextView
+
+
+              <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                   android:orientation="vertical">
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Explore by popular city"
+                       android:layout_marginLeft="10dp"
+                       android:layout_marginBottom="5dp"
+                       android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+                   <androidx.recyclerview.widget.RecyclerView
+                       android:id="@+id/home_city_recycler_view"
+                       android:layout_width="match_parent"
+                       android:background="@color/homeBackground2"
+                       android:layout_height="100dp"/>
+
+
+
+
+
+
+
+               </LinearLayout>
+              <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:text="Quizes you must play"
-                  android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                  android:gravity="center_vertical"
-                  android:layout_marginTop="20dp"
-                  android:layout_marginLeft="10dp"/>
+                  android:layout_marginTop="10dp"
+                  android:orientation="vertical">
 
-              <include
-                  android:id="@+id/quiz_cardview"
-                  layout="@layout/quizes_learn_more_layout"
-                  android:layout_height="100dp"
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Explore by state"
+                      android:layout_marginBottom="5dp"
+                      android:layout_marginLeft="10dp"
+                      android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/home_state_recycler_view"
+                      android:layout_width="match_parent"
+                      android:background="@color/homeBackground2"
+                      android:layout_height="100dp"/>
+
+
+
+
+
+              </LinearLayout>
+              <LinearLayout
                   android:layout_width="match_parent"
-                  android:layout_margin="10dp"
-                  />
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginBottom="20dp"
+                  android:orientation="vertical">
+
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Explore by category"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginBottom="5dp"
+                      android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/home_category_recycler_view"
+                      android:layout_width="match_parent"
+                      android:background="@color/homeBackground2"
+                      android:layout_height="wrap_content"/>
 
 
+
+              </LinearLayout>
 
 
 
