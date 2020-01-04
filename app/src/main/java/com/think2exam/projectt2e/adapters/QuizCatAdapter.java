@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
-import com.think2exam.projectt2e.modals.QuizCategoryModel;
+import com.think2exam.projectt2e.modals.QuizCategoryModal;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
 import com.think2exam.projectt2e.ui.activities.QuizActivity;
 
@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatViewHolder> {
 
 
-    private ArrayList<QuizCategoryModel> QuizCatItems;
+    private ArrayList<QuizCategoryModal> QuizCatItems;
     private Context context;
     public static class QuizCatViewHolder extends RecyclerView.ViewHolder{
 
@@ -46,7 +46,7 @@ public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatV
 
     }
 
-    public QuizCatAdapter(ArrayList<QuizCategoryModel> arrayList, Context context)
+    public QuizCatAdapter(ArrayList<QuizCategoryModal> arrayList, Context context)
     {
         this.QuizCatItems = arrayList;
         this.context = context;

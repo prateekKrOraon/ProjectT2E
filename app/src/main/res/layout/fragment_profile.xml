@@ -41,14 +41,14 @@
                     android:layout_marginLeft="20dp"
                     android:text="@string/your_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="@string/phone_dummy_data"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textSize="18sp"/>
+                    android:textSize="15sp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

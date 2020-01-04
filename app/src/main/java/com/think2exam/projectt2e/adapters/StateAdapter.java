@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.CityModel;
-import com.think2exam.projectt2e.modals.QuizCategoryModel;
 import com.think2exam.projectt2e.modals.StateModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
 import com.think2exam.projectt2e.ui.activities.QuizActivity;
