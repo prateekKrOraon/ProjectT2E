@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.ui.activities.QuizCategoryActivity;
+import com.think2exam.projectt2e.ui.activities.QuizResultsActivity;
 
 public class QuizFragment extends Fragment {
 
@@ -29,6 +30,15 @@ public class QuizFragment extends Fragment {
                 startActivity(new Intent(getActivity().getApplicationContext(), QuizCategoryActivity.class));
             }
         });
+
+//        LinearLayoutCompat leaderBoardButton = root.findViewById(R.id.quiz_leader_board_btn);
+//
+//        leaderBoardButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getActivity().getApplicationContext(), QuizResultsActivity.class));
+//            }
+//        });
 
         return root;
     }

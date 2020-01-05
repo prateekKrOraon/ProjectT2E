@@ -13,7 +13,7 @@
         app:cardBackgroundColor="@color/white"
         android:id="@+id/city_card_view"
         android:layout_width="match_parent"
-        android:layout_weight="100"
+        android:layout_weight="90"
         app:cardCornerRadius="30dp"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
@@ -23,13 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground">
-        <ImageView
-            android:id="@+id/city_icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/university"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_margin="10dp"/>
+            <ImageView
+                android:id="@+id/city_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/university"
+                android:tint="@color/colorAccent"
+                android:layout_margin="10dp"/>
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:layout_weight="0"
+        android:layout_weight="10"
         android:text="city"/>
 
 </LinearLayout>

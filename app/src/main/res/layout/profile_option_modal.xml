@@ -18,7 +18,7 @@
         android:layout_height="30dp"
         android:id="@+id/profile_options_icon"
         android:src="@drawable/outline_person_black_48"
-        android:tint="@color/colorPrimary"/>
+        android:tint="@color/colorAccent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/profile_options_title"
@@ -28,13 +28,13 @@
         android:text="Personal"
         android:layout_marginLeft="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textColor="@color/black"/>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:src="@drawable/baseline_arrow_forward_ios_black_48"
-        android:tint="@color/colorPrimary" />
+        android:tint="@color/colorAccent" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

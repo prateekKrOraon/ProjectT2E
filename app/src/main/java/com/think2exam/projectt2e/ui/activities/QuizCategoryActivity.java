@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.QuizCatAdapter;
-import com.think2exam.projectt2e.modals.QuizCategoryModel;
+import com.think2exam.projectt2e.modals.QuizCategoryModal;
 
 import java.util.ArrayList;
 
@@ -25,12 +25,12 @@ public class QuizCategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Categories");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ArrayList<QuizCategoryModel> categoryModelArrayList = new ArrayList<>();
+        ArrayList<QuizCategoryModal> categoryModelArrayList = new ArrayList<>();
 
-        categoryModelArrayList.add(new QuizCategoryModel("Computer Science",R.drawable.ic_laptop_black_48dp));
-        categoryModelArrayList.add(new QuizCategoryModel("Science",R.drawable.ic_earth_black_48dp));
-        categoryModelArrayList.add(new QuizCategoryModel("Sports",R.drawable.outline_sports_basketball_black_48));
-        categoryModelArrayList.add(new QuizCategoryModel("Technology",R.drawable.ic_google_physical_web_black_48dp));
+        categoryModelArrayList.add(new QuizCategoryModal("Computer Science",R.drawable.ic_laptop_black_48dp));
+        categoryModelArrayList.add(new QuizCategoryModal("Science",R.drawable.ic_earth_black_48dp));
+        categoryModelArrayList.add(new QuizCategoryModal("Sports",R.drawable.outline_sports_basketball_black_48));
+        categoryModelArrayList.add(new QuizCategoryModal("Technology",R.drawable.ic_google_physical_web_black_48dp));
 
         RecyclerView qcRecyclerView = findViewById(R.id.quiz_cat_recycler_view);
         RecyclerView.LayoutManager qcLayoutManager = new GridLayoutManager(this,2);
