@@ -20,6 +20,8 @@
     <color name="red">#FF4545</color>
 
     <color name="homeBackground">#FAFAFA</color>
+    <color name="homeRecyclerView">#fff5f5</color>
+    <color name="progressBar">#fc0505</color>
     <color name="linkColor">#070DEE</color>
     <color name="category_des">#646563</color>
     <color name="green">#4CAF50</color>

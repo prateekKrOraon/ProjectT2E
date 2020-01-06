@@ -19,10 +19,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CollegeListAdapter;
+import com.think2exam.projectt2e.ui.dialogs.CollegeFilterDialog;
 
 import java.util.ArrayList;
 
@@ -30,8 +32,7 @@ public class CollegeListActivity extends AppCompatActivity {
 
     private ArrayList<String> CollegeList,CollegeListDup;
     MaterialCardView searchBar;
-    ImageView searchicon,crossicon;
-    ListView listView;
+    ImageView searchicon,crossicon,filtericon;
     TextView title;
     String tag;
     int count=0;
@@ -52,6 +53,7 @@ public class CollegeListActivity extends AppCompatActivity {
         crossicon = findViewById(R.id.cross_icon_);
         searchBar = findViewById(R.id.search_bar);
         searchicon  = findViewById(R.id.search_icon);
+        filtericon = findViewById(R.id.filter_icon);
         tag = getIntent().getStringExtra("tag");
         //set college list
         setCollegeItems();
@@ -122,7 +124,7 @@ public class CollegeListActivity extends AppCompatActivity {
 
         //search
 
-        EditText searchBox = searchBar.findViewById(R.id.search_edittext);
+        final EditText searchBox = searchBar.findViewById(R.id.search_edittext);
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -140,6 +142,22 @@ public class CollegeListActivity extends AppCompatActivity {
             }
         });
 
+        //setting cross icon
+        crossicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBox.setText("");
+                onChangedText("");
+            }
+        });
+
+        //setting filter icon
+        filtericon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickedFilterIcon();
+            }
+        });
 
 
 
@@ -156,7 +174,7 @@ public class CollegeListActivity extends AppCompatActivity {
         CollegeList.add("National Institute Of Technology Sikkim");
         CollegeList.add("National Institute Of Technology Sikkim");
         CollegeList.add("National Institute Of Technology Sikkim");
-        CollegeList.add("National Institute Of Technology Sikkim National Institute Of Technology Sikkim");
+        CollegeList.add("National Institute Of Technology Sikkim National Institute Of Technology Sikkim Technology Sikkim National Institute Of Technology Sikkim");
         CollegeList.add("National Institute Of Technology Sikkim National Inst");
         CollegeListDup=CollegeList;
     }
@@ -196,44 +214,11 @@ public class CollegeListActivity extends AppCompatActivity {
     }
 
 
-    private class ListAdapter extends BaseAdapter{
-
-
-        @Override
-        public int getCount() {
-            return CollegeListDup.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            View view = getLayoutInflater().inflate(R.layout.college_list_item,parent,false);
-            TextView collegeName = view.findViewById(R.id.college_name);
-            collegeName.setText(CollegeListDup.get(position));
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = new Intent(CollegeListActivity.this,CollegeInfoActivity.class);
-                    startActivity(intent);
-
-                }
-            });
-
-            return view;
-        }
-    }
+   public void onClickedFilterIcon()
+   {
+       CollegeFilterDialog collegeFilterDialog = new CollegeFilterDialog();
+       collegeFilterDialog.show(getSupportFragmentManager(),"filterdialog");
+   }
 
 
     @Override

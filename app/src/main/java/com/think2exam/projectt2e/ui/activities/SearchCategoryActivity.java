@@ -80,6 +80,14 @@ public class SearchCategoryActivity extends AppCompatActivity {
             }
         });
 
+        //cross icon
+        crossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBox.setText("");
+            }
+        });
+
     }
 
     public void onChangedText(CharSequence s)

@@ -16,17 +16,11 @@
         android:background="@color/white">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="15dp"
-            android:orientation="vertical"
-            android:theme="@style/AppTheme">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <ImageView
@@ -35,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:tint="@color/white"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/back_arow_24dp"
                     />
 
@@ -59,9 +53,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="5dp"
                 android:elevation="0dp"
@@ -115,7 +110,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="5dp"
                             android:layout_centerVertical="true"
-                            android:tint="@color/colorPrimary"
+                            android:tint="@color/colorAccent"
                             android:visibility="gone"
                             android:layout_margin="5dp"
                             android:layout_toRightOf="@+id/search_edittext"
@@ -129,7 +124,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -149,6 +144,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView

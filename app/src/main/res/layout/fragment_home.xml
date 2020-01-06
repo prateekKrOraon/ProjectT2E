@@ -44,12 +44,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:orientation="vertical"
-                android:background="@color/homeBackground">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/top_college_recycler_view"
+                    android:id="@+id/featured_college_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey_light"/>
@@ -59,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:piSelectedColor="@color/red"
-                    android:layout_margin="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>
@@ -67,10 +66,10 @@
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:foregroundGravity="left"
+                android:foreground="@drawable/home_quiz_icon"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
-                android:foreground="@drawable/home_quiz_icon"
+                android:layout_marginBottom="10dp"
                 android:layout_height="140dp">
 
                 <include
@@ -93,14 +92,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Explore top colleges"
                     android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_top_colleges_recycler_view"
                     android:layout_width="match_parent"
-                    android:background="@color/grey_light"
-                    android:layout_height="100dp"/>
+                    android:background="@color/homeRecyclerView"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
@@ -125,8 +125,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_city_recycler_view"
                     android:layout_width="match_parent"
-                    android:background="@color/grey_light"
-                    android:layout_height="100dp"/>
+                    android:background="@color/homeRecyclerView"
+                    android:layout_height="wrap_content"/>
 
 
 
@@ -152,8 +152,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_state_recycler_view"
                     android:layout_width="match_parent"
-                    android:background="@color/grey_light"
-                    android:layout_height="100dp"/>
+                    android:background="@color/homeRecyclerView"
+                    android:layout_height="wrap_content"/>
 
 
 
@@ -178,7 +178,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_category_recycler_view"
                     android:layout_width="match_parent"
-                    android:background="@color/grey_light"
+                    android:background="@color/homeRecyclerView"
                     android:layout_height="wrap_content"/>
 
 

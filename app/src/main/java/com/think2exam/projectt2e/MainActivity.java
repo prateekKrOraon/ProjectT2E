@@ -1,5 +1,7 @@
 package com.think2exam.projectt2e;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity  {
     QuizFragment mQuizFragment;
     SearchFragment mSearchFragment;
     ProfileFragment mProfileFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity  {
         }catch (NullPointerException ex){
             ex.printStackTrace();
         }
+
         //setting initial fragment to be home fragment
         switchFragment(mHomeFragment, HomeFragment.id);
 
@@ -48,8 +53,6 @@ public class MainActivity extends AppCompatActivity  {
 
         //Event listener for bottom navigation view
         bottomNavigationViewListener(bottomNavigationView);
-
-
 
 
 
