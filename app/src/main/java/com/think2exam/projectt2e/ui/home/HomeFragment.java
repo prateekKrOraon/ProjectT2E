@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment {
     private void initFeaturedCollegeSlider() {
 
 
-        RecyclerView tcRecyclerView = parentView.findViewById(R.id.top_college_recycler_view);
+        RecyclerView tcRecyclerView = parentView.findViewById(R.id.featured_college_recycler_view);
         tcRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
         ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);

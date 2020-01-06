@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.QuizCatAdapter;
@@ -20,10 +22,13 @@ public class QuizCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_category);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_quiz_category);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Categories");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ImageView backBtn = findViewById(R.id.q_c_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         ArrayList<QuizCategoryModal> categoryModelArrayList = new ArrayList<>();
 
