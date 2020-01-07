@@ -5,11 +5,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/white"
         app:cardCornerRadius="4dp"
-        android:elevation="3dp"
+        app:cardElevation="1dp"
         >
 
         <LinearLayout
@@ -29,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
+                    android:textColor="@color/vpi__bright_foreground_disabled_holo_dark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
 
                 <ImageView

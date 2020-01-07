@@ -7,15 +7,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
-import com.think2exam.projectt2e.ui.quiz.QuizFragment;
-
 public class AboutQuizActivity extends AppCompatActivity {
 
 
 
 
+    BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,5 +36,8 @@ public class AboutQuizActivity extends AppCompatActivity {
                 Toast.makeText(AboutQuizActivity.this, "Quiz section", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
     }
 }
