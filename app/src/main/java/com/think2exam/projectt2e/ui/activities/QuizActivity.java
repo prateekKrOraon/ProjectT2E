@@ -5,12 +5,17 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ContentLoadingProgressBar;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.think2exam.projectt2e.R;
+
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -36,6 +41,9 @@ public class QuizActivity extends AppCompatActivity {
     private String[] questions = new String[10];
     Options[] options = new Options[10];
 
+    Vibrator vibrator;
+    MediaPlayer buzzer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,14 +52,10 @@ public class QuizActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_quiz);
 
         try{
-
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Quiz");
-
         }catch(NullPointerException ex){
-
             ex.printStackTrace();
-
         }
 
         initializeQuizLayout();
@@ -79,6 +83,8 @@ public class QuizActivity extends AppCompatActivity {
         pointsCounter.setText(point);
         questionCounter.setText(questionNo);
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        buzzer = MediaPlayer.create(this,R.raw.buzzer_sfx);
     }
 
     private void setListeners() {
@@ -86,33 +92,33 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleResponse(layoutOptionOne,optionOneText,0);
+                handleResponse(layoutOptionOne,0);
             }
         });
 
         layoutOptionTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleResponse(layoutOptionTwo,optionTwoText,1);
+                handleResponse(layoutOptionTwo,1);
             }
         });
 
         layoutOptionThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleResponse(layoutOptionThree,optionThreeText,2);
+                handleResponse(layoutOptionThree,2);
             }
         });
 
         layoutOptionFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleResponse(layoutOptionFour,optionFourText,3);
+                handleResponse(layoutOptionFour,3);
             }
         });
     }
 
-    private void handleResponse(RelativeLayout layout,AppCompatTextView text,int index) {
+    private void handleResponse(RelativeLayout layout,int index) {
 
         if(counter == 9){
             timerThread.interrupt();
@@ -120,14 +126,20 @@ public class QuizActivity extends AppCompatActivity {
 
         if(index == options[counter].correctIndex){
             layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
-            //text.setTextColor(getResources().getColor(R.color.answer_correct));
             points += 10;
             String point = "+"+points+"XP";
             pointsCounter.setText(point);
 
         }else{
+            if(Build.VERSION.SDK_INT >= 26){
+                assert vibrator != null;
+                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+            }else{
+                assert vibrator != null;
+                vibrator.vibrate(200);
+            }
+            buzzer.start();
             layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_wrong));
-            //text.setTextColor(getResources().getColor(R.color.answer_wrong));
             viewCorrectAnswer();
         }
 
@@ -167,25 +179,24 @@ public class QuizActivity extends AppCompatActivity {
 
         switch(options[counter].correctIndex){
             case 0:
-                highlightAnswer(layoutOptionOne,optionOneText);
+                highlightAnswer(layoutOptionOne);
                 break;
             case 1:
-                highlightAnswer(layoutOptionTwo,optionTwoText);
+                highlightAnswer(layoutOptionTwo);
                 break;
             case 2:
-                highlightAnswer(layoutOptionThree,optionThreeText);
+                highlightAnswer(layoutOptionThree);
                 break;
             case 3:
-                highlightAnswer(layoutOptionFour,optionFourText);
+                highlightAnswer(layoutOptionFour);
                 break;
             default:
                 Toast.makeText(this,"Default options",Toast.LENGTH_LONG).show();
         }
     }
 
-    private void highlightAnswer(RelativeLayout layout, AppCompatTextView text) {
+    private void highlightAnswer(RelativeLayout layout) {
         layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
-        //text.setTextColor(getResources().getColor(R.color.answer_correct));
     }
 
     private void setQuestions() {
@@ -297,16 +308,12 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionFour.setFocusable(true);
 
         layoutOptionOne.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
-        //optionOneText.setTextColor(getResources().getColor(R.color.black));
 
         layoutOptionTwo.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
-        //optionTwoText.setTextColor(getResources().getColor(R.color.black));
 
         layoutOptionThree.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
-        //optionThreeText.setTextColor(getResources().getColor(R.color.black));
 
         layoutOptionFour.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
-        //optionFourText.setTextColor(getResources().getColor(R.color.black));
 
         questionView.setText(questions[counter]);
 
@@ -372,6 +379,13 @@ public class QuizActivity extends AppCompatActivity {
                             if(counter == 9){
                                 onDestroy();
                                 return;
+                            }
+                            if(Build.VERSION.SDK_INT >= 26){
+                                assert vibrator != null;
+                                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                            }else{
+                                assert vibrator != null;
+                                vibrator.vibrate(200);
                             }
                             timerThread.interrupt();
                             counter++;
