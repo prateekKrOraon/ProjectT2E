@@ -2,9 +2,11 @@ package com.think2exam.projectt2e.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,11 +31,13 @@ public class AboutQuizActivity extends AppCompatActivity {
             }
         });
 
-        MaterialCardView ptp = findViewById(R.id.proceed_play_card_view);
+        RelativeLayout ptp = findViewById(R.id.proceed_play_card_view);
         ptp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),QuizActivity.class));
                 Toast.makeText(AboutQuizActivity.this, "Quiz section", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
