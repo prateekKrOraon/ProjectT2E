@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity  {
     QuizFragment mQuizFragment;
     SearchFragment mSearchFragment;
     ProfileFragment mProfileFragment;
+    BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity  {
         switchFragment(mHomeFragment, HomeFragment.id);
 
         //Initializing Bottom navigation
-        final BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_bar);
+        bottomNavigationView = findViewById(R.id.bottom_nav_bar);
 
         //Event listener for bottom navigation view
         bottomNavigationViewListener(bottomNavigationView);
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity  {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.host_fragment, fragment);
-        fragmentTransaction.addToBackStack(id);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
     }
 
@@ -95,6 +96,15 @@ public class MainActivity extends AppCompatActivity  {
         });
     }
 
+    @Override
+    public void onBackPressed() {
 
+        int selectedItemId = bottomNavigationView.getSelectedItemId();
+        if(selectedItemId != R.id.bottom_nav_bar_home){
+            bottomNavigationView.setSelectedItemId(R.id.bottom_nav_bar_home);
+        }else{
+            super.onBackPressed();
+        }
 
+    }
 }

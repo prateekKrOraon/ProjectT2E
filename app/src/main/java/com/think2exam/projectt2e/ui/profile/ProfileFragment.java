@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
 
         //creating list for application section of profile
         appOptions.add(new ProfileOptionsModal("Share",R.drawable.baseline_share_black_48));
-        appOptions.add(new ProfileOptionsModal("Support",R.drawable.outline_headset_mic_black_48));
+        appOptions.add(new ProfileOptionsModal("About Application",R.drawable.outline_info_black_48));
         appOptions.add(new ProfileOptionsModal("About Think2Exam",R.drawable.outline_info_black_48));
 
         LinearLayoutManager appManager = new LinearLayoutManager(this.getContext());
