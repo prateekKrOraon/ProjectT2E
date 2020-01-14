@@ -14,7 +14,7 @@
     <string name="title_profile">Profile</string>
     <string name="personal">Personal</string>
     <string name="applicaton">Application</string>
-    <string name="your_name">Your Name</string>
+    <string name="your_name">Prateek Kumar Oraon</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="play_now">Play Now</string>
     <string name="welcome_quiz">Welcome</string>
@@ -59,5 +59,21 @@
     <string name="correct_answer">Correct Answers</string>
     <string name="wrong_answers">Wrong Answers</string>
     <string name="did_not_answer">Did not answer</string>
+    <string name="fee">Fee</string>
+    <string name="duration">Duration</string>
+    <string name="seats">Seats Available</string>
+    <string name="min_qual">Minimum Qualification</string>
+    <string name="min_agg">Minimum Aggregate</string>
+    <string name="course_requirements">Course Requirements</string>
+    <string name="about_course">About Course</string>
+    <string name="about_think_2_exam">Think2exam is India\'s leading platform to provide all information regarding admission of different colleges from all over India free of cost.</string>
+    <string name="founder">Founder</string>
+    <string name="founder_name">Ramakanta M.</string>
+    <string name="founder_qual">B.Tech</string>
+    <string name="support">Support</string>
+    <string name="contact_number">7004747230</string>
+    <string name="contact_email">support@think2exam.com</string>
+    <string name="about_reach_us">Reach us at</string>
+    <string name="reach_us_text">Plot no-3, WBIDC industrial growth center\nsector-B,Nimpura,Kharagpur\nWest Bengal,721303</string>
 
 </resources>

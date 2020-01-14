@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.QuizResultsActivity"></activity>
+        <activity android:name=".ui.activities.LeaderBoardActivity"></activity>
+        <activity android:name=".ui.activities.CourseDetailsActivity" />
+        <activity android:name=".ui.activities.QuizResultsActivity" />
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.PointsSummaryActivity" />
         <activity android:name=".ui.activities.EditProfileActivity" />
@@ -19,7 +21,8 @@
         <activity android:name=".ui.activities.CollegeListActivity" />
         <activity android:name=".ui.activities.AboutQuizActivity" />
         <activity android:name=".ui.activities.SearchCategoryActivity" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,5 +31,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>
