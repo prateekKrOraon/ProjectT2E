@@ -34,13 +34,7 @@
     <string name="locate_college">Locate on map</string>
     <string name="visit_web">Visit Website</string>
 
-    <string name="jee_main_des">I was correcting Apoorvs answer. And I did answer his question...his problem was that currently the gridview occupies a small portion of the NestedScrollView and not full space of NestedScrollView and scrolls inside that portion. He wanted to know how to fix that. Apoorvs answer was only partially right. My answer now, as I just</string>
-    <string name="jee_adv_des"></string>
-    <string name="neet_des"></string>
-    <string name="university_des">I was correcting Apoorvs answer. And I did answer his ques r. And I did answer his ques</string>
-    <string name="iit_des">I was correcting Apoorvs answer. And I did answer his ques</string>
-    <string name="nit_des">I was correcting Apoorvs answer. And I did answer his q I was correcting  answer his ques ues</string>
-    <string name="quiz_des">I was correcting Apoorvs answer. And I did answer his q I was correcting  answer his ques ues</string>
+
     <string name="about_quiz">About\n\nDescription\n\nRules and Regulation\n\nManual</string>
 
     <string name="title_my_account">My Account</string>
@@ -74,6 +68,6 @@
     <string name="contact_number">7004747230</string>
     <string name="contact_email">support@think2exam.com</string>
     <string name="about_reach_us">Reach us at</string>
-    <string name="reach_us_text">Plot no-3, WBIDC industrial growth center\nsector-B,Nimpura,Kharagpur\nWest Bengal,721303</string>
+    <string name="reach_us_text">Software Technology Parks Of India\nWebel STP II Building, 2nd Floor, DD - 53, Sector - V, Salt Lake, Kolkata\nWest Bengal,700091</string>
 
 </resources>
