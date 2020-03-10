@@ -2,18 +2,30 @@ package com.think2exam.projectt2e.ui.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
+
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.think2exam.projectt2e.R;
@@ -35,14 +47,6 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         //have to use imageURI
 
-        ImageButton backBtn = findViewById(R.id.college_info_back_btn);
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         AppCompatImageView imageView = findViewById(R.id.college_info_col_image);
         imageView.setImageDrawable(
@@ -53,8 +57,10 @@ public class CollegeInfoActivity extends AppCompatActivity {
         AppCompatTextView collegeName = findViewById(R.id.college_info_col_name);
         collegeName.setText("National Institute of Technology Sikkim");
 
+
         AppCompatTextView collegeLocation = findViewById(R.id.college_info_location);
         collegeLocation.setText("Ravangla, South Sikkim");
+
 
         initializeQuickFacts();
 
@@ -64,6 +70,41 @@ public class CollegeInfoActivity extends AppCompatActivity {
         initializeCoursesOffered();
 
         initializeCollegeFacilities();
+
+        AppCompatImageButton backBtn = findViewById(R.id.college_info_back_btn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 onBackPressed();
+            }
+        });
+
+        AppCompatImageButton ratingBtn = findViewById(R.id.college_info_rating_btn);
+
+        ratingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRatingDialog();
+            }
+        });
+
+        final NestedScrollView scroller = (NestedScrollView) findViewById(R.id.nested_scroll_view);
+
+        scroller.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                View view = (View) scroller.getChildAt(scroller.getChildCount() - 1);
+
+                int diff = (view.getBottom() - (scroller.getHeight() + scroller
+                        .getScrollY()));
+
+                if (diff == 0) {
+                   showRatingDialog();
+                }
+            }
+        });
+
 
     }
 
@@ -157,76 +198,45 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         //setGridViewHeightBasedOnChildren(quickFacts);
 
-
-
     }
 
+    public void showRatingDialog()
+    {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.college_rating_layout);
+        dialog.setCancelable(true);
+        WindowManager.LayoutParams wm = new WindowManager.LayoutParams();
 
-    public static void setGridViewHeightBasedOnChildren(GridView gridView){
-        ListAdapter listAdapter = gridView.getAdapter();
+        try {
+            wm.copyFrom(dialog.getWindow().getAttributes());
+            wm.width = WindowManager.LayoutParams.MATCH_PARENT;
+            wm.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        if (listAdapter == null){
-            return;
+        }catch(NullPointerException e){
+            System.out.println(e.toString());
         }
 
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-
-            view = listAdapter.getView(i, view, gridView);
-
-            if (i == 0) {
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+        AppCompatButton cancel = dialog.findViewById(R.id.cancel_rating);
+        AppCompatButton send = dialog.findViewById(R.id.send_rating);
+        final RatingBar ratingBar = dialog.findViewById(R.id.rating_bar);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-
-        params.height = totalHeight;
-
-        gridView.setLayoutParams(params);
-        gridView.requestLayout();
-    }
-
-    //Measures the height of the courses offered listView
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-
-        ListAdapter listAdapter = listView.getAdapter();
-
-        if (listAdapter == null){
-            return;
-        }
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-
-            view = listAdapter.getView(i, view, listView);
-
-            if (i == 0) {
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float rating = ratingBar.getRating();
+                Toast.makeText(CollegeInfoActivity.this, rating+" Sent", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
+        });
 
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-
-        params.height = totalHeight;
-
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
+        dialog.show();
+        dialog.getWindow().setAttributes(wm);
     }
 
 }

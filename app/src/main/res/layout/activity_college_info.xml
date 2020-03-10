@@ -32,13 +32,22 @@
                     android:contentDescription="@string/college_image"
                     android:scaleType="centerCrop" />
 
-                <ImageButton
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_margin="10dp"
-                    android:layout_gravity="top"
                     android:id="@+id/college_info_back_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/back_arow_24dp"
+                    android:tint="@color/colorAccent"
+                    android:backgroundTint="@android:color/transparent"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_margin="10dp"
+                    android:layout_gravity="right"
+                    android:id="@+id/college_info_rating_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_rating_black_24dp"
                     android:tint="@color/colorAccent"
                     android:backgroundTint="@android:color/transparent"/>
 
@@ -101,20 +110,11 @@
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar_college_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:titleTextColor="@color/white">
-
-                </androidx.appcompat.widget.Toolbar>
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
