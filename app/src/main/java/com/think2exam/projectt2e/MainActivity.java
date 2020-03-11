@@ -2,8 +2,11 @@ package com.think2exam.projectt2e;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.think2exam.projectt2e.ui.home.HomeFragment;
@@ -26,25 +29,35 @@ public class MainActivity extends AppCompatActivity  {
     ProfileFragment mProfileFragment;
     BottomNavigationView bottomNavigationView;
 
+    public static MainActivity activity;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
 
+        setLayout();
+
+
+        activity = this;
+
+    }
+
+    public static MainActivity getInstance()
+    {
+        return activity;
+    }
+
+    public void setLayout()
+    {
+        setContentView(R.layout.activity_main);
         mHomeFragment = new HomeFragment(this);
         mQuizFragment = new QuizFragment();
         mSearchFragment = new SearchFragment(this);
         mProfileFragment = new ProfileFragment();
-
-        //setting support toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        try {
-            getSupportActionBar().setTitle("Think2Exam");
-        }catch (NullPointerException ex){
-            ex.printStackTrace();
-        }
 
         //setting initial fragment to be home fragment
         switchFragment(mHomeFragment, HomeFragment.id);
@@ -55,8 +68,7 @@ public class MainActivity extends AppCompatActivity  {
         //Event listener for bottom navigation view
         bottomNavigationViewListener(bottomNavigationView);
 
-
-
+        activity = this;
 
     }
 
@@ -65,7 +77,7 @@ public class MainActivity extends AppCompatActivity  {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.host_fragment, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
 

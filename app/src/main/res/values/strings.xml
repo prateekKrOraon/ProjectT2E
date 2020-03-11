@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProjectT2E</string>
+    <string name="app_name">Think2Exam</string>
     <string name="title_home">Home</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -69,5 +69,47 @@
     <string name="contact_email">support@think2exam.com</string>
     <string name="about_reach_us">Reach us at</string>
     <string name="reach_us_text">Software Technology Parks Of India\nWebel STP II Building, 2nd Floor, DD - 53, Sector - V, Salt Lake, Kolkata\nWest Bengal,700091</string>
+
+    <!-- catergory string-->
+    <string name="engineering">Engineering</string>
+    <string name="management">Management</string>
+    <string name="agriculture">Agriculture</string>
+    <string name="medical_and_dental">Medical and Dental</string>
+    <string name="pharmacy">Pharmacy</string>
+    <string name="nursing_and_paramedical">Nursing and Paramedical</string>
+    <string name="education">Education</string>
+    <string name="university">University</string>
+
+
+    <!-- city -->
+    <string name="bengaluru">Bengaluru</string>
+    <string name="hyderabad">Hyderabad</string>
+    <string name="chennai">Chennai</string>
+    <string name="ahmedabad">Ahmedabad</string>
+    <string name="mumbai">Mumbai</string>
+    <string name="jaipur">Jaipur</string>
+    <string name="kolkata">Kolkata</string>
+
+    <!-- state -->
+
+    <string name="uttar_pradesh">Uttar Pradesh</string>
+    <string name="andra_pradesh">Andra Pradesh</string>
+    <string name="maharashtra">Maharashtra</string>
+    <string name="karnataka">Karnataka</string>
+    <string name="rajasthan">Rajasthan</string>
+    <string name="tamil_nadu">Tamil Nadu</string>
+
+    <!-- prestigious college -->
+
+    <string name="iit">IIT</string>
+    <string name="nit">NIT</string>
+    <string name="aiims">AIIMS</string>
+    <string name="iim">IIM</string>
+
+
+    <string name="all_category">All Category</string>
+    <string name="all_states">All State</string>
+    <string name="all_cities">All City</string>
+
 
 </resources>

@@ -22,12 +22,32 @@
             android:backgroundTint="@color/grey_light"
             android:orientation="vertical">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/view_pager"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:backgroundTint="@color/grey_light"/>
+                android:layout_height="200dp">
 
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey_light"/>
+
+                <com.hanks.htextview.typer.TyperTextView
+                    android:id="@+id/view_pager_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    app:charIncrease="1"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
             <TextView
@@ -37,14 +57,21 @@
                 android:layout_marginLeft="10dp"
                 android:text="Featured Colleges"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
                 />
 
 
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <LinearLayout
+                android:id="@+id/ll_featured_clg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -62,6 +89,13 @@
                     android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_featured_clg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
@@ -93,8 +127,10 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Explore top colleges"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+                    android:text="Explore prestigious colleges"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_top_colleges_recycler_view"
@@ -115,12 +151,15 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/popular_city_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Explore by popular city"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_city_recycler_view"
@@ -142,20 +181,21 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/popular_state_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Explore by state"
+                    android:text="Explore by popular state"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_state_recycler_view"
                     android:layout_width="match_parent"
                     android:background="@color/homeRecyclerView"
                     android:layout_height="wrap_content"/>
-
-
 
 
 
@@ -173,7 +213,9 @@
                     android:text="Explore by category"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_category_recycler_view"
@@ -192,6 +234,7 @@
 
 
     </androidx.core.widget.NestedScrollView>
+
 
 
 

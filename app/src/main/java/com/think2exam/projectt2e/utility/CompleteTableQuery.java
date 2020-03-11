@@ -3,12 +3,14 @@ package com.think2exam.projectt2e.utility;
 import com.think2exam.projectt2e.Constants;
 import com.think2exam.projectt2e.R;
 
-public class CompleteQuerySelector {
+import java.util.logging.Handler;
+
+public class CompleteTableQuery {
 
     String reqUrl = Constants.BASE_API_URL;
-    public CompleteQuerySelector(){}
+    public CompleteTableQuery(){}
 
-    public String setreqURL(int catId)
+    public void setreqURL(int catId)
     {
 
         if(catId== R.string.engineering)
@@ -51,7 +53,13 @@ public class CompleteQuerySelector {
 
         }
 
-        return reqUrl;
+    }
+
+    public String request(String keyword)
+    {
+        HttpHandler httpHandler = new HttpHandler();
+        String jsonStr = httpHandler.getByCategoryColleges(reqUrl,keyword);
+        return jsonStr;
     }
 
 

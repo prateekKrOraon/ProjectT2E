@@ -1,6 +1,8 @@
 package com.think2exam.projectt2e.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import com.think2exam.projectt2e.view_holders.QuickFactsViewHolder;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.QuickFactsModal;
 import java.util.ArrayList;
+
+import androidx.core.content.ContextCompat;
 
 public class QuickFactsAdapter extends BaseAdapter {
 
@@ -34,6 +38,7 @@ public class QuickFactsAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint({"ResourceAsColor", "NewApi"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -60,6 +65,12 @@ public class QuickFactsAdapter extends BaseAdapter {
         holder.titleView.setText(temp.title);
         holder.subtitleView.setText(temp.subTitle);
         holder.iconView.setImageResource(temp.iconId);
+
+        if(temp.title.equals("Rank"))
+        {
+            holder.iconView.setColorFilter(ContextCompat.getColor(context, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+        }
 
         return view;
     }

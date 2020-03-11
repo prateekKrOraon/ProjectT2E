@@ -7,17 +7,23 @@
     android:layout_margin="10dp"
     android:layout_height="wrap_content">
 
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/category_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/white"
         android:layout_gravity="center"
-        android:backgroundTint="@color/white"
-        android:scaleType="centerInside"
-        android:clickable="true"
-        android:src="@drawable/university"/>
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/category_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/engineering"
+            android:layout_margin="20dp"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
 
     <TextView

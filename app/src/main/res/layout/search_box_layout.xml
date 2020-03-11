@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="0.2dp"
+    android:background="@drawable/search_box_background"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/search_box_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""
+        android:layout_centerVertical="true"
+        android:textSize="16dp"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+    <LinearLayout
+        android:id="@+id/search_box_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true">
+
+        <View
+            android:layout_width="0.2dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/grey"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:src="@drawable/ic_unfold_more_black_24dp"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
