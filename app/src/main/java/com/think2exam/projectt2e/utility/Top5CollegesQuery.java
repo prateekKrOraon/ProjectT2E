@@ -3,10 +3,10 @@ package com.think2exam.projectt2e.utility;
 import com.think2exam.projectt2e.Constants;
 import com.think2exam.projectt2e.R;
 
-public class Top5CollegesQuerySelector {
+public class Top5CollegesQuery {
 
     String reqUrl = Constants.BASE_API_URL;
-    public Top5CollegesQuerySelector(){}
+    public Top5CollegesQuery(){}
 
     public String setreqURL(int catId)
     {

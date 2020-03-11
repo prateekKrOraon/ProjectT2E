@@ -11,13 +11,14 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large"
+        android:text="gvmhgj"
         android:paddingTop="15dp"
         android:paddingBottom="15dp" />
 
     <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:tint="@color/colorAccent"
         android:src="@drawable/baseline_arrow_forward_ios_black_48"/>
 

@@ -2,6 +2,7 @@ package com.think2exam.projectt2e.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class FeaturedCollegeAdapter extends RecyclerView.Adapter<FeaturedCollege
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(@NonNull TopCollegeSliderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TopCollegeSliderViewHolder holder, final int position) {
 
         holder.college_name.setSingleLine(true);
         holder.college_name.setSelected(true);
@@ -72,7 +73,12 @@ public class FeaturedCollegeAdapter extends RecyclerView.Adapter<FeaturedCollege
         holder.explore_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences pref = mainActivityContext.getSharedPreferences("MyPreference", 0); // 0 - for private mode
+                SharedPreferences.Editor editor = pref.edit();
+                int catId = pref.getInt("category_id",-1);
                 Intent intent = new Intent(mainActivityContext, CollegeInfoActivity.class);
+                intent.putExtra("id",featuredCollegeModels.get(position).getId());
+                intent.putExtra("tableName",mainActivityContext.getString(catId));
                 mainActivityContext.startActivity(intent);
             }
         });

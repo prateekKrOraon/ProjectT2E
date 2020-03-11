@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.modals.CollegeInfoModel;
+import com.think2exam.projectt2e.modals.CollegeListModel;
 import com.think2exam.projectt2e.ui.activities.CollegeInfoActivity;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CollegeListAdapter extends RecyclerView.Adapter<CollegeListAdapter.CollegeListViewHolder> {
 
 
-    private ArrayList<String> CollegeListItems;
+    private ArrayList<CollegeListModel> CollegeListItems;
     private Context context;
     public static class CollegeListViewHolder extends RecyclerView.ViewHolder{
 
@@ -43,7 +45,7 @@ public class CollegeListAdapter extends RecyclerView.Adapter<CollegeListAdapter.
 
     }
 
-    public CollegeListAdapter(ArrayList<String> arrayList, Context context)
+    public CollegeListAdapter(ArrayList<CollegeListModel> arrayList, Context context)
     {
         this.CollegeListItems = arrayList;
         this.context = context;
@@ -61,17 +63,24 @@ public class CollegeListAdapter extends RecyclerView.Adapter<CollegeListAdapter.
     public void onBindViewHolder(@NonNull final CollegeListViewHolder holder, final int position) {
 
 
-        holder.name.setText(CollegeListItems.get(position));
+        holder.name.setText(CollegeListItems.get(position).getName());
         Glide.with(context)
                 .load(context.getResources().getDrawable(R.drawable.location_color_primary_24dp))
                 .into(holder.locIcon);
+        holder.location.setText(CollegeListItems.get(position).getLocation());
         holder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(context, CollegeInfoActivity.class);
+                intent.putExtra("id",CollegeListItems.get(position).getId());
+                intent.putExtra("tableName",CollegeListItems.get(position).getTableName());
                 context.startActivity(intent);
             }
         });
+
+
+
     }
 
     @Override

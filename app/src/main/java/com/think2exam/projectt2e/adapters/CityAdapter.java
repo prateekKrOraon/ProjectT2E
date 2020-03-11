@@ -2,6 +2,7 @@ package com.think2exam.projectt2e.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.CityModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
+import com.think2exam.projectt2e.utility.ByCityQuery;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -61,15 +64,22 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     public void onBindViewHolder(@NonNull final CityViewHolder holder, final int position) {
 
 
-        holder.name.setText(CityItems.get(position).getName());
+        holder.name.setText(context.getResources().getString(CityItems.get(position).getName()));
         Glide.with(context)
                 .load(context.getDrawable(CityItems.get(position).getIcon()))
                 .into(holder.image);
         holder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
+                int catId = pref.getInt("category_id",-1);
+
                 Intent intent = new Intent(context, CollegeListActivity.class);
+                intent.putExtra("which","city");
                 intent.putExtra("tag",CityItems.get(position).getName());
+                intent.putExtra("catId",catId);
                 context.startActivity(intent);            }
         });
     }

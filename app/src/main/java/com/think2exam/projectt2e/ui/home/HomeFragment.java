@@ -3,15 +3,20 @@ package com.think2exam.projectt2e.ui.home;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ViewFlipper;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,26 +25,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chahinem.pageindicator.PageIndicator;
+import com.hanks.htextview.base.AnimationListener;
+import com.hanks.htextview.base.HTextView;
+import com.hanks.htextview.typer.TyperTextView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CategoryAdapter;
 import com.think2exam.projectt2e.adapters.CityAdapter;
 import com.think2exam.projectt2e.adapters.StateAdapter;
-import com.think2exam.projectt2e.adapters.TopCollegeAdapter;
+import com.think2exam.projectt2e.adapters.PrestigiousCollegeAdapter;
 import com.think2exam.projectt2e.adapters.ViewPagerAdapter;
 import com.think2exam.projectt2e.modals.CategoryModel;
 import com.think2exam.projectt2e.modals.CityModel;
 import com.think2exam.projectt2e.modals.FeaturedCollegeModel;
 import com.think2exam.projectt2e.modals.StateModel;
-import com.think2exam.projectt2e.modals.TopCollegeModel;
+import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
 import com.think2exam.projectt2e.adapters.SnapHelperOneByOne;
 import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
 import com.think2exam.projectt2e.modals.ViewPagerModel;
 import com.think2exam.projectt2e.ui.activities.AboutQuizActivity;
+import com.think2exam.projectt2e.utility.HttpHandler;
+import com.think2exam.projectt2e.utility.Top5CollegesQuery;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static java.lang.Thread.sleep;
 
 public class HomeFragment extends Fragment {
     public static final String id = "home_fragment";
@@ -47,12 +63,17 @@ public class HomeFragment extends Fragment {
     private ArrayList<CityModel> CityModelArrayList;
     private ArrayList<StateModel> StateModelArrayList;
     private ArrayList<CategoryModel> CategoryModelArrayList;
-    private ArrayList<TopCollegeModel> TopCollegeModelArrayList;
+    private ArrayList<PrestigiousCollegeModel> prestigiousCollegeModelArrayList;
 
     private static Context mainActivityContext;
     private ArrayList<FeaturedCollegeModel> featuredCollegeModels;
     private ArrayList<ViewPagerModel> viewPagerModels;
     private static int currentPage=0,numPages=0;
+    private ProgressBar progressBarFeaturedClg;
+    private LinearLayout FeaturedClgLayout;
+
+    private int catId;
+    private int i=1;
 
     public HomeFragment() {
     }
@@ -63,29 +84,52 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         parentView = root;
+        SharedPreferences pref = getContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
+        catId = pref.getInt("category_id",-1);
+
+
+        //Toast.makeText(mainActivityContext, ""+R.string.university+" "+R.string.did_not_answer, Toast.LENGTH_SHORT).show();
+        //set Top cities and top states
+        final TextView topCity = root.findViewById(R.id.popular_city_text);
+        TextView topState = root.findViewById(R.id.popular_state_text);
+        if(catId!=R.string.university) {
+            topCity.setText(getResources().getString(catId) + " College in Top Cities");
+            topState.setText(getResources().getString(catId) + " College in Top States");
+        }
+        else
+        {
+            topCity.setText("Universities in Top Cities");
+            topState.setText("Universities in Top States");
+        }
+
+        final TyperTextView typerTextView1 = root.findViewById(R.id.view_pager_text1);
+
+        TyperTextAnimater typerTextAnimater = new TyperTextAnimater(typerTextView1);
+        typerTextAnimater.setTyperTextView();
+
+
 
         //set ArrayList
         setArrayList();
 
         //setting viewpager slideshow
-        initViewPagerSlider();
-
-        //setting featured college
-        initFeaturedCollegeSlider();
+        initViewPagerSlider(root);
+        FeaturedClgLayout = root.findViewById(R.id.ll_featured_clg);
+        progressBarFeaturedClg = root.findViewById(R.id.progress_bar_featured_clg);
+        new GetTop5Colleges().execute();
 
         //Recycler view for top colleges
         RecyclerView tcRecyclerView = root.findViewById(R.id.home_top_colleges_recycler_view);
         RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
         ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        TopCollegeAdapter topCollegeAdapter = new TopCollegeAdapter(TopCollegeModelArrayList,mainActivityContext);
+        PrestigiousCollegeAdapter prestigiousCollegeAdapter = new PrestigiousCollegeAdapter(prestigiousCollegeModelArrayList,mainActivityContext);
         tcRecyclerView.setHasFixedSize(true);
         tcRecyclerView.setLayoutManager(tcLayoutManager);
-        tcRecyclerView.setAdapter(topCollegeAdapter);
+        tcRecyclerView.setAdapter(prestigiousCollegeAdapter);
 
         //Recycler view for City
         RecyclerView ctRecyclerView = root.findViewById(R.id.home_city_recycler_view);
@@ -124,51 +168,56 @@ public class HomeFragment extends Fragment {
         });
 
 
-
         return root;
     }
 
     private void setArrayList()
     {
         viewPagerModels = new ArrayList<>();
-        viewPagerModels.add(new ViewPagerModel("Do you want to find colleges in India?",R.drawable.university_back));
-        viewPagerModels.add(new ViewPagerModel("Then ProjectT2E is here for you",R.drawable.iit_back));
-        viewPagerModels.add(new ViewPagerModel("College Of Engineering Tezpur, Click here",R.drawable.tezpur_university));
+        viewPagerModels.add(new ViewPagerModel("Do you want to Explore colleges in India?",R.drawable.university_back));
+        viewPagerModels.add(new ViewPagerModel("Then Think2Exam is here for you",R.drawable.iit_back));
+        viewPagerModels.add(new ViewPagerModel("6000+ Colleges",R.drawable.tezpur_university));
 
         featuredCollegeModels = new ArrayList<>();
-        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Sikkim","#rank 1","Ravangla"));
-        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Silchar","#rank 1","Silchar"));
-        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Patna","#rank 1","Patna"));
-        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Rourkela","#rank 1","Rourkela"));
-        featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.nit_logo,"National Institute Of technology Tricy","#rank 1","Tricypolly"));
+
 
         CityModelArrayList = new ArrayList<>();
-        CityModelArrayList.add(new CityModel("Banglore",R.drawable.city1));
-        CityModelArrayList.add(new CityModel("Hyderabad",R.drawable.city2));
-        CityModelArrayList.add(new CityModel("Chennai",R.drawable.city3));
-        CityModelArrayList.add(new CityModel("Kota",R.drawable.city4));
-        CityModelArrayList.add(new CityModel("Guwahati",R.drawable.top_college3));
+        CityModelArrayList.add(new CityModel(R.string.bengaluru,R.drawable.city1));
+        CityModelArrayList.add(new CityModel(R.string.hyderabad,R.drawable.city2));
+        CityModelArrayList.add(new CityModel(R.string.chennai,R.drawable.city3));
+        CityModelArrayList.add(new CityModel(R.string.ahmedabad,R.drawable.city4));
+        CityModelArrayList.add(new CityModel(R.string.mumbai,R.drawable.top_college3));
+        CityModelArrayList.add(new CityModel(R.string.jaipur,R.drawable.city5));
+        CityModelArrayList.add(new CityModel(R.string.kolkata,R.drawable.city));
 
+
+        // Uttar Pradesh, Andhra Pradesh, Maharashtra, Karnataka, Rajasthan and Tamil Nadu
         StateModelArrayList = new ArrayList<>();
-        StateModelArrayList.add(new StateModel("Assam",R.drawable.state));
-        StateModelArrayList.add(new StateModel("Delhi",R.drawable.state));
-        StateModelArrayList.add(new StateModel("Mumbai",R.drawable.state));
+        StateModelArrayList.add(new StateModel(R.string.uttar_pradesh,R.drawable.uttar_pradesh));
+        StateModelArrayList.add(new StateModel(R.string.andra_pradesh,R.drawable.andra_pradesh));
+        StateModelArrayList.add(new StateModel(R.string.maharashtra,R.drawable.maharashtra));
+        StateModelArrayList.add(new StateModel(R.string.karnataka,R.drawable.karnataka));
+        StateModelArrayList.add(new StateModel(R.string.rajasthan,R.drawable.rajasthan));
+        StateModelArrayList.add(new StateModel(R.string.tamil_nadu,R.drawable.tamil_nadu));
+
 
         CategoryModelArrayList = new ArrayList<>();
-        CategoryModelArrayList.add(new CategoryModel("Engineering",R.drawable.engineering));
-        CategoryModelArrayList.add(new CategoryModel("Management",R.drawable.management));
-        CategoryModelArrayList.add(new CategoryModel("Architecture",R.drawable.architecture));
-        CategoryModelArrayList.add(new CategoryModel("Medical",R.drawable.medical));
-        CategoryModelArrayList.add(new CategoryModel("Pharmacy",R.drawable.pharmacy));
+        CategoryModelArrayList.add(new CategoryModel(R.string.engineering,R.drawable.engineering));
+        CategoryModelArrayList.add(new CategoryModel(R.string.management,R.drawable.management));
+        CategoryModelArrayList.add(new CategoryModel(R.string.agriculture,R.drawable.agriculture));
+        CategoryModelArrayList.add(new CategoryModel(R.string.medical_and_dental,R.drawable.medical));
+        CategoryModelArrayList.add(new CategoryModel(R.string.pharmacy,R.drawable.pharmacy));
+        CategoryModelArrayList.add(new CategoryModel(R.string.nursing_and_paramedical,R.drawable.nurse));
+        CategoryModelArrayList.add(new CategoryModel(R.string.education,R.drawable.education));
+        CategoryModelArrayList.add(new CategoryModel(R.string.university,R.drawable.graduate));
 
 
-        TopCollegeModelArrayList = new ArrayList<>();
-        TopCollegeModelArrayList.add(new TopCollegeModel("Top IIT",R.drawable.iit));
-        TopCollegeModelArrayList.add(new TopCollegeModel("Top NIT",R.drawable.nit));
-        TopCollegeModelArrayList.add(new TopCollegeModel("Top AIIMS",R.drawable.aiims));
-        TopCollegeModelArrayList.add(new TopCollegeModel("Top IIM",R.drawable.top_college1));
-        TopCollegeModelArrayList.add(new TopCollegeModel("Top Univerity",R.drawable.university));
-        TopCollegeModelArrayList.add(new TopCollegeModel("Top Private College",R.drawable.top_college2));
+        prestigiousCollegeModelArrayList = new ArrayList<>();
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.drawable.iit));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.drawable.nit));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.drawable.aiims));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.drawable.top_college1));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.drawable.university));
 
     }
 
@@ -193,7 +242,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void initViewPagerSlider()
+    private void initViewPagerSlider(View root)
     {
         final ViewPager viewPager = parentView.findViewById(R.id.view_pager);
         viewPager.setAdapter(new ViewPagerAdapter(mainActivityContext,viewPagerModels));
@@ -206,6 +255,7 @@ public class HomeFragment extends Fragment {
                     currentPage = 0;
                 }
                 viewPager.setCurrentItem(currentPage++,true);
+
             }
         };
         Timer swipeTimer = new Timer();
@@ -214,7 +264,71 @@ public class HomeFragment extends Fragment {
             public void run() {
                 handler.post(update);
             }
-        },5000,5000);
+        },4000,3000);
 
     }
+
+    private class GetTop5Colleges extends AsyncTask<Void, Void, Void> {
+        String jsonStr;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBarFeaturedClg.setVisibility(View.VISIBLE);
+            FeaturedClgLayout.setVisibility(View.GONE);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+
+            HttpHandler sh = new HttpHandler();
+            Top5CollegesQuery top5CollegesQuery = new Top5CollegesQuery();
+            String reqURL = top5CollegesQuery.setreqURL(catId);
+            jsonStr = sh.getTop5Colleges(reqURL);
+            if(jsonStr!=null)
+            {
+                try {
+                    final JSONArray jsonArray = new JSONArray(jsonStr);
+                    setTop5Colleges(jsonArray);
+
+                }
+                catch (final JSONException e)
+                {
+                    e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    });                }
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            try {
+                progressBarFeaturedClg.setVisibility(View.GONE);
+                FeaturedClgLayout.setVisibility(View.VISIBLE);
+                initFeaturedCollegeSlider();
+            }catch (Exception e){}
+        }
+    }
+
+    private void setTop5Colleges(JSONArray jsonArray) throws JSONException {
+
+        for(int i=0;i<jsonArray.length();i++)
+        {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.col_logo_default,jsonObject.getInt("id"),jsonObject.getString("college_name"),"rank "+jsonObject.getString("college_rank"),jsonObject.getString("college_location")));
+        }
+
+    }
+
+
+
 }

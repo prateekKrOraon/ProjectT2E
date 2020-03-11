@@ -3,10 +3,10 @@ package com.think2exam.projectt2e.utility;
 import com.think2exam.projectt2e.Constants;
 import com.think2exam.projectt2e.R;
 
-public class InfoTableSelector {
+public class InfoQuerySelector {
 
     String reqUrl = Constants.BASE_API_URL;
-    public InfoTableSelector(){}
+    public InfoQuerySelector(){}
 
     public String setreqURL(int catId)
     {

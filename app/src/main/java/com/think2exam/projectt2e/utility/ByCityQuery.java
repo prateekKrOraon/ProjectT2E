@@ -3,12 +3,12 @@ package com.think2exam.projectt2e.utility;
 import com.think2exam.projectt2e.Constants;
 import com.think2exam.projectt2e.R;
 
-public class ByCityQuerySelector {
+public class ByCityQuery {
 
     String reqUrl = Constants.BASE_API_URL;
-    public ByCityQuerySelector(){}
+    public ByCityQuery(){}
 
-    public String setreqURL(int catId)
+    public void setreqURL(int catId)
     {
 
         if(catId== R.string.engineering)
@@ -51,7 +51,12 @@ public class ByCityQuerySelector {
 
         }
 
-        return reqUrl;
+    }
+
+    public String request(String city,String keyword)
+    {
+        HttpHandler httpHandler = new HttpHandler();
+        return httpHandler.getByCityColleges(reqUrl,city,keyword);
     }
 
 

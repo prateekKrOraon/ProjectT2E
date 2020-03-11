@@ -143,19 +143,15 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-            android:progressTint="@color/progressBar"
-            android:max="0"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
+    <ProgressBar
+        android:id="@+id/progress_bar_clg_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/college_list_recycler_view"
@@ -164,7 +160,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
 
 

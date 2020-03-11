@@ -11,8 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
-import com.think2exam.projectt2e.modals.TopCollegeModel;
+import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
+import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 
-public class TopCollegeAdapter extends RecyclerView.Adapter<TopCollegeAdapter.TopCollegeViewHolder> {
+public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousCollegeAdapter.TopCollegeViewHolder> {
 
 
-    private ArrayList<TopCollegeModel> TopCollegeItems;
+    private ArrayList<PrestigiousCollegeModel> TopCollegeItems;
     private Context context;
     public static class TopCollegeViewHolder extends RecyclerView.ViewHolder{
 
@@ -43,7 +44,7 @@ public class TopCollegeAdapter extends RecyclerView.Adapter<TopCollegeAdapter.To
 
     }
 
-    public TopCollegeAdapter(ArrayList<TopCollegeModel> arrayList, Context context)
+    public PrestigiousCollegeAdapter(ArrayList<PrestigiousCollegeModel> arrayList, Context context)
     {
         this.TopCollegeItems = arrayList;
         this.context = context;
@@ -68,10 +69,17 @@ public class TopCollegeAdapter extends RecyclerView.Adapter<TopCollegeAdapter.To
         Glide.with(context)
                 .load(context.getDrawable(TopCollegeItems.get(position).getIcon()))
                 .into(holder.image);
+
+
+
         holder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 Intent intent = new Intent(context, CollegeListActivity.class);
+                intent.putExtra("which","prestigious_college");
                 intent.putExtra("tag",TopCollegeItems.get(position).getName());
                 context.startActivity(intent);
             }

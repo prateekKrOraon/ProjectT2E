@@ -2,21 +2,20 @@ package com.think2exam.projectt2e.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
-import com.think2exam.projectt2e.modals.CityModel;
 import com.think2exam.projectt2e.modals.StateModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.ui.activities.QuizActivity;
+import com.think2exam.projectt2e.utility.ByStateQuery;
 
 import java.util.ArrayList;
 
@@ -66,16 +65,22 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
     public void onBindViewHolder(@NonNull final StateViewHolder holder, final int position) {
 
 
-        holder.name.setText(StateItems.get(position).getName());
+        holder.name.setText(context.getResources().getString(StateItems.get(position).getName()));
         Glide.with(context)
                 .load(context.getDrawable(StateItems.get(position).getIcon()))
                 .into(holder.image);
         holder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
+                int catId = pref.getInt("category_id",-1);
+
+
                 Intent intent = new Intent(context, CollegeListActivity.class);
+                intent.putExtra("which","state");
                 intent.putExtra("tag",StateItems.get(position).getName());
-                context.startActivity(intent);            }
+                intent.putExtra("catId",catId);
+                context.startActivity(intent);          }
         });
     }
 
