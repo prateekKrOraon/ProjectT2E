@@ -337,30 +337,19 @@ public class CollegeInfoActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     String url="";
-                     url+= collegeInfoModel.getClgUrl();
+                    url+= collegeInfoModel.getClgUrl();
                     Uri gmmIntentUri = Uri.parse(""+url);
-                    Intent urlIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    startActivity(urlIntent);
+                    if(!url.equals(""))
+                    {
+                        Intent urlIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        startActivity(urlIntent);
+                    }
+
                 }
             });
 
         }catch (Exception e){}
 
-//        final NestedScrollView scroller = (NestedScrollView) findViewById(R.id.nested_scroll_view);
-//
-//        scroller.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-//            @Override
-//            public void onScrollChanged() {
-//                View view = (View) scroller.getChildAt(scroller.getChildCount() - 1);
-//
-//                int diff = (view.getBottom() - (scroller.getHeight() + scroller
-//                        .getScrollY()));
-//
-//                if (diff == 0) {
-//                    showRatingDialog();
-//                }
-//            }
-//        });
     }
 
     // (`id`, `college_name`, `college_location`, `DISTRICT`, `STATE`, `COUNTRY`, `PIN`, `college_type`, `college_rank`, `college_desc`, `BTECH_01`, `BTECH_02`, `BTECH_03`, `BTECH_04`, `BTECH_05`, `BTECH_06`, `BTECH_07`, `BTECH_08`, `BTECH_09`, `BTECH_10`, `MTECH_01`, `MTECH_02`,
