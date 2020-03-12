@@ -102,6 +102,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     intent.putExtra("which","category");
                     intent.putExtra("tag",CategoryItems.get(position).getName());
                     intent.putExtra("tableName",tableName);
+                    if(CategoryItems.get(position).getName()==R.string.university)
+                    {
+                        intent.putExtra("title",context.getString(tableName));
+
+                    }
+                    else{
+                        intent.putExtra("title",context.getString(tableName)+" Colleges");
+
+                    }
                     context.startActivity(intent);
 
                 }

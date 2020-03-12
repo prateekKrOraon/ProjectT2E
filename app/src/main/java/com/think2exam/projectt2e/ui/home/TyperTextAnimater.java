@@ -14,6 +14,8 @@ public class TyperTextAnimater {
         typerTextView = id;
     }
 
+    int i=1;
+
     public void setTyperTextView()
     {
         final Handler handler = new Handler();
@@ -50,89 +52,27 @@ public class TyperTextAnimater {
                                     @Override
                                     public void onAnimationEnd(HTextView hTextView) {
 
-                                        try {
-                                            Thread.sleep(1000);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        typerTextView.animateText("Do you want to find\nright colleges for you?");
-                                        typerTextView.setAnimationListener(new AnimationListener() {
-                                            @Override
-                                            public void onAnimationEnd(HTextView hTextView) {
-                                                try {
-                                                    Thread.sleep(1000);
-                                                } catch (InterruptedException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                hTextView.animateText("Think2Exam is here for you");
+                                       if(i<=10)
+                                       {
+                                           setTyperTextView();
+                                       }
+                                       else
+                                       {
+                                           try {
+                                               Thread.sleep(1000);
+                                           } catch (InterruptedException e) {
+                                               e.printStackTrace();
+                                           }
 
-                                                hTextView.setAnimationListener(new AnimationListener() {
-                                                    @Override
-                                                    public void onAnimationEnd(HTextView hTextView) {
-                                                        try {
-                                                            Thread.sleep(1000);
-                                                        } catch (InterruptedException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        hTextView.animateText("600+ Engineering Colleges\n400+ Medical Colleges\n1000+ Other Colleges");
-                                                        hTextView.setAnimationListener(new AnimationListener() {
-                                                            @Override
-                                                            public void onAnimationEnd(HTextView hTextView) {
-                                                                try {
-                                                                    Thread.sleep(1000);
-                                                                } catch (InterruptedException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                                typerTextView.animateText("Do you want to find\nright colleges for you?");
-                                                                typerTextView.setAnimationListener(new AnimationListener() {
-                                                                    @Override
-                                                                    public void onAnimationEnd(HTextView hTextView) {
-                                                                        try {
-                                                                            Thread.sleep(1000);
-                                                                        } catch (InterruptedException e) {
-                                                                            e.printStackTrace();
-                                                                        }
-                                                                        hTextView.animateText("Think2Exam is here for you");
-
-                                                                        hTextView.setAnimationListener(new AnimationListener() {
-                                                                            @Override
-                                                                            public void onAnimationEnd(HTextView hTextView) {
-                                                                                try {
-                                                                                    Thread.sleep(1000);
-                                                                                } catch (InterruptedException e) {
-                                                                                    e.printStackTrace();
-                                                                                }
-                                                                                hTextView.animateText("600+ Engineering Colleges\n400+ Medical Colleges\n1000+ Other Colleges");
-                                                                                hTextView.setAnimationListener(new AnimationListener() {
-                                                                                    @Override
-                                                                                    public void onAnimationEnd(HTextView hTextView) {
-                                                                                        try {
-                                                                                            Thread.sleep(1000);
-                                                                                        } catch (InterruptedException e) {
-                                                                                            e.printStackTrace();
-                                                                                        }
-                                                                                        typerTextView.animateText("");
-
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                });
-
-
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
+                                       }
+                                        i++;
 
 
                                     }
                                 });
                             }
                         });
+
                     }
                 });
 
@@ -140,7 +80,10 @@ public class TyperTextAnimater {
         });
 
 
+
         typerTextView.setTyperSpeed(80);
     }
+
+
 
 }

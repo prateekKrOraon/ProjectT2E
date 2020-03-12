@@ -4,22 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.JsonReader;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,13 +18,10 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CollegeListAdapter;
-import com.think2exam.projectt2e.modals.CollegeInfoModel;
 import com.think2exam.projectt2e.modals.CollegeListModel;
-import com.think2exam.projectt2e.ui.dialogs.CollegeFilterDialog;
 import com.think2exam.projectt2e.utility.ByCityQuery;
 import com.think2exam.projectt2e.utility.ByStateQuery;
 import com.think2exam.projectt2e.utility.CompleteTableQuery;
-import com.think2exam.projectt2e.utility.HttpHandler;
 import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
 import com.think2exam.projectt2e.utility.SearchQuery;
 
@@ -47,11 +35,12 @@ public class CollegeListActivity extends AppCompatActivity {
 
     private ArrayList<CollegeListModel> CollegeList = new ArrayList<>(),CollegeListDup;
     MaterialCardView searchBar;
-    ImageView searchicon,crossicon,filtericon;
+    ImageView searchicon,crossicon;
     TextView title;
     private String tag;
     int count=0;
     private String which;
+    private String Title;
 
     RecyclerView cRecyclerView;
     ProgressBar progressBar;
@@ -72,14 +61,15 @@ public class CollegeListActivity extends AppCompatActivity {
         crossicon = findViewById(R.id.cross_icon_);
         searchBar = findViewById(R.id.search_bar);
         searchicon  = findViewById(R.id.search_icon);
-        filtericon = findViewById(R.id.filter_icon);
 
         which = getIntent().getStringExtra("which");
         tag = getResources().getString(getIntent().getIntExtra("tag",-1));
+        Title = getIntent().getStringExtra("title");
+
 
 
        // count = CollegeList.size();
-        title.setText(tag+" ("+count+")");
+        title.setText(Title);
 
 
         new GetContacts().execute();
@@ -123,13 +113,7 @@ public class CollegeListActivity extends AppCompatActivity {
             }
         });
 
-        //setting filter icon
-        filtericon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickedFilterIcon();
-            }
-        });
+
 
 
 
@@ -215,6 +199,7 @@ public class CollegeListActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             progressBar.setVisibility(View.GONE);
+            searchBar.setVisibility(View.VISIBLE);
             setRecyclerView();
         }
     }
@@ -255,12 +240,10 @@ public class CollegeListActivity extends AppCompatActivity {
         if(s.length()!=0)
         {
             crossicon.setVisibility(View.VISIBLE);
-            searchicon.setVisibility(View.GONE);
         }
         else
         {
             crossicon.setVisibility(View.GONE);
-            searchicon.setVisibility(View.VISIBLE);
         }
         ArrayList<CollegeListModel> arrayList = new ArrayList<>();
          for(CollegeListModel college :CollegeList)
@@ -279,16 +262,11 @@ public class CollegeListActivity extends AppCompatActivity {
         cRecyclerView.setAdapter(collegeListAdapter);
 
         count = CollegeListDup.size();
-        title.setText(tag+" ("+count+")");
+
 
     }
 
 
-   public void onClickedFilterIcon()
-   {
-       CollegeFilterDialog collegeFilterDialog = new CollegeFilterDialog();
-       collegeFilterDialog.show(getSupportFragmentManager(),"filterdialog");
-   }
 
 
     @Override

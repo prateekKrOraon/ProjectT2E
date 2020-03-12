@@ -80,6 +80,16 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
                 intent.putExtra("which","state");
                 intent.putExtra("tag",StateItems.get(position).getName());
                 intent.putExtra("catId",catId);
+                if(catId == R.string.university)
+                {
+                    intent.putExtra("title",context.getString(R.string.university)+ " in "+context.getString(StateItems.get(position).getName()));
+
+                }
+                else
+                {
+                    intent.putExtra("title",context.getString(catId)+ " Colleges in "+context.getString(StateItems.get(position).getName()));
+
+                }
                 context.startActivity(intent);          }
         });
     }

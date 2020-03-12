@@ -38,7 +38,7 @@
     <string name="about_quiz">About\n\nDescription\n\nRules and Regulation\n\nManual</string>
 
     <string name="title_my_account">My Account</string>
-    <string name="slider_button_text">Explore Campus</string>
+    <string name="slider_button_text">explore</string>
     <string name="result_win">Congratulations!</string>
     <string name="result_win_subtitle">You have passed this stage</string>
     <string name="result_button">Back to Topics</string>
@@ -93,7 +93,7 @@
     <!-- state -->
 
     <string name="uttar_pradesh">Uttar Pradesh</string>
-    <string name="andra_pradesh">Andra Pradesh</string>
+    <string name="andra_pradesh">Andhra Pradesh</string>
     <string name="maharashtra">Maharashtra</string>
     <string name="karnataka">Karnataka</string>
     <string name="rajasthan">Rajasthan</string>

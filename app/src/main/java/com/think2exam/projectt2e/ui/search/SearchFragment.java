@@ -121,6 +121,33 @@ public class SearchFragment extends Fragment {
                         intent.putExtra("state",state);
                         intent.putExtra("city",city);
                         intent.putExtra("keyword",keyword);
+                        if(category.equals(getString(R.string.university)))
+                        {
+                            if(state.equals(getString(R.string.all_states)))
+                                intent.putExtra("title",getString(R.string.university)+" in "+state);
+                            else
+                            {
+                                if(city.equals(getString(R.string.all_cities)))
+                                    intent.putExtra("title",getString(R.string.university)+" in "+state);
+                                else
+                                    intent.putExtra("title",getString(R.string.university)+" in "+city);
+
+                            }
+
+                        }
+                        else
+                        {
+                            if(state.equals(getString(R.string.all_states)))
+                                intent.putExtra("title",category+" Colleges in "+state);
+                            else
+                            {
+                                if(city.equals(getString(R.string.all_cities)))
+                                    intent.putExtra("title",category+" Colleges in "+state);
+                                else
+                                    intent.putExtra("title",category+" Colleges in "+city);
+
+                            }
+                        }
 
                     getContext().startActivity(intent);
 

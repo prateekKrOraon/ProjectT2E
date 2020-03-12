@@ -50,22 +50,13 @@
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="Featured Colleges"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-condensed-light"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
-                />
+
 
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:id="@+id/ll_featured_clg"
@@ -74,19 +65,25 @@
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="Featured Colleges"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
+                    />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/featured_college_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey_light"/>
 
-                <com.chahinem.pageindicator.PageIndicator
-                    android:id="@+id/page_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:piSelectedColor="@color/red"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>
 
@@ -94,17 +91,27 @@
                     android:id="@+id/progress_bar_featured_clg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:layout_gravity="center"/>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:foregroundGravity="left"
-                android:foreground="@drawable/home_quiz_icon"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
+                android:background="@color/grey_light"
                 android:layout_height="140dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/homeRecyclerView"
+                    >
+
+
+                </LinearLayout>
 
                 <include
                     android:id="@+id/quiz_cardview"
@@ -113,6 +120,12 @@
                     android:layout_width="match_parent"
                     android:layout_gravity="bottom"
                     />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/quiz_learn_more"
+                    android:scaleType="fitEnd"/>
+
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

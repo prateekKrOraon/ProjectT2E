@@ -15,8 +15,8 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
         overridePendingTransition(R.anim.enter, R.anim.exit);
+        setContentView(R.layout.activity_log_in);
 
         final LinearLayout skipBTN = findViewById(R.id.skip_btn);
         skipBTN.setOnClickListener(new View.OnClickListener() {

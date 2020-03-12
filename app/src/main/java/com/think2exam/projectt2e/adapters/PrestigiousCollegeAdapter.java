@@ -81,6 +81,9 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","prestigious_college");
                 intent.putExtra("tag",TopCollegeItems.get(position).getName());
+
+                intent.putExtra("title","Top 10 "+context.getString(TopCollegeItems.get(position).getName()));
+
                 context.startActivity(intent);
             }
         });

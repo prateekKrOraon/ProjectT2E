@@ -80,6 +80,16 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
                 intent.putExtra("which","city");
                 intent.putExtra("tag",CityItems.get(position).getName());
                 intent.putExtra("catId",catId);
+                if(catId==R.string.university)
+                {
+                    intent.putExtra("title",context.getString(R.string.university)+ " in "+context.getString(CityItems.get(position).getName()));
+
+                }
+                else
+                {
+                    intent.putExtra("title",context.getString(catId)+ " Colleges in "+context.getString(CityItems.get(position).getName()));
+
+                }
                 context.startActivity(intent);            }
         });
     }

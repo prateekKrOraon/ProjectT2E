@@ -2,17 +2,20 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="2dp"
-    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/homeRecyclerView"
+    app:cardCornerRadius="5dp"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical">
 
 
@@ -37,7 +40,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:scaleType="fitCenter"
-                    android:layout_weight="85"/>
+                    android:layout_weight="90"/>
 
 
                 <LinearLayout
@@ -47,7 +50,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="15">
+                    android:layout_weight="10">
 
                     <TextView
                         android:id="@+id/college_name_"
@@ -55,7 +58,8 @@
                         android:layout_height="wrap_content"
                         android:text="National Institute Of Technology Sikkim National Institute Of Tech"
                         android:ellipsize="marquee"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Small"
                         android:textColor="@color/vpi__bright_foreground_disabled_holo_dark"
                         android:singleLine="true" />
                     <LinearLayout
@@ -128,13 +132,15 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/green"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                     android:text="@string/slider_button_text"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:scaleType="centerInside"
                     android:layout_gravity="center"
                     android:tint="@color/green"

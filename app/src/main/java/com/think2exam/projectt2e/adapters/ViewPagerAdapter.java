@@ -46,15 +46,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View layout = inflater.inflate(R.layout.view_pager_layout,container,false);
         ImageView image = layout.findViewById(R.id.view_pager_image);
-        //TextView textView = layout.findViewById(R.id.view_pager_text);
-
-//        textView.setText(viewPagerModels.get(position).getName());
-//        textView.setMaxLines(1);
-//        textView.setEnabled(true);
-//        Animation a = AnimationUtils.loadAnimation(context, R.anim.animation);
-//        a.reset();
-//        textView.clearAnimation();
-//        textView.startAnimation(a);
 
         Glide.with(context)
                 .load(viewPagerModels.get(position).getIcon())

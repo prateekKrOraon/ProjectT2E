@@ -92,7 +92,6 @@ public class HomeFragment extends Fragment {
         catId = pref.getInt("category_id",-1);
 
 
-        //Toast.makeText(mainActivityContext, ""+R.string.university+" "+R.string.did_not_answer, Toast.LENGTH_SHORT).show();
         //set Top cities and top states
         final TextView topCity = root.findViewById(R.id.popular_city_text);
         TextView topState = root.findViewById(R.id.popular_state_text);
@@ -107,7 +106,6 @@ public class HomeFragment extends Fragment {
         }
 
         final TyperTextView typerTextView1 = root.findViewById(R.id.view_pager_text1);
-
         TyperTextAnimater typerTextAnimater = new TyperTextAnimater(typerTextView1);
         typerTextAnimater.setTyperTextView();
 
@@ -118,45 +116,21 @@ public class HomeFragment extends Fragment {
 
         //setting viewpager slideshow
         initViewPagerSlider(root);
+
+
         FeaturedClgLayout = root.findViewById(R.id.ll_featured_clg);
         progressBarFeaturedClg = root.findViewById(R.id.progress_bar_featured_clg);
         new GetTop5Colleges().execute();
 
-        //Recycler view for top colleges
-        RecyclerView tcRecyclerView = root.findViewById(R.id.home_top_colleges_recycler_view);
-        RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
-        ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        PrestigiousCollegeAdapter prestigiousCollegeAdapter = new PrestigiousCollegeAdapter(prestigiousCollegeModelArrayList,mainActivityContext);
-        tcRecyclerView.setHasFixedSize(true);
-        tcRecyclerView.setLayoutManager(tcLayoutManager);
-        tcRecyclerView.setAdapter(prestigiousCollegeAdapter);
 
-        //Recycler view for City
-        RecyclerView ctRecyclerView = root.findViewById(R.id.home_city_recycler_view);
-        RecyclerView.LayoutManager ctLayoutManager = new LinearLayoutManager(mainActivityContext);
-        ((LinearLayoutManager) ctLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        CityAdapter cityAdapter = new CityAdapter(CityModelArrayList,mainActivityContext);
-        ctRecyclerView.setHasFixedSize(true);
-        ctRecyclerView.setLayoutManager(ctLayoutManager);
-        ctRecyclerView.setAdapter(cityAdapter);
 
-        //Recycler view for state
-        RecyclerView stRecyclerView = root.findViewById(R.id.home_state_recycler_view);
-        RecyclerView.LayoutManager stLayoutManager = new LinearLayoutManager(mainActivityContext);
-        ((LinearLayoutManager) stLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        StateAdapter stateAdapter = new StateAdapter(StateModelArrayList,mainActivityContext);
-        stRecyclerView.setHasFixedSize(true);
-        stRecyclerView.setLayoutManager(stLayoutManager);
-        stRecyclerView.setAdapter(stateAdapter);
+        setPrestigiousCollege(root);
 
-        //Recycler view for category
-        RecyclerView catRecyclerView   = root.findViewById(R.id.home_category_recycler_view);
-        RecyclerView.LayoutManager catLayoutManager = new GridLayoutManager(mainActivityContext,3);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(CategoryModelArrayList,mainActivityContext);
-        catRecyclerView.setHasFixedSize(true);
-        catRecyclerView.setLayoutManager(catLayoutManager);
-        catRecyclerView.setAdapter(categoryAdapter);
+        setCityAdapter(root);
 
+        setStateAdapter(root);
+
+        setCategoryAdapter(root);
         //learn more quiz
         LinearLayout learn_more_btn = root.findViewById(R.id.learn_more_btn);
         learn_more_btn.setOnClickListener(new View.OnClickListener() {
@@ -171,12 +145,61 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private void setCategoryAdapter(View root)
+    {
+        //Recycler view for category
+        RecyclerView catRecyclerView   = root.findViewById(R.id.home_category_recycler_view);
+        RecyclerView.LayoutManager catLayoutManager = new GridLayoutManager(mainActivityContext,3);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(CategoryModelArrayList,mainActivityContext);
+        catRecyclerView.setHasFixedSize(true);
+        catRecyclerView.setLayoutManager(catLayoutManager);
+        catRecyclerView.setAdapter(categoryAdapter);
+
+    }
+
+    private void setStateAdapter(View root)
+    {
+        //Recycler view for state
+        RecyclerView stRecyclerView = root.findViewById(R.id.home_state_recycler_view);
+        RecyclerView.LayoutManager stLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) stLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        StateAdapter stateAdapter = new StateAdapter(StateModelArrayList,mainActivityContext);
+        stRecyclerView.setHasFixedSize(true);
+        stRecyclerView.setLayoutManager(stLayoutManager);
+        stRecyclerView.setAdapter(stateAdapter);
+    }
+
+    private void setCityAdapter(View root)
+    {
+        //Recycler view for City
+        RecyclerView ctRecyclerView = root.findViewById(R.id.home_city_recycler_view);
+        RecyclerView.LayoutManager ctLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) ctLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        CityAdapter cityAdapter = new CityAdapter(CityModelArrayList,mainActivityContext);
+        ctRecyclerView.setHasFixedSize(true);
+        ctRecyclerView.setLayoutManager(ctLayoutManager);
+        ctRecyclerView.setAdapter(cityAdapter);
+    }
+
+
+    private void setPrestigiousCollege(View root)
+    {
+        //Recycler view for top colleges
+        RecyclerView tcRecyclerView = root.findViewById(R.id.home_top_colleges_recycler_view);
+        RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        PrestigiousCollegeAdapter prestigiousCollegeAdapter = new PrestigiousCollegeAdapter(prestigiousCollegeModelArrayList,mainActivityContext);
+        tcRecyclerView.setHasFixedSize(true);
+        tcRecyclerView.setLayoutManager(tcLayoutManager);
+        tcRecyclerView.setAdapter(prestigiousCollegeAdapter);
+    }
+
     private void setArrayList()
     {
         viewPagerModels = new ArrayList<>();
-        viewPagerModels.add(new ViewPagerModel("Do you want to Explore colleges in India?",R.drawable.university_back));
-        viewPagerModels.add(new ViewPagerModel("Then Think2Exam is here for you",R.drawable.iit_back));
-        viewPagerModels.add(new ViewPagerModel("6000+ Colleges",R.drawable.tezpur_university));
+        viewPagerModels.add(new ViewPagerModel(R.drawable.university_back));
+        viewPagerModels.add(new ViewPagerModel(R.drawable.iit_back));
+        viewPagerModels.add(new ViewPagerModel(R.drawable.tezpur_university));
 
         featuredCollegeModels = new ArrayList<>();
 
@@ -235,9 +258,6 @@ public class HomeFragment extends Fragment {
         FeaturedCollegeAdapter featuredCollegeAdapter = new FeaturedCollegeAdapter(featuredCollegeModels,mainActivityContext);
         tcRecyclerView.setLayoutManager(tcLayoutManager);
         tcRecyclerView.setAdapter(featuredCollegeAdapter);
-
-        PageIndicator pageIndicator = parentView.findViewById(R.id.page_indicator);
-        pageIndicator.attachTo(tcRecyclerView);
 
 
     }

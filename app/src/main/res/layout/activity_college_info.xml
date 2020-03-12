@@ -60,15 +60,7 @@
                     android:tint="@color/colorAccent"
                     android:backgroundTint="@android:color/transparent"/>
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:layout_margin="10dp"
-                    android:layout_gravity="right"
-                    android:id="@+id/college_info_rating_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_rating_black_24dp"
-                    android:tint="@color/colorAccent"
-                    android:backgroundTint="@android:color/transparent"/>
+
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

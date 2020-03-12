@@ -47,7 +47,7 @@ public class CollegeInfoActivity extends AppCompatActivity {
     private int id;
     CollegeInfoModel collegeInfoModel=null;
     ArrayList<CoursesOfferedModal> courses;
-    ArrayList<String> images;
+    ArrayList<String>  images = new ArrayList<>();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,43 +169,6 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
     }
 
-    public void showRatingDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.college_rating_layout);
-        dialog.setCancelable(true);
-        WindowManager.LayoutParams wm = new WindowManager.LayoutParams();
-
-        try {
-            wm.copyFrom(dialog.getWindow().getAttributes());
-            wm.width = WindowManager.LayoutParams.MATCH_PARENT;
-            wm.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        } catch (NullPointerException e) {
-            System.out.println(e.toString());
-        }
-
-        AppCompatButton cancel = dialog.findViewById(R.id.cancel_rating);
-        AppCompatButton send = dialog.findViewById(R.id.send_rating);
-        final RatingBar ratingBar = dialog.findViewById(R.id.rating_bar);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float rating = ratingBar.getRating();
-                Toast.makeText(CollegeInfoActivity.this, rating + " Sent", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(wm);
-    }
 
 
     private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
@@ -251,6 +214,7 @@ public class CollegeInfoActivity extends AppCompatActivity {
                 {
                     final JSONObject jsonObject = new JSONObject(jsonStr);
                     setColInfoModel(jsonObject);
+                    setCourses(jsonObject,carId);
 
                 }
                 catch (final JSONException e)
@@ -261,7 +225,9 @@ public class CollegeInfoActivity extends AppCompatActivity {
                         public void run() {
                             Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
                         }
-                    });                }
+                    });                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -271,14 +237,17 @@ public class CollegeInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            setLayout();
+            try {
+                setLayout();
+            }catch (Exception e){}
         }
     }
 
     private void setLayout()
     {
-        setImageSliderLayout();
-
+        try {
+            setImageSliderLayout();
+        }catch (Exception e){}
 
         AppCompatTextView collegeName = findViewById(R.id.college_info_col_name);
         collegeName.setText(collegeInfoModel.getClgName());
@@ -306,14 +275,6 @@ public class CollegeInfoActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatImageButton ratingBtn = findViewById(R.id.college_info_rating_btn);
-
-        ratingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showRatingDialog();
-            }
-        });
 
         AppCompatButton locBtn  = findViewById(R.id.locate_on_map);
         try {
@@ -336,11 +297,10 @@ public class CollegeInfoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String url="";
-                    url+= collegeInfoModel.getClgUrl();
-                    Uri gmmIntentUri = Uri.parse(""+url);
-                    if(!url.equals(""))
+                    String url= collegeInfoModel.getClgUrl();
+                    if(!url.equals(null))
                     {
+                        Uri gmmIntentUri = Uri.parse("https://"+url);
                         Intent urlIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                         startActivity(urlIntent);
                     }
@@ -362,33 +322,9 @@ public class CollegeInfoActivity extends AppCompatActivity {
                 jsonObject.getInt("college_rank"),jsonObject.getString("college_desc"),jsonObject.getString("year_established"),jsonObject.getString("url"));
 
 
-        //setting course offered
-        courses = new ArrayList<>();
-//        for(int i=1;i<=10;i++)
-//        {
-//
-//                if(i!=10 && !jsonObject.getString("BTECH_0"+i).equals(""))
-//                {
-//                    courses.add(new CoursesOfferedModal("BTECH ("+jsonObject.getString("BTECH_0"+i)+")"));
-//                }
-//                if(i==10 && !jsonObject.getString("BTECH_"+i).equals(""))
-//                {
-//                    courses.add(new CoursesOfferedModal("BTECH ("+jsonObject.getString("BTECH_"+i)+")"));
-//                }
-//
-//        }
-//
-//        for(int i=1;i<=5;i++)
-//        {
-//                if(!jsonObject.getString("MTECH_0"+i).equals(""))
-//                {
-//                    courses.add(new CoursesOfferedModal("MTECH ("+jsonObject.getString("MTECH_0"+i)+")"));
-//                }
-//
-//        }
 
         //setting image;
-        images = new ArrayList<>();
+
         for(int i=1;i<=4;i++)
         {
                 if(!jsonObject.getString("college_image"+i).equals(""))
@@ -398,7 +334,59 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         }
 
+    }
 
+    private void setCourses(JSONObject jsonObject, int catId) throws JSONException
+    {
+        //setting course offered
+        courses = new ArrayList<>();
+        if(catId == R.string.engineering)
+        {
+            for(int i=1;i<=10;i++)
+            {
+
+                if(i!=10 && !jsonObject.getString("BTECH_0"+i).equals(""))
+                {
+                    courses.add(new CoursesOfferedModal("BTECH ("+jsonObject.getString("BTECH_0"+i)+")"));
+                }
+                if(i==10 && !jsonObject.getString("BTECH_"+i).equals(""))
+                {
+                    courses.add(new CoursesOfferedModal("BTECH ("+jsonObject.getString("BTECH_"+i)+")"));
+                }
+
+            }
+
+            for(int i=1;i<=5;i++)
+            {
+                if(!jsonObject.getString("MTECH_0"+i).equals(""))
+                {
+                    courses.add(new CoursesOfferedModal("MTECH ("+jsonObject.getString("MTECH_0"+i)+")"));
+                }
+
+            }
+        }
+       else
+        {
+            for(int i=1;i<=5;i++)
+            {
+
+                if(!jsonObject.get("bachelor_degree_course_0"+i).equals(""))
+                {
+                    courses.add(new CoursesOfferedModal(jsonObject.getString("bachelor_degree_course_0"+i)));
+                }
+
+
+            }
+
+            for(int i=1;i<=2;i++)
+            {
+                if(!jsonObject.getString("master_degree_course_0"+i).equals(""))
+                {
+                    courses.add(new CoursesOfferedModal(jsonObject.getString("master_degree_course_0"+i)));
+                }
+
+            }
+        }
 
     }
 
