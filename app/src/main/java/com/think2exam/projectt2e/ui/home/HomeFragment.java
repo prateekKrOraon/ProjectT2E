@@ -43,6 +43,7 @@ import com.think2exam.projectt2e.adapters.SnapHelperOneByOne;
 import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
 import com.think2exam.projectt2e.modals.ViewPagerModel;
 import com.think2exam.projectt2e.ui.activities.AboutQuizActivity;
+import com.think2exam.projectt2e.utilities.DBOperations;
 import com.think2exam.projectt2e.utility.HttpHandler;
 import com.think2exam.projectt2e.utility.Top5CollegesQuery;
 
@@ -55,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.think2exam.projectt2e.Constants.SHARED_PREF;
 import static java.lang.Thread.sleep;
 
 public class HomeFragment extends Fragment {
@@ -75,7 +77,10 @@ public class HomeFragment extends Fragment {
     private int catId;
     private int i=1;
 
+    GetTop5Colleges getTop5Colleges;
+
     public HomeFragment() {
+
     }
 
     @SuppressLint("ValidFragment")
@@ -84,13 +89,18 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //getTop5Colleges.execute();
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         parentView = root;
         SharedPreferences pref = getContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
         catId = pref.getInt("category_id",-1);
-
 
         //Toast.makeText(mainActivityContext, ""+R.string.university+" "+R.string.did_not_answer, Toast.LENGTH_SHORT).show();
         //set Top cities and top states
@@ -120,6 +130,7 @@ public class HomeFragment extends Fragment {
         initViewPagerSlider(root);
         FeaturedClgLayout = root.findViewById(R.id.ll_featured_clg);
         progressBarFeaturedClg = root.findViewById(R.id.progress_bar_featured_clg);
+
         new GetTop5Colleges().execute();
 
         //Recycler view for top colleges
@@ -213,11 +224,11 @@ public class HomeFragment extends Fragment {
 
 
         prestigiousCollegeModelArrayList = new ArrayList<>();
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.drawable.iit));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.drawable.nit));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.drawable.aiims));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.drawable.top_college1));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.drawable.university));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.string.engineering,R.drawable.iit));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.string.engineering,R.drawable.nit));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.string.medical_and_dental,R.drawable.aiims));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.string.management,R.drawable.top_college1));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.string.university,R.drawable.university));
 
     }
 
@@ -281,29 +292,41 @@ public class HomeFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
 
+            DBOperations dbOperations = DBOperations.getInstance();
+            JSONArray jsonArray = dbOperations.getColleges(SHARED_PREF,SHARED_PREF,catId,"");
 
-            HttpHandler sh = new HttpHandler();
-            Top5CollegesQuery top5CollegesQuery = new Top5CollegesQuery();
-            String reqURL = top5CollegesQuery.setreqURL(catId);
-            jsonStr = sh.getTop5Colleges(reqURL);
-            if(jsonStr!=null)
-            {
-                try {
-                    final JSONArray jsonArray = new JSONArray(jsonStr);
-                    setTop5Colleges(jsonArray);
-
-                }
-                catch (final JSONException e)
-                {
-                    e.printStackTrace();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    });                }
-
+            try {
+                setTop5Colleges(jsonArray);
+            } catch (final JSONException e) {
+                e.printStackTrace();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
             }
+
+//            HttpHandler sh = new HttpHandler();
+//            Top5CollegesQuery top5CollegesQuery = new Top5CollegesQuery();
+//            String reqURL = top5CollegesQuery.setreqURL(catId);
+//            jsonStr = sh.getTop5Colleges(reqURL);
+//            if(jsonStr!=null){
+//                try {
+//                    final JSONArray jsonArray = new JSONArray(jsonStr);
+//                    setTop5Colleges(jsonArray);
+//
+//                }catch (final JSONException e){
+//                    e.printStackTrace();
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(getContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//                }
+//
+//            }
 
             return null;
         }
@@ -315,7 +338,9 @@ public class HomeFragment extends Fragment {
                 progressBarFeaturedClg.setVisibility(View.GONE);
                 FeaturedClgLayout.setVisibility(View.VISIBLE);
                 initFeaturedCollegeSlider();
-            }catch (Exception e){}
+            }catch (Exception e){}finally {
+
+            }
         }
     }
 

@@ -165,7 +165,7 @@ public class CollegeInfoActivity extends AppCompatActivity {
         quickFacts.requestLayout();
 
 
-        //setGridViewHeightBasedOnChildren(quickFacts);
+       // //setGridViewHeightBasedOnChildren(quickFacts);
 
     }
 

@@ -100,8 +100,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
                     Intent intent = new Intent(context, CollegeListActivity.class);
                     intent.putExtra("which","category");
-                    intent.putExtra("tag",CategoryItems.get(position).getName());
-                    intent.putExtra("tableName",tableName);
+                    intent.putExtra("query",-1);
+                    intent.putExtra("catId",tableName);
                     context.startActivity(intent);
 
                 }
