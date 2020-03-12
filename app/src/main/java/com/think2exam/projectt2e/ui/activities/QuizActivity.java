@@ -6,15 +6,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ContentLoadingProgressBar;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.modals.QuestionModel;
+import com.think2exam.projectt2e.utilities.DBOperations;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import static com.think2exam.projectt2e.Constants.*;
 
 
 public class QuizActivity extends AppCompatActivity {
@@ -30,6 +39,10 @@ public class QuizActivity extends AppCompatActivity {
     AppCompatTextView optionFourText;
     AppCompatTextView pointsCounter;
     AppCompatTextView questionCounter;
+
+    ProgressBar progressBar;
+
+    ArrayList<QuestionModel> questionsModels;
 
     public int points = 0;
     int counter = 0;
@@ -47,7 +60,52 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+
+        HTTPHandler handler = new HTTPHandler();
+        Intent intent = getIntent();
+        int catId = 0;
+        int subId = 0;
+        int paraId = 0;
+        if(intent != null){
+            catId = intent.getIntExtra(QUIZ_CATEGORY_ID,1);
+            subId = intent.getIntExtra(QUIZ_SUBJECT_ID,1);
+            paraId = intent.getIntExtra(QUIZ_PARA_ID,1);
+        }
+        if(questionsModels != null){
+            setContentView(R.layout.activity_quiz);
+        }else{
+            setContentView(R.layout.loading);
+            handler.execute(String.valueOf(catId),String.valueOf(subId),String.valueOf(paraId));
+        }
+
+    }
+
+    private void getQuestions(JSONArray array) {
+        questionsModels = new ArrayList<>();
+        if(array !=null){
+            try {
+                for(int i = 0; i< array.length(); i++){
+                    JSONObject object = array.getJSONObject(i);
+                    questionsModels.add(new QuestionModel(
+                            object.getString(QUIZ_QUESTION),
+                            object.getString(QUIZ_OPTION_1),
+                            object.getString(QUIZ_OPTION_2),
+                            object.getString(QUIZ_OPTION_3),
+                            object.getString(QUIZ_OPTION_4),
+                            object.getString(QUIZ_OPTION_5),
+                            Integer.parseInt(object.getString(QUIZ_ANSWER_KEY)),
+                            object.getString(QUIZ_ANSWER_DES)
+                    ));
+                    System.out.println(questionsModels.get(i).question);
+                }
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
+    private void initializeQuizLayout() {
 
         Toolbar toolbar = findViewById(R.id.toolbar_quiz);
 
@@ -58,14 +116,6 @@ public class QuizActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        initializeQuizLayout();
-        setQuestions();
-        setNextQuestion();
-        setListeners();
-
-    }
-
-    private void initializeQuizLayout() {
         layoutOptionOne = findViewById(R.id.option_1_btn);
         optionOneText = findViewById(R.id.option_1);
         layoutOptionTwo = findViewById(R.id.option_2_btn);
@@ -120,11 +170,11 @@ public class QuizActivity extends AppCompatActivity {
 
     private void handleResponse(RelativeLayout layout,int index) {
 
-        if(counter == 9){
+        if(counter == questionsModels.size()-1){
             timerThread.interrupt();
         }
 
-        if(index == options[counter].correctIndex){
+        if(index == questionsModels.get(counter).answerKey-1){
             layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
             points += 10;
             String point = "+"+points+"XP";
@@ -158,7 +208,7 @@ public class QuizActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(counter == 9){
+                if(counter == questionsModels.size()-1){
                     Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
                     intent.putExtra("score",points);
                     startActivity(intent);
@@ -177,7 +227,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void viewCorrectAnswer() {
 
-        switch(options[counter].correctIndex){
+        switch(questionsModels.get(counter).answerKey-1){
             case 0:
                 highlightAnswer(layoutOptionOne);
                 break;
@@ -315,12 +365,12 @@ public class QuizActivity extends AppCompatActivity {
 
         layoutOptionFour.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
 
-        questionView.setText(questions[counter]);
+        questionView.setText(questionsModels.get(counter).question);
 
-        optionOneText.setText(options[counter].option1);
-        optionTwoText.setText(options[counter].option2);
-        optionThreeText.setText(options[counter].option3);
-        optionFourText.setText(options[counter].option4);
+        optionOneText.setText(questionsModels.get(counter).option1);
+        optionTwoText.setText(questionsModels.get(counter).option2);
+        optionThreeText.setText(questionsModels.get(counter).option3);
+        optionFourText.setText(questionsModels.get(counter).option4);
 
         quizTimer.setVisibility(View.VISIBLE);
         timerThread = new TimerThread();
@@ -376,7 +426,7 @@ public class QuizActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(end == min){
-                            if(counter == 9){
+                            if(counter == questionsModels.size()-1){
                                 onDestroy();
                                 return;
                             }
@@ -397,4 +447,29 @@ public class QuizActivity extends AppCompatActivity {
         }
 
     }
+
+    private class HTTPHandler extends AsyncTask<String,Void,Void> {
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setContentView(R.layout.activity_quiz);
+            initializeQuizLayout();
+            setNextQuestion();
+            setListeners();
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+
+            DBOperations dbOperations = DBOperations.getInstance();
+            JSONArray jsonArray = dbOperations.getQuestions(strings[0],strings[1],strings[2]);
+            getQuestions(jsonArray);
+
+            return null;
+        }
+    }
+
 }
+
+

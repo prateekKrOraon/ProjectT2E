@@ -30,6 +30,7 @@ import com.think2exam.projectt2e.adapters.CollegeListAdapter;
 import com.think2exam.projectt2e.modals.CollegeInfoModel;
 import com.think2exam.projectt2e.modals.CollegeListModel;
 import com.think2exam.projectt2e.ui.dialogs.CollegeFilterDialog;
+import com.think2exam.projectt2e.utilities.DBOperations;
 import com.think2exam.projectt2e.utility.ByCityQuery;
 import com.think2exam.projectt2e.utility.ByStateQuery;
 import com.think2exam.projectt2e.utility.CompleteTableQuery;
@@ -75,7 +76,8 @@ public class CollegeListActivity extends AppCompatActivity {
         filtericon = findViewById(R.id.filter_icon);
 
         which = getIntent().getStringExtra("which");
-        tag = getResources().getString(getIntent().getIntExtra("tag",-1));
+        int query = getIntent().getIntExtra("query",-1);
+        tag = getResources().getString(getIntent().getIntExtra("catId",-1));
 
 
        // count = CollegeList.size();
@@ -148,64 +150,86 @@ public class CollegeListActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             // Making a request to url and getting response
 
+            DBOperations dbOperations = DBOperations.getInstance();
 
-            if(which.equals("category"))
-            {
+            int query = getIntent().getIntExtra("query",Integer.MIN_VALUE);
 
-                CompleteTableQuery completeTableQuery = new CompleteTableQuery();
-                completeTableQuery.setreqURL(getIntent().getIntExtra("tableName",-1));
-                jsonStr = completeTableQuery.request("");
-                tableName = getString(getIntent().getIntExtra("tableName",-1));
+            JSONArray jsonArray = dbOperations.getColleges(
+                    getIntent().getStringExtra("which"),
+                    query==-1?"all":getString(query),
+                    getIntent().getIntExtra("catId",-1),
+                    ""
+            );
 
-            }
-            else if(which.equals("city"))
-            {
+//            if(which.equals("category"))
+//            {
+//
+//                CompleteTableQuery completeTableQuery = new CompleteTableQuery();
+//                completeTableQuery.setreqURL(getIntent().getIntExtra("tableName",-1));
+//                jsonStr = completeTableQuery.request("");
+//                tableName = getString(getIntent().getIntExtra("tableName",-1));
+//
+//            }
+//            else if(which.equals("city"))
+//            {
+//
+//                ByCityQuery byCityQuery = new ByCityQuery();
+//                byCityQuery.setreqURL(getIntent().getIntExtra("catId",-1));
+//                jsonStr = byCityQuery.request(getString(getIntent().getIntExtra("tag",-1)),"");
+//                tableName = getString(getIntent().getIntExtra("catId",-1));
+//
+//            }
+//            else if(which.equals("state"))
+//            {
+//                ByStateQuery byStateQuery = new ByStateQuery();
+//                byStateQuery.setreqURL(getIntent().getIntExtra("catId",-1));
+//                jsonStr = byStateQuery.request(getString(getIntent().getIntExtra("tag",-1)),"");
+//                tableName = getString(getIntent().getIntExtra("catId",-1));
+//
+//            }
+//            else if(which.equals("prestigious_college"))
+//            {
+//               PrestigiousCollegeQuery prestigiousCollegeQuery = new PrestigiousCollegeQuery();
+//                prestigiousCollegeQuery.setreqURL(getIntent().getIntExtra("tag",-1));
+//                jsonStr = prestigiousCollegeQuery.request();
+//                tableName = getString(prestigiousCollegeQuery.getCatId());
+//
+//            }
+//            else if(which.equals("search"))
+//            {
+//                SearchQuery searchQuery = new SearchQuery();
+//                jsonStr = searchQuery.setreqURL(getApplicationContext(),getIntent().getStringExtra("category"),getIntent().getStringExtra("state"),getIntent().getStringExtra("city"),getIntent().getStringExtra("keyword"));
+//                tableName = getIntent().getStringExtra("category");
+//            }
+//
+//            if(jsonStr!=null)
+//            {
+//                try {
+//                    jsonArray = new JSONArray(jsonStr);
+//                    setCollegeItems(jsonArray);
+//                }
+//                catch (final JSONException e)
+//                {
+//                    e.printStackTrace();
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
+//                        }
+//                    });                }
+//
+//            }
 
-                ByCityQuery byCityQuery = new ByCityQuery();
-                byCityQuery.setreqURL(getIntent().getIntExtra("catId",-1));
-                jsonStr = byCityQuery.request(getString(getIntent().getIntExtra("tag",-1)),"");
-                tableName = getString(getIntent().getIntExtra("catId",-1));
-
-            }
-            else if(which.equals("state"))
-            {
-                ByStateQuery byStateQuery = new ByStateQuery();
-                byStateQuery.setreqURL(getIntent().getIntExtra("catId",-1));
-                jsonStr = byStateQuery.request(getString(getIntent().getIntExtra("tag",-1)),"");
-                tableName = getString(getIntent().getIntExtra("catId",-1));
-
-            }
-            else if(which.equals("prestigious_college"))
-            {
-                PrestigiousCollegeQuery prestigiousCollegeQuery = new PrestigiousCollegeQuery();
-                prestigiousCollegeQuery.setreqURL(getIntent().getIntExtra("tag",-1));
-                jsonStr = prestigiousCollegeQuery.request();
-                tableName = getString(prestigiousCollegeQuery.getCatId());
-
-            }
-            else if(which.equals("search"))
-            {
-                SearchQuery searchQuery = new SearchQuery();
-                jsonStr = searchQuery.setreqURL(getApplicationContext(),getIntent().getStringExtra("category"),getIntent().getStringExtra("state"),getIntent().getStringExtra("city"),getIntent().getStringExtra("keyword"));
-                tableName = getIntent().getStringExtra("category");
-            }
-
-            if(jsonStr!=null)
-            {
-                try {
-                    final JSONArray jsonArray = new JSONArray(jsonStr);
-                    setCollegeItems(jsonArray);
-                }
-                catch (final JSONException e)
-                {
-                    e.printStackTrace();
+            try {
+                setCollegeItems(jsonArray);
+            } catch (final JSONException e) {
+                e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
                         }
-                    });                }
-
+                    });
             }
 
             return null;

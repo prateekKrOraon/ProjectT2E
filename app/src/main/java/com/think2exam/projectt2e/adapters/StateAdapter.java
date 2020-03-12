@@ -78,7 +78,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
 
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","state");
-                intent.putExtra("tag",StateItems.get(position).getName());
+                intent.putExtra("query",StateItems.get(position).getName());
                 intent.putExtra("catId",catId);
                 context.startActivity(intent);          }
         });
