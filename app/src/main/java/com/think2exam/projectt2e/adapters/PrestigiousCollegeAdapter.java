@@ -2,6 +2,7 @@ package com.think2exam.projectt2e.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,10 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
 
     private ArrayList<PrestigiousCollegeModel> TopCollegeItems;
     private Context context;
+
+    SharedPreferences pref; // 0 - for private mode
+    int catId;
+
     public static class TopCollegeViewHolder extends RecyclerView.ViewHolder{
 
         public TextView name;
@@ -48,6 +53,8 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
     {
         this.TopCollegeItems = arrayList;
         this.context = context;
+        pref = this.context.getSharedPreferences("MyPreference", 0);
+        catId = pref.getInt("category_id", -1);
 
     }
 
@@ -80,7 +87,8 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
 
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","prestigious_college");
-                intent.putExtra("tag",TopCollegeItems.get(position).getName());
+                intent.putExtra("query",TopCollegeItems.get(position).getName());
+                intent.putExtra("catId",TopCollegeItems.get(position).getCatId());
                 context.startActivity(intent);
             }
         });

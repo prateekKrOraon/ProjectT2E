@@ -8,14 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.QuizCategoryModal;
-import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.ui.activities.QuizActivity;
+import com.think2exam.projectt2e.ui.activities.QuizSubCategoryActivity;
 
 import java.util.ArrayList;
 
@@ -23,12 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
 
 
 public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatViewHolder> {
 
 
-    private ArrayList<QuizCategoryModal> QuizCatItems;
+    private ArrayList<QuizCategoryModal> quizCatItems;
     private Context context;
     public static class QuizCatViewHolder extends RecyclerView.ViewHolder{
 
@@ -48,7 +47,7 @@ public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatV
 
     public QuizCatAdapter(ArrayList<QuizCategoryModal> arrayList, Context context)
     {
-        this.QuizCatItems = arrayList;
+        this.quizCatItems = arrayList;
         this.context = context;
 
     }
@@ -65,14 +64,15 @@ public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatV
     public void onBindViewHolder(@NonNull final QuizCatViewHolder holder, final int position) {
 
 
-        holder.name.setText(QuizCatItems.get(position).getName());
+        holder.name.setText(quizCatItems.get(position).name);
         Glide.with(context)
-                .load(context.getDrawable(QuizCatItems.get(position).getIcon()))
+                .load(context.getDrawable(quizCatItems.get(position).icon))
                 .into(holder.image);
         holder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, QuizActivity.class);
+                Intent intent = new Intent(context, QuizSubCategoryActivity.class);
+                intent.putExtra(QUIZ_CATEGORY_ID, quizCatItems.get(position).id);
                 context.startActivity(intent);
             }
         });
@@ -80,7 +80,7 @@ public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatV
 
     @Override
     public int getItemCount() {
-        return QuizCatItems.size();
+        return quizCatItems.size();
     }
 
 
