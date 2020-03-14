@@ -4,22 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.JsonReader;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,22 +19,20 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CollegeListAdapter;
-import com.think2exam.projectt2e.modals.CollegeInfoModel;
 import com.think2exam.projectt2e.modals.CollegeListModel;
 import com.think2exam.projectt2e.ui.dialogs.CollegeFilterDialog;
 import com.think2exam.projectt2e.utilities.DBOperations;
-import com.think2exam.projectt2e.utility.ByCityQuery;
-import com.think2exam.projectt2e.utility.ByStateQuery;
-import com.think2exam.projectt2e.utility.CompleteTableQuery;
-import com.think2exam.projectt2e.utility.HttpHandler;
-import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
-import com.think2exam.projectt2e.utility.SearchQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.think2exam.projectt2e.Constants.SEARCH_CAT;
+import static com.think2exam.projectt2e.Constants.SEARCH_CITY;
+import static com.think2exam.projectt2e.Constants.SEARCH_KEY;
+import static com.think2exam.projectt2e.Constants.SEARCH_STATE;
 
 public class CollegeListActivity extends AppCompatActivity {
 
@@ -77,7 +67,12 @@ public class CollegeListActivity extends AppCompatActivity {
 
         which = getIntent().getStringExtra("which");
         int query = getIntent().getIntExtra("query",-1);
-        tag = getResources().getString(getIntent().getIntExtra("catId",-1));
+        if(!which.equals("search")){
+            tag = getResources().getString(getIntent().getIntExtra("catId",-1));
+        }else{
+            tag = which;
+        }
+
 
 
        // count = CollegeList.size();
@@ -153,13 +148,85 @@ public class CollegeListActivity extends AppCompatActivity {
             DBOperations dbOperations = DBOperations.getInstance();
 
             int query = getIntent().getIntExtra("query",Integer.MIN_VALUE);
+            String which = getIntent().getStringExtra("which");
 
-            JSONArray jsonArray = dbOperations.getColleges(
-                    getIntent().getStringExtra("which"),
-                    query==-1?"all":getString(query),
-                    getIntent().getIntExtra("catId",-1),
-                    ""
-            );
+            JSONArray jsonArray = null;
+
+            if(!which.equals("search")){
+                int catId = getIntent().getIntExtra("catId",-1);
+                switch (catId) {
+                    case R.string.engineering:
+                        tableName = "engineering_colleges";
+                        break;
+                    case R.string.agriculture:
+                        tableName = "agriculture_colleges";
+                        break;
+                    case R.string.management:
+                        tableName = "mba_colleges";
+                        break;
+                    case R.string.medical_and_dental:
+                        tableName = "medical_and_dental_colleges";
+                        break;
+                    case R.string.pharmacy:
+                        tableName = "pharmacy_colleges";
+                        break;
+                    case R.string.nursing_and_paramedical:
+                        tableName = "nursing_and_paramedical_colleges";
+                        break;
+                    case R.string.education:
+                        tableName = "education";
+                        break;
+                    default:
+                        tableName = "university";
+                        break;
+                }
+                jsonArray = dbOperations.getColleges(
+                        which,
+                        query==-1?"all":getString(query),
+                        catId,
+                        ""
+                );
+            }else{
+
+                Intent intent = getIntent();
+                String cat = intent.getStringExtra(SEARCH_CAT);
+                switch (cat) {
+                    case "Engineering":
+                        tableName = "engineering_colleges";
+                        break;
+                    case "Agriculture":
+                        tableName = "agriculture_colleges";
+                        break;
+                    case "Management":
+                        tableName = "mba_colleges";
+                        break;
+                    case "Medical and Dental":
+                        tableName = "medical_and_dental_colleges";
+                        break;
+                    case "Pharmacy":
+                        tableName = "pharmacy_colleges";
+                        break;
+                    case "Nursing and Paramedical":
+                        tableName = "nursing_and_paramedical_colleges";
+                        break;
+                    case "Education":
+                        tableName = "education";
+                        break;
+                    case "University":
+                        tableName = "university";
+                        break;
+                    default:
+                        tableName = "All Category";
+                        break;
+                }
+                jsonArray = dbOperations.searchCollege(
+                        cat,
+                        intent.getStringExtra(SEARCH_STATE),
+                        intent.getStringExtra(SEARCH_CITY),
+                        intent.getStringExtra(SEARCH_KEY)
+                );
+            }
+
 
 //            if(which.equals("category"))
 //            {

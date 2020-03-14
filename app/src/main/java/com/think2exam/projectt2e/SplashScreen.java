@@ -31,7 +31,7 @@ public class SplashScreen extends AppCompatActivity {
                     onBackPressed();
 
                 }
-            },5000);
+            },2000);
         }
         else if(false) //@prateek  add condition for USER
         {

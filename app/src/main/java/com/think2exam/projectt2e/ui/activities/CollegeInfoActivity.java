@@ -33,13 +33,18 @@ import com.think2exam.projectt2e.modals.CollegeFacilitiesModal;
 import com.think2exam.projectt2e.modals.CollegeInfoModel;
 import com.think2exam.projectt2e.modals.CoursesOfferedModal;
 import com.think2exam.projectt2e.modals.QuickFactsModal;
+import com.think2exam.projectt2e.utilities.DBOperations;
 import com.think2exam.projectt2e.utility.HttpHandler2;
 import com.think2exam.projectt2e.utility.InfoQuerySelector;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.think2exam.projectt2e.Constants.ID;
+import static com.think2exam.projectt2e.Constants.TABLE_ID;
 
 public class CollegeInfoActivity extends AppCompatActivity {
 
@@ -51,17 +56,23 @@ public class CollegeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_college_info);
+
+        if(collegeInfoModel == null){
+            setContentView(R.layout.loading);
+            try {
+                new GetCollegeInfo().execute();
+
+            }catch (Exception e){}
+        }else{
+            setContentView(R.layout.activity_college_info);
+        }
 
         //have to use imageURI
 
-        table = getIntent().getStringExtra("tableName");
-        id = getIntent().getIntExtra("id",-1);
+        table = getIntent().getStringExtra(TABLE_ID);
+        id = getIntent().getIntExtra(ID,-1);
 
-        try {
-            new GetCollegeInfo().execute();
 
-        }catch (Exception e){}
 
 
     }
@@ -207,76 +218,9 @@ public class CollegeInfoActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(wm);
     }
 
-
-    private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
-        String jsonStr;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            HttpHandler2 sh = new HttpHandler2();
-            // Making a request to url and getting response
-
-            int carId;
-            if (table.equals(getApplicationContext().getString(R.string.engineering)))
-                carId = R.string.engineering;
-            else if (table.equals(getApplicationContext().getString(R.string.agriculture)))
-                carId = R.string.agriculture;
-            else if (table.equals(getApplicationContext().getString(R.string.education)))
-                carId = R.string.education;
-            else if (table.equals(getApplicationContext().getString(R.string.university)))
-                carId = R.string.university;
-            else if (table.equals(getApplicationContext().getString(R.string.management)))
-                carId = R.string.management;
-            else if (table.equals(getApplicationContext().getString(R.string.medical_and_dental)))
-                carId = R.string.medical_and_dental;
-            else if (table.equals(getApplicationContext().getString(R.string.nursing_and_paramedical)))
-                carId = R.string.nursing_and_paramedical;
-            else
-                carId = R.string.pharmacy;
-
-            InfoQuerySelector infoQuerySelector = new InfoQuerySelector();
-            String req_url = infoQuerySelector.setreqURL(carId);
-
-
-
-            jsonStr = sh.makeServiceCall(req_url,id);
-            if(jsonStr!=null)
-            {
-                try
-                {
-                    final JSONObject jsonObject = new JSONObject(jsonStr);
-                    setColInfoModel(jsonObject);
-
-                }
-                catch (final JSONException e)
-                {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    });                }
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            setLayout();
-        }
-    }
-
     private void setLayout()
     {
+        setContentView(R.layout.activity_college_info);
         setImageSliderLayout();
 
 
@@ -350,6 +294,89 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         }catch (Exception e){}
 
+    }
+
+    private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
+        String jsonStr;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            DBOperations dbOperations = DBOperations.getInstance();
+
+            JSONObject jsonObject = dbOperations.getCollegeInfo(String.valueOf(id),table);
+//            HttpHandler2 sh = new HttpHandler2();
+//            // Making a request to url and getting response
+//
+//            int carId;
+//            if (table.equals(getApplicationContext().getString(R.string.engineering)))
+//                carId = R.string.engineering;
+//            else if (table.equals(getApplicationContext().getString(R.string.agriculture)))
+//                carId = R.string.agriculture;
+//            else if (table.equals(getApplicationContext().getString(R.string.education)))
+//                carId = R.string.education;
+//            else if (table.equals(getApplicationContext().getString(R.string.university)))
+//                carId = R.string.university;
+//            else if (table.equals(getApplicationContext().getString(R.string.management)))
+//                carId = R.string.management;
+//            else if (table.equals(getApplicationContext().getString(R.string.medical_and_dental)))
+//                carId = R.string.medical_and_dental;
+//            else if (table.equals(getApplicationContext().getString(R.string.nursing_and_paramedical)))
+//                carId = R.string.nursing_and_paramedical;
+//            else
+//                carId = R.string.pharmacy;
+//
+//            InfoQuerySelector infoQuerySelector = new InfoQuerySelector();
+//            String req_url = infoQuerySelector.setreqURL(carId);
+//
+//
+//
+//            jsonStr = sh.makeServiceCall(req_url,id);
+//            if(jsonStr!=null)
+//            {
+//                try
+//                {
+//                    final JSONObject jsonObject = new JSONObject(jsonStr);
+//                    setColInfoModel(jsonObject);
+//
+//                }
+//                catch (final JSONException e)
+//                {
+//                    e.printStackTrace();
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
+//                        }
+//                    });                }
+//
+//            }
+
+            try {
+                setColInfoModel(jsonObject);
+            } catch (final JSONException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            setLayout();
+        }
     }
 
     // (`id`, `college_name`, `college_location`, `DISTRICT`, `STATE`, `COUNTRY`, `PIN`, `college_type`, `college_rank`, `college_desc`, `BTECH_01`, `BTECH_02`, `BTECH_03`, `BTECH_04`, `BTECH_05`, `BTECH_06`, `BTECH_07`, `BTECH_08`, `BTECH_09`, `BTECH_10`, `MTECH_01`, `MTECH_02`,

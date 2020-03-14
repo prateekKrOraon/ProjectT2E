@@ -35,6 +35,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import static com.think2exam.projectt2e.Constants.QUERY;
+import static com.think2exam.projectt2e.Constants.SEARCH_CAT;
+import static com.think2exam.projectt2e.Constants.SEARCH_CITY;
+import static com.think2exam.projectt2e.Constants.SEARCH_KEY;
+import static com.think2exam.projectt2e.Constants.SEARCH_STATE;
+
 public class SearchFragment extends Fragment {
 
     public static final String id = "activities_fragment";
@@ -116,11 +122,11 @@ public class SearchFragment extends Fragment {
 
                         Intent intent = new Intent(getContext(), CollegeListActivity.class);
                         intent.putExtra("which","search");
-                        intent.putExtra("tag",R.string.all_category);
-                        intent.putExtra("category",category);
-                        intent.putExtra("state",state);
-                        intent.putExtra("city",city);
-                        intent.putExtra("keyword",keyword);
+                        intent.putExtra(QUERY,R.string.all_category);
+                        intent.putExtra(SEARCH_CAT,category);
+                        intent.putExtra(SEARCH_STATE,state);
+                        intent.putExtra(SEARCH_CITY,city);
+                        intent.putExtra(SEARCH_KEY,keyword);
 
                     getContext().startActivity(intent);
 

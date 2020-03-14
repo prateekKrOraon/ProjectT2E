@@ -14,7 +14,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
 
 import java.util.ArrayList;
 

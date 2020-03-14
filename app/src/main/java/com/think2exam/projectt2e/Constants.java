@@ -20,6 +20,10 @@ public class Constants {
     public static String QUERY = "query";
     public static String LIMIT = "limit";
     public static String SHARED_PREF = "shared_pref";
+    public static String SEARCH_CAT = "category";
+    public static String SEARCH_STATE = "state";
+    public static String SEARCH_CITY = "city";
+
 
     public static String QUIZ_CATEGORY_DES = "description";
     public static String QUIZ_QUESTION = "question";

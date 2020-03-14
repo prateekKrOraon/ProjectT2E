@@ -44,8 +44,6 @@ import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
 import com.think2exam.projectt2e.modals.ViewPagerModel;
 import com.think2exam.projectt2e.ui.activities.AboutQuizActivity;
 import com.think2exam.projectt2e.utilities.DBOperations;
-import com.think2exam.projectt2e.utility.HttpHandler;
-import com.think2exam.projectt2e.utility.Top5CollegesQuery;
 
 
 import org.json.JSONArray;
@@ -57,7 +55,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.think2exam.projectt2e.Constants.SHARED_PREF;
-import static java.lang.Thread.sleep;
+
 
 public class HomeFragment extends Fragment {
     public static final String id = "home_fragment";
