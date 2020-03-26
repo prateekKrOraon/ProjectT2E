@@ -272,4 +272,38 @@ public class DBOperations {
         return jsonObject;
     }
 
+
+    public JSONObject getUserInfo(String phone){
+        String url = QUIZ_API_URL + "getUserDetails.php";
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,phone);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        JSONObject jsonObject = null;
+        try{
+            jsonObject = new JSONObject((result));
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public void sendQuizResult(){
+
+        String url = QUIZ_API_URL + "updateResult.php";
+        User user = User.getInstance();
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,user.phoneNo);
+        map.put(TOTAL_MATCHES,user.totalMatches);
+        map.put(TOTAL_POINTS,user.totalPoints);
+        map.put(WINS,user.wins);
+        map.put(CORRECT_ANS,user.correctAns);
+        map.put(WRONG_ANS,user.wrongAns);
+
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+    }
+
+
 }

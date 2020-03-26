@@ -15,15 +15,19 @@ import com.think2exam.projectt2e.modals.ProfileOptionsModal;
 import com.think2exam.projectt2e.ui.activities.AboutActivity;
 import com.think2exam.projectt2e.ui.activities.EditProfileActivity;
 import com.think2exam.projectt2e.ui.activities.PointsSummaryActivity;
+import com.think2exam.projectt2e.utilities.User;
 import com.think2exam.projectt2e.view_holders.ProfileOptionsViewHolder;
 import java.util.ArrayList;
 import com.think2exam.projectt2e.Constants;
 
+import static com.think2exam.projectt2e.Constants.*;
+
 public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsViewHolder> {
 
-    Context context;
-    ArrayList<ProfileOptionsModal> list;
-    String tagPrefix;
+    private final User user = User.getInstance();
+    private Context context;
+    private ArrayList<ProfileOptionsModal> list;
+    private String tagPrefix;
 
     public ProfileOptionsAdapter(Context context, ArrayList<ProfileOptionsModal> list, String tag){
         this.context = context;
@@ -55,8 +59,8 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                     switch (holder.getAdapterPosition()){
                         case 0:
                             intent = new Intent(context,EditProfileActivity.class);
-                            intent.putExtra("name","Prateek Kumar Oraon");
-                            intent.putExtra("phone_no","9931905946");
+                            intent.putExtra(PROFILE_NAME,user.name);
+                            intent.putExtra(PHONE_NO,user.phoneNo);
                             break;
                         case 1:
                             intent = new Intent(context, PointsSummaryActivity.class);

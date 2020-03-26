@@ -64,7 +64,7 @@ public class QuizSubCategoryActivity extends AppCompatActivity {
 
         RecyclerView qcRecyclerView = findViewById(R.id.quiz__sub_cat_recycler_view);
         RecyclerView.LayoutManager qcLayoutManager = new GridLayoutManager(this,2);
-        QuizSubCategoryAdapter quizSubCategoryAdapter= new QuizSubCategoryAdapter(this,subCategories);
+        QuizSubCategoryAdapter quizSubCategoryAdapter= new QuizSubCategoryAdapter(this,subCategories,catId);
 
         qcRecyclerView.setHasFixedSize(true);
         qcRecyclerView.setLayoutManager(qcLayoutManager);

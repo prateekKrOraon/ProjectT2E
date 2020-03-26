@@ -36,4 +36,17 @@ public class Constants {
     public static String QUIZ_ANSWER_KEY= "answar";
     //public static String BASE_API_URL = "https://localhost/think2exam/services/";
 
+    //USER
+    public static String USER_ID = "id";
+    public static String PROFILE_NAME = "profile_name";
+    public static String PHONE_NO = "mobile";
+    public static String FIRST_NAME = "fname";
+    public static String LAST_NAME = "lname";
+    public static String EMAIL_ID = "email";
+    public static String TOTAL_MATCHES = "total_matches";
+    public static String TOTAL_POINTS = "total_points";
+    public static String WINS = "wins";
+    public static String CORRECT_ANS = "correct_ans";
+    public static String WRONG_ANS = "wrong_ans";
+
 }

@@ -17,13 +17,19 @@ import com.think2exam.projectt2e.view_holders.QuizSubCategoryViewHolder;
 
 import java.util.ArrayList;
 
+import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
+import static com.think2exam.projectt2e.Constants.QUIZ_SUBJECT_ID;
+import static com.think2exam.projectt2e.Constants.QUIZ_SUB_CAT;
+
 public class QuizSubCategoryAdapter extends RecyclerView.Adapter<QuizSubCategoryViewHolder> {
 
     Context context;
     ArrayList<QuizSubCategoryModel> list;
-    public QuizSubCategoryAdapter(Context context, ArrayList<QuizSubCategoryModel> list){
+    private int categoryID;
+    public QuizSubCategoryAdapter(Context context, ArrayList<QuizSubCategoryModel> list,int categoryID){
         this.context = context;
         this.list = list;
+        this.categoryID = categoryID;
     }
 
     @NonNull
@@ -34,7 +40,7 @@ public class QuizSubCategoryAdapter extends RecyclerView.Adapter<QuizSubCategory
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuizSubCategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull QuizSubCategoryViewHolder holder, final int position) {
         holder.name.setText(list.get(position).subCat);
         Glide.with(context)
                 .load(context.getDrawable(list.get(position).icon))
@@ -43,6 +49,8 @@ public class QuizSubCategoryAdapter extends RecyclerView.Adapter<QuizSubCategory
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuizActivity.class);
+                intent.putExtra(QUIZ_CATEGORY_ID,categoryID);
+                intent.putExtra(QUIZ_SUBJECT_ID,list.get(position).id);
                 context.startActivity(intent);
             }
         });
