@@ -19,21 +19,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/home_quiz_icon"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="parent"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <ImageView
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:text="@string/welcome_quiz"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.2"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginStart="40dp"
+            android:src="@drawable/think_2_exam_logo"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/quiz_play_now_btn"

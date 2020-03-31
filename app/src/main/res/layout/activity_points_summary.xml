@@ -182,7 +182,6 @@
                         android:textAppearance="@android:style/TextAppearance.DeviceDefault.WindowTitle"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/summary_total_wins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/matches_played"
@@ -206,6 +205,7 @@
                         android:src="@drawable/winner"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/summary_total_wins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="10"

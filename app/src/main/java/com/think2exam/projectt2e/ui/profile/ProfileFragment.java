@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.think2exam.projectt2e.Constants;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.ProfileOptionsAdapter;
 import com.think2exam.projectt2e.modals.ProfileOptionsModal;
+import com.think2exam.projectt2e.utilities.User;
 
 import java.util.ArrayList;
 
@@ -24,12 +26,19 @@ public class ProfileFragment extends Fragment {
 
     private ArrayList<ProfileOptionsModal> personalOptions;
     private ArrayList<ProfileOptionsModal> appOptions;
+    private final User user = User.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        TextView profileName = root.findViewById(R.id.profile_name);
+        TextView profilePhone = root.findViewById(R.id.profile_phone);
+
+        profileName.setText(user.name);
+        profilePhone.setText(user.phoneNo);
 
         personalOptions = new ArrayList<>();
         appOptions = new ArrayList<>();

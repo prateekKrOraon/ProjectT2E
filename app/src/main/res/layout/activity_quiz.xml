@@ -90,53 +90,6 @@
         android:background="@color/white"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/questions_card"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:elevation="2dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@id/quiz_timer"
-        tools:layout_editor_absoluteX="10dp">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/quiz_question_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textAlignment="textStart"
-                android:gravity="start"
-                android:text="@string/question_num"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                app:layout_constraintTop_toBottomOf="@+id/appBarLayout_quiz" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/quiz_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/question_1"
-                android:textAlignment="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
-                tools:layout_editor_absoluteX="10dp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -249,6 +202,88 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/option_5_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/quiz_option_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="45dp"
+            android:padding="5dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/option_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:text="@string/option_5"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
     </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/questions_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:elevation="2dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/quiz_timer"
+        tools:layout_editor_absoluteX="10dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/quiz_question_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/question_num"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                app:layout_constraintTop_toBottomOf="@+id/appBarLayout_quiz" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/quiz_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/question_1"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
+                tools:layout_editor_absoluteX="10dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/quiz_ans_des"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Description"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

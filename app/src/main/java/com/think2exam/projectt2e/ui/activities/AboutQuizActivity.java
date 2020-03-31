@@ -35,7 +35,7 @@ public class AboutQuizActivity extends AppCompatActivity {
         ptp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),QuizActivity.class));
+                startActivity(new Intent(getApplicationContext(),QuizCategoryActivity.class));
                 Toast.makeText(AboutQuizActivity.this, "Quiz section", Toast.LENGTH_SHORT).show();
                 finish();
             }

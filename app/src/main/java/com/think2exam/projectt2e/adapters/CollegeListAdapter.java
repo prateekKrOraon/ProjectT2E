@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.think2exam.projectt2e.Constants.ID;
+import static com.think2exam.projectt2e.Constants.TABLE_ID;
 
 
 public class CollegeListAdapter extends RecyclerView.Adapter<CollegeListAdapter.CollegeListViewHolder> {
@@ -73,8 +75,8 @@ public class CollegeListAdapter extends RecyclerView.Adapter<CollegeListAdapter.
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, CollegeInfoActivity.class);
-                intent.putExtra("id",CollegeListItems.get(position).getId());
-                intent.putExtra("tableName",CollegeListItems.get(position).getTableName());
+                intent.putExtra(ID,CollegeListItems.get(position).getId());
+                intent.putExtra(TABLE_ID,CollegeListItems.get(position).getTableName());
                 context.startActivity(intent);
             }
         });

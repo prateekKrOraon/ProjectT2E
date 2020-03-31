@@ -78,7 +78,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
 
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","city");
-                intent.putExtra("tag",CityItems.get(position).getName());
+                intent.putExtra("query",CityItems.get(position).getName());
                 intent.putExtra("catId",catId);
                 if(catId==R.string.university)
                 {

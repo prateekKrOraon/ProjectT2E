@@ -6,34 +6,57 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ContentLoadingProgressBar;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.modals.QuestionModel;
+import com.think2exam.projectt2e.utilities.DBOperations;
+import com.think2exam.projectt2e.utilities.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import static com.think2exam.projectt2e.Constants.*;
 
 
 public class QuizActivity extends AppCompatActivity {
+
+    private final User user = User.getInstance();
+    RelativeLayout layoutOptionFive;
 
     RelativeLayout layoutOptionOne;
     RelativeLayout layoutOptionTwo;
     RelativeLayout layoutOptionThree;
     RelativeLayout layoutOptionFour;
+    AppCompatTextView optionFiveText;
 
     AppCompatTextView optionOneText;
     AppCompatTextView optionTwoText;
     AppCompatTextView optionThreeText;
     AppCompatTextView optionFourText;
+    int wrongAns = 0;
     AppCompatTextView pointsCounter;
     AppCompatTextView questionCounter;
 
+    ProgressBar progressBar;
+
+    ArrayList<QuestionModel> questionsModels;
+
     public int points = 0;
     int counter = 0;
+    AppCompatTextView descriptionView;
+
     AppCompatTextView questionView;
+    private boolean error = false;
 
     private ContentLoadingProgressBar quizTimer;
     private Thread timerThread;
@@ -47,9 +70,56 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+
+        HTTPHandler handler = new HTTPHandler();
+        Intent intent = getIntent();
+        int catId = 0;
+        int subId = 0;
+        int paraId = 0;
+        if(intent != null){
+            catId = intent.getIntExtra(QUIZ_CATEGORY_ID,0);
+            subId = intent.getIntExtra(QUIZ_SUBJECT_ID,0);
+            paraId = intent.getIntExtra(QUIZ_PARA_ID,1);
+        }
+        if(questionsModels != null){
+            setContentView(R.layout.activity_quiz);
+        }else{
+            setContentView(R.layout.loading);
+            handler.execute(String.valueOf(catId),String.valueOf(subId),String.valueOf(paraId));
+        }
+
+    }
+
+    private void getQuestions(JSONArray array) {
+        questionsModels = new ArrayList<>();
+        if(array !=null){
+            try {
+                for(int i = 0; i< array.length(); i++){
+                    JSONObject object = array.getJSONObject(i);
+                    questionsModels.add(new QuestionModel(
+                            object.getString(QUIZ_QUESTION),
+                            object.getString(QUIZ_OPTION_1),
+                            object.getString(QUIZ_OPTION_2),
+                            object.getString(QUIZ_OPTION_3),
+                            object.getString(QUIZ_OPTION_4),
+                            object.getString(QUIZ_OPTION_5),
+                            Integer.parseInt(object.getString(QUIZ_ANSWER_KEY)),
+                            object.getString(QUIZ_ANSWER_DES)
+                    ));
+                    //System.out.println(questionsModels.get(i).question);
+                }
+            }catch(JSONException ex){
+                error = true;
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
+    private void initializeQuizLayout() {
 
         Toolbar toolbar = findViewById(R.id.toolbar_quiz);
+
 
         try{
             setSupportActionBar(toolbar);
@@ -58,14 +128,6 @@ public class QuizActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        initializeQuizLayout();
-        setQuestions();
-        setNextQuestion();
-        setListeners();
-
-    }
-
-    private void initializeQuizLayout() {
         layoutOptionOne = findViewById(R.id.option_1_btn);
         optionOneText = findViewById(R.id.option_1);
         layoutOptionTwo = findViewById(R.id.option_2_btn);
@@ -74,7 +136,10 @@ public class QuizActivity extends AppCompatActivity {
         optionThreeText = findViewById(R.id.option_3);
         layoutOptionFour = findViewById(R.id.option_4_btn);
         optionFourText = findViewById(R.id.option_4);
+        layoutOptionFive = findViewById(R.id.option_5_btn);
+        optionFiveText = findViewById(R.id.option_5);
         questionView = findViewById(R.id.quiz_question);
+        descriptionView = findViewById(R.id.quiz_ans_des);
         quizTimer = findViewById(R.id.quiz_timer);
         pointsCounter = findViewById(R.id.quiz_point_counter_text);
         questionCounter = findViewById(R.id.quiz_question_number);
@@ -116,21 +181,29 @@ public class QuizActivity extends AppCompatActivity {
                 handleResponse(layoutOptionFour,3);
             }
         });
+
+        layoutOptionFive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleResponse(layoutOptionFive,4);
+            }
+        });
     }
 
     private void handleResponse(RelativeLayout layout,int index) {
 
-        if(counter == 9){
+        if(counter == questionsModels.size()-1){
             timerThread.interrupt();
         }
 
-        if(index == options[counter].correctIndex){
+        if(index == questionsModels.get(counter).answerKey-1){
             layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
             points += 10;
             String point = "+"+points+"XP";
             pointsCounter.setText(point);
 
         }else{
+            wrongAns++;
             if(Build.VERSION.SDK_INT >= 26){
                 assert vibrator != null;
                 vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
@@ -139,7 +212,9 @@ public class QuizActivity extends AppCompatActivity {
                 vibrator.vibrate(200);
             }
             buzzer.start();
-            layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_wrong));
+            if (layout != null){
+                layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_wrong));
+            }
             viewCorrectAnswer();
         }
 
@@ -153,12 +228,23 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionThree.setFocusable(false);
         layoutOptionFour.setClickable(false);
         layoutOptionFour.setFocusable(false);
+        layoutOptionFive.setClickable(false);
+        layoutOptionFive.setFocusable(false);
 
         timerThread.interrupt();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(counter == 9){
+                if(counter == questionsModels.size()-1){
+                    user.setTotalMatches(1);
+                    user.setTotalPoints(points);
+                    user.setAvgPoints();
+                    user.setCorrectAns(points/10);
+                    user.setWrongAns(wrongAns);
+                    user.setNoAns(10-(points/10)-wrongAns);
+                    if (points>=50){
+                        user.setWins(1);
+                    }
                     Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
                     intent.putExtra("score",points);
                     startActivity(intent);
@@ -170,14 +256,19 @@ public class QuizActivity extends AppCompatActivity {
                     return;
                 }
                 counter++;
-                setNextQuestion();
+                if (counter < questionsModels.size()){
+                    setNextQuestion();
+                }
+
             }
-        },2000);
+        },(index == questionsModels.get(counter).answerKey-1)?2000:8000);
     }
 
     private void viewCorrectAnswer() {
 
-        switch(options[counter].correctIndex){
+        descriptionView.setText(questionsModels.get(counter).description);
+
+        switch(questionsModels.get(counter).answerKey-1){
             case 0:
                 highlightAnswer(layoutOptionOne);
                 break;
@@ -190,8 +281,11 @@ public class QuizActivity extends AppCompatActivity {
             case 3:
                 highlightAnswer(layoutOptionFour);
                 break;
+            case 4:
+                highlightAnswer(layoutOptionFive);
+                break;
             default:
-                Toast.makeText(this,"Default options",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"option no out of range",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -297,6 +391,7 @@ public class QuizActivity extends AppCompatActivity {
 
         String questionNo = "Question: "+(counter+1)+"/10";
         questionCounter.setText(questionNo);
+        descriptionView.setText("");
 
         layoutOptionOne.setClickable(true);
         layoutOptionOne.setFocusable(true);
@@ -306,7 +401,8 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionThree.setFocusable(true);
         layoutOptionFour.setClickable(true);
         layoutOptionFour.setFocusable(true);
-
+        layoutOptionFive.setClickable(true);
+        layoutOptionFive.setFocusable(true);
         layoutOptionOne.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
 
         layoutOptionTwo.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
@@ -315,12 +411,15 @@ public class QuizActivity extends AppCompatActivity {
 
         layoutOptionFour.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
 
-        questionView.setText(questions[counter]);
+        layoutOptionFive.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
 
-        optionOneText.setText(options[counter].option1);
-        optionTwoText.setText(options[counter].option2);
-        optionThreeText.setText(options[counter].option3);
-        optionFourText.setText(options[counter].option4);
+        questionView.setText(questionsModels.get(counter).question);
+
+        optionOneText.setText(questionsModels.get(counter).option1);
+        optionTwoText.setText(questionsModels.get(counter).option2);
+        optionThreeText.setText(questionsModels.get(counter).option3);
+        optionFourText.setText(questionsModels.get(counter).option4);
+        optionFiveText.setText(questionsModels.get(counter).option5);
 
         quizTimer.setVisibility(View.VISIBLE);
         timerThread = new TimerThread();
@@ -376,7 +475,8 @@ public class QuizActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(end == min){
-                            if(counter == 9){
+                            handleResponse(null,Integer.MAX_VALUE);
+                            if(counter == questionsModels.size()-1){
                                 onDestroy();
                                 return;
                             }
@@ -388,8 +488,6 @@ public class QuizActivity extends AppCompatActivity {
                                 vibrator.vibrate(200);
                             }
                             timerThread.interrupt();
-                            counter++;
-                            setNextQuestion();
                         }
                     }
                 });
@@ -397,4 +495,33 @@ public class QuizActivity extends AppCompatActivity {
         }
 
     }
+
+    private class HTTPHandler extends AsyncTask<String,Void,Void> {
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (error){
+                setContentView(R.layout.no_questions_layout);
+            }else {
+                setContentView(R.layout.activity_quiz);
+                initializeQuizLayout();
+                setNextQuestion();
+                setListeners();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+
+            DBOperations dbOperations = DBOperations.getInstance();
+            JSONArray jsonArray = dbOperations.getQuestions(strings[0],strings[1],strings[2]);
+            getQuestions(jsonArray);
+
+            return null;
+        }
+    }
+
 }
+
+
