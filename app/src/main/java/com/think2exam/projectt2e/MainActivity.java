@@ -9,10 +9,13 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.think2exam.projectt2e.modals.UserModel;
 import com.think2exam.projectt2e.ui.home.HomeFragment;
 import com.think2exam.projectt2e.ui.profile.ProfileFragment;
 import com.think2exam.projectt2e.ui.quiz.QuizFragment;
 import com.think2exam.projectt2e.ui.search.SearchFragment;
+import com.think2exam.projectt2e.utilities.User;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity  {
     BottomNavigationView bottomNavigationView;
 
     public static MainActivity activity;
+    public User user = User.getInstance();
 
 
 
@@ -40,9 +44,33 @@ public class MainActivity extends AppCompatActivity  {
         overridePendingTransition(R.anim.enter, R.anim.exit);
 
         setLayout();
+        getUserFromSharedPref();
 
 
         activity = this;
+
+    }
+
+    public void getUserFromSharedPref(){
+        SharedPreferences Prefs= getSharedPreferences("user",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = Prefs.getString("user_details", "");
+        UserModel userModel = gson.fromJson(json, UserModel.class);
+        if(userModel!=null){
+            user.setId(userModel.getId());
+            user.setFname(userModel.getFname());
+            user.setLname(userModel.getLname());
+            user.setPhoneNo(userModel.getMobile());
+            user.setImage(userModel.getImage());
+            user.setEmail(userModel.getEmail());
+            user.setTotalMatches(userModel.getTotalMatches());
+            user.setTotalPoints(userModel.getTotalPoints());
+            user.setWins(userModel.getWins());
+            user.setCorrectAns(userModel.getCorrectAns());
+            user.setWrongAns(userModel.getWrongAns());
+            user.setNoAns(userModel.getNoAns());
+            user.setAvgPoints();
+        }
 
     }
 
@@ -76,8 +104,9 @@ public class MainActivity extends AppCompatActivity  {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.host_fragment, fragment);
-       // fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.addToBackStack("");
         fragmentTransaction.commit();
+
     }
 
 
@@ -114,6 +143,7 @@ public class MainActivity extends AppCompatActivity  {
         int selectedItemId = bottomNavigationView.getSelectedItemId();
         if(selectedItemId != R.id.bottom_nav_bar_home){
             bottomNavigationView.setSelectedItemId(R.id.bottom_nav_bar_home);
+            switchFragment(mHomeFragment, HomeFragment.id);
         }else{
             super.onBackPressed();
         }

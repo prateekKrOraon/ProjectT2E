@@ -20,16 +20,19 @@ import java.util.ArrayList;
 import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_SUBJECT_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_SUB_CAT;
+import static com.think2exam.projectt2e.Constants.TITLE;
 
 public class QuizSubCategoryAdapter extends RecyclerView.Adapter<QuizSubCategoryViewHolder> {
 
     Context context;
     ArrayList<QuizSubCategoryModel> list;
+    String category;
     private int categoryID;
-    public QuizSubCategoryAdapter(Context context, ArrayList<QuizSubCategoryModel> list,int categoryID){
+    public QuizSubCategoryAdapter(Context context, ArrayList<QuizSubCategoryModel> list,int categoryID,String category){
         this.context = context;
         this.list = list;
         this.categoryID = categoryID;
+        this.category = category;
     }
 
     @NonNull
@@ -51,6 +54,7 @@ public class QuizSubCategoryAdapter extends RecyclerView.Adapter<QuizSubCategory
                 Intent intent = new Intent(context, QuizActivity.class);
                 intent.putExtra(QUIZ_CATEGORY_ID,categoryID);
                 intent.putExtra(QUIZ_SUBJECT_ID,list.get(position).id);
+                intent.putExtra(TITLE,category+" | "+list.get(position).subCat);
                 context.startActivity(intent);
             }
         });

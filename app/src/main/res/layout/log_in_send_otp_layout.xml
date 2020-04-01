@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/linear_gradient"
+    tools:context=".LogInActivity">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_mobile_no"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/indian_flag"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/phone_no_box_background"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+91"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+
+                    <EditText
+                        android:id="@+id/phone_no_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@android:color/transparent"
+                        android:focusedByDefault="true"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:focusableInTouchMode="true"
+                        android:inputType="phone"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1">
+                        <requestFocus />
+                    </EditText>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/user_exist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_exist"
+                    android:layout_margin="5dp"
+                    android:visibility="gone"
+                    android:textColor="@color/loginRed"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="#365a5e"
+            android:text="@string/send_otp_instruction"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textAllCaps="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="5dp"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:gravity="center"
+            android:backgroundTint="@color/loginThemeColor"
+            android:fontFamily="sans-serif-condensed-"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Small"/>
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/request_layout"
+        layout="@layout/requesting"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

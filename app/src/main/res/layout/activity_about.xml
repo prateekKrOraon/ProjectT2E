@@ -291,7 +291,7 @@
             android:background="@color/colorAccent"
             android:theme="@style/ToolbarTheme"
             app:popupTheme="@style/AppTheme"
-            app:title="@string/app_name"
+            app:title="About Us"
             app:titleTextColor="@color/white">
 
         </androidx.appcompat.widget.Toolbar>

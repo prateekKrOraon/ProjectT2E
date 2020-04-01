@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Think2Exam</string>
     <string name="title_home">Home</string>
-
+    <string name="version">v 1.0</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="quick_facts">Quick Facts</string>
     <string name="about_college">About College</string>
@@ -14,7 +14,7 @@
     <string name="title_profile">Profile</string>
     <string name="personal">Personal</string>
     <string name="applicaton">Application</string>
-    <string name="your_name">Prateek Kumar Oraon</string>
+    <string name="your_name">Guest</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="play_now">Play Now</string>
     <string name="welcome_quiz">Welcome</string>
@@ -28,14 +28,21 @@
     <string name="option_4">Option 4</string>
     <string name="name">Name</string>
     <string name="phone_no">Phone Number</string>
-    <string name="phone_dummy_data">+91-9931XXXXXX</string>
+    <string name="phone_dummy_data">+91-XXXXXXXXXX</string>
     <string name="save_changes">Save Changes</string>
     <string name="more">More</string>
     <string name="locate_college">Locate on map</string>
     <string name="visit_web">Visit Website</string>
 
 
-    <string name="about_quiz">About\n\nDescription\n\nRules and Regulation\n\nManual</string>
+    <string name="about_quiz">Think2exam now comes up with Quizes that help students to prepare for different Competitive exams.
+        \n\n<u>How to play</u>: \n\n1. You have to login first (no need if you already have done).
+                                                          \n2. Quizes are based different Competitive exams. For each Exam section there are different subjects.
+                                                           \n3. For each Subject you will be given 10 questions.
+                                                            \n4. For each Question there will be 5 options.
+                                                              \n5. a timer will be set for 10 sec. after 10 sec automaticaly next question will come.
+                                                                \n6. you will be rewared 10XP for each correct answer
+                                                                  \n7. if your total XPs more than 50 out 100, you will win.</string>
 
     <string name="title_my_account">My Account</string>
     <string name="slider_button_text">explore</string>
@@ -69,6 +76,8 @@
     <string name="contact_email">support@think2exam.com</string>
     <string name="about_reach_us">Reach us at</string>
     <string name="reach_us_text">Software Technology Parks Of India\nWebel STP II Building, 2nd Floor, DD - 53, Sector - V, Salt Lake, Kolkata\nWest Bengal,700091</string>
+    <string name="home_quotes">India’s One Of The
+Best Education Platforms</string>
 
     <!-- catergory string-->
     <string name="engineering">Engineering</string>
@@ -110,10 +119,28 @@
     <string name="all_category">All Category</string>
     <string name="all_states">All State</string>
     <string name="all_cities">All City</string>
+
     <string name="quiz_title">Quiz</string>
     <string name="logging_in">Logging in...</string>
     <string name="option_5">Option 5</string>
     <string name="no_questions">No Questions Available</string>
 
+
+    <string name="login_text">Login to Think2Exam</string>
+    <string name="terms"><u>Terms</u></string>
+    <string name="privacy"><u>Privacy</u></string>
+    <string name="developers"><u>Developers</u></string>
+    <string name="enter_mobile_no">Enter your mobile number</string>
+    <string name="sign_in_text">Login to your account</string>
+    <string name="send_otp_instruction">Tap Next to verify your account. An SMS may be sent to verify your number.</string>
+    <string name="enter_otp">Enter the code that was sent to</string>
+    <string name="sign_in">Login</string>
+    <string name="sign_up">Join Now</string>
+    <string name="user_exist">* User already exists</string>
+    <string name="user_not_exist">* User doesn\'t exists</string>
+    <string name="forgot_pass_text">Forgot Password?</string>
+    <string name="forgot_password_instruction">Tap Next to Recover your account. An SMS may be sent to verify your number.</string>
+    <string name="developers1">Dhrubajit Sarkar</string>
+    <string name="developers2">Prateek Kumar Oraon</string>
 
 </resources>

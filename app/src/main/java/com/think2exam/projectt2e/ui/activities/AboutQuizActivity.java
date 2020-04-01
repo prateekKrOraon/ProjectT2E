@@ -16,8 +16,6 @@ public class AboutQuizActivity extends AppCompatActivity {
 
 
 
-
-    BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,6 @@ public class AboutQuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),QuizCategoryActivity.class));
-                Toast.makeText(AboutQuizActivity.this, "Quiz section", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

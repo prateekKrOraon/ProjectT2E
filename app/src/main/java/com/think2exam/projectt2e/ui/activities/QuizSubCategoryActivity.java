@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.QuizCatAdapter;
@@ -30,23 +31,27 @@ import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_SUBJECT_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_SUB_CAT;
 import static com.think2exam.projectt2e.Constants.STATUS;
+import static com.think2exam.projectt2e.Constants.TITLE;
 
 public class QuizSubCategoryActivity extends AppCompatActivity {
 
     private ArrayList<QuizSubCategoryModel> subCategories;
     private int catId;
+    private String title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         catId = intent.getIntExtra(QUIZ_CATEGORY_ID,0);
+        title = intent.getStringExtra(TITLE);
         subCategories = new ArrayList<>();
         if (subCategories.isEmpty()){
             setContentView(R.layout.loading);
             new HTTPHandler().execute();
         }else{
-            setContentView(R.layout.activity_quiz_sub_category);
+            initializeLayout();
         }
 
 
@@ -55,6 +60,8 @@ public class QuizSubCategoryActivity extends AppCompatActivity {
     private void initializeLayout(){
         setContentView(R.layout.activity_quiz_sub_category);
         ImageView backBtn = findViewById(R.id.q_s_c_back_btn);
+        TextView Title = findViewById(R.id.sub_cat_app_bar_title);
+        Title.setText(title);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +71,7 @@ public class QuizSubCategoryActivity extends AppCompatActivity {
 
         RecyclerView qcRecyclerView = findViewById(R.id.quiz__sub_cat_recycler_view);
         RecyclerView.LayoutManager qcLayoutManager = new GridLayoutManager(this,2);
-        QuizSubCategoryAdapter quizSubCategoryAdapter= new QuizSubCategoryAdapter(this,subCategories,catId);
+        QuizSubCategoryAdapter quizSubCategoryAdapter= new QuizSubCategoryAdapter(this,subCategories,catId,title);
 
         qcRecyclerView.setHasFixedSize(true);
         qcRecyclerView.setLayoutManager(qcLayoutManager);

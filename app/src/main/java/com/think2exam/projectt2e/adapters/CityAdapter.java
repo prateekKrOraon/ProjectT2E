@@ -14,7 +14,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.CityModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.ByCityQuery;
 
 import java.util.ArrayList;
 
@@ -90,7 +89,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
                     intent.putExtra("title",context.getString(catId)+ " Colleges in "+context.getString(CityItems.get(position).getName()));
 
                 }
-                context.startActivity(intent);            }
+
+                context.startActivity(intent);          }
         });
     }
 

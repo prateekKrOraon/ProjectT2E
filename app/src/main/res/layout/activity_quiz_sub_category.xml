@@ -53,10 +53,11 @@
                 android:id="@+id/sub_cat_app_bar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/q_s_c_back_btn"
                 android:text="Categories"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:layout_marginLeft="20dp"
+               android:layout_centerVertical="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
 

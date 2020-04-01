@@ -36,6 +36,7 @@
         android:id="@+id/top_college_name"
         android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:textColor="@color/homeText"
         android:textAlignment="center"
         android:ellipsize="marquee"
         android:text="city"/>

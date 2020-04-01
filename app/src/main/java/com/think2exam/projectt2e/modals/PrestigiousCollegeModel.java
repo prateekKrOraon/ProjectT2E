@@ -4,7 +4,6 @@ public class PrestigiousCollegeModel {
 
     private int name;
     private int icon;
-    private int catId;
 
     public int getName() {
         return name;
@@ -14,13 +13,8 @@ public class PrestigiousCollegeModel {
         return icon;
     }
 
-    public PrestigiousCollegeModel(int name,int catId, int icon) {
+    public PrestigiousCollegeModel(int name, int icon) {
         this.name = name;
         this.icon = icon;
-        this.catId = catId;
-    }
-
-    public int getCatId(){
-        return catId;
     }
 }

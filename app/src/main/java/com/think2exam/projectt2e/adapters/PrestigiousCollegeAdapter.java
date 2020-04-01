@@ -2,6 +2,7 @@ package com.think2exam.projectt2e.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousCollegeAdapter.TopCollegeViewHolder> {
@@ -76,15 +77,17 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
             @Override
             public void onClick(View v) {
 
-
+                SharedPreferences per_pref = context.getSharedPreferences("MyPreference", 0); // 0 - for private mode
+                int categoryId = per_pref.getInt("category_id",-1);
 
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","prestigious_college");
-                intent.putExtra("tag",TopCollegeItems.get(position).getName());
-
+                intent.putExtra("query",TopCollegeItems.get(position).getName());
+                intent.putExtra("catId",categoryId);
                 intent.putExtra("title","Top 10 "+context.getString(TopCollegeItems.get(position).getName()));
 
                 context.startActivity(intent);
+
             }
         });
     }

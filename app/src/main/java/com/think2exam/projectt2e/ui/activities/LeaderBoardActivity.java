@@ -49,4 +49,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mLeaderBoardAdapter);
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

@@ -11,8 +11,7 @@ tools:context=".ui.activities.CollegeInfoActivity">
     android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/AppTheme"
-    android:background="@drawable/linear_gradient1">
+    android:theme="@style/AppTheme">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
@@ -25,6 +24,7 @@ tools:context=".ui.activities.CollegeInfoActivity">
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorAccent"
                 android:theme="@style/ToolbarTheme">
 
                 <TextView
@@ -34,7 +34,6 @@ tools:context=".ui.activities.CollegeInfoActivity">
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/grey_light"
-                    android:fontFamily="sans-serif-condensed-medium"
                     android:textStyle="bold"/>
 
             </androidx.appcompat.widget.Toolbar>
@@ -48,8 +47,8 @@ tools:context=".ui.activities.CollegeInfoActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_marginBottom="?actionBarSize"
-        android:layout_marginTop="?attr/actionBarSize"
         />
 
 

@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.SearchQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,10 +113,10 @@ public class SearchFragment extends Fragment {
                 if(checkValidity(category))//check condition
                 {
 
+                        int catId = getCatId(category);
                         Intent intent = new Intent(getContext(), CollegeListActivity.class);
                         intent.putExtra("which","search");
-                        intent.putExtra("tag",R.string.all_category);
-                        intent.putExtra("category",category);
+                        intent.putExtra("catId",catId);
                         intent.putExtra("state",state);
                         intent.putExtra("city",city);
                         intent.putExtra("keyword",keyword);
@@ -165,6 +164,44 @@ public class SearchFragment extends Fragment {
 
 
         return root;
+    }
+
+    private int getCatId(String category)
+    {
+        int catId = -1;
+        if(category.equals(getString(R.string.engineering)))
+        {
+            catId = R.string.engineering;
+        }else if(category.equals(getString(R.string.management)))
+        {
+            catId = R.string.management;
+
+        }else if(category.equals(getString(R.string.education)))
+        {
+            catId = R.string.education;
+
+        }else if(category.equals(getString(R.string.medical_and_dental)))
+        {
+            catId = R.string.medical_and_dental;
+
+        }else if(category.equals(getString(R.string.nursing_and_paramedical)))
+        {
+            catId = R.string.nursing_and_paramedical;
+
+        }else if(category.equals(getString(R.string.pharmacy)))
+        {
+            catId = R.string.pharmacy;
+
+        }else if(category.equals(getString(R.string.agriculture)))
+        {
+            catId = R.string.agriculture;
+
+        }else if(category.equals(getString(R.string.university)))
+        {
+            catId = R.string.university;
+        }
+        return catId;
+
     }
 
     private boolean checkValidity(String category)
@@ -334,11 +371,11 @@ public class SearchFragment extends Fragment {
                     }else if(str.equals("state")){
                         stateText.setText(arrayList.get(position));
                         stateText.setTextColor(getResources().getColor(R.color.black));
+                        cityText.setText(getString(R.string.all_cities));
                         if(stateText.getText().toString().equals(getString(R.string.all_states)))
                         {
                             cityRL.setBackgroundColor(getResources().getColor(R.color.gray_search_box));
                             cityll.setVisibility(View.GONE);
-                            cityText.setText(getString(R.string.all_cities));
                             categoryText.setTextColor(getResources().getColor(R.color.black));
 
                         }

@@ -15,7 +15,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.StateModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.ByStateQuery;
 
 import java.util.ArrayList;
 
@@ -90,7 +89,9 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
                     intent.putExtra("title",context.getString(catId)+ " Colleges in "+context.getString(StateItems.get(position).getName()));
 
                 }
-                context.startActivity(intent);          }
+
+                context.startActivity(intent);
+            }
         });
     }
 

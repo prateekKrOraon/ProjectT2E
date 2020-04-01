@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,15 +16,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CollegeListAdapter;
 import com.think2exam.projectt2e.modals.CollegeListModel;
-import com.think2exam.projectt2e.utility.ByCityQuery;
-import com.think2exam.projectt2e.utility.ByStateQuery;
-import com.think2exam.projectt2e.utility.CompleteTableQuery;
-import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
-import com.think2exam.projectt2e.utility.SearchQuery;
+
+import com.think2exam.projectt2e.utilities.DBOperations;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,23 +31,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.think2exam.projectt2e.Constants.TITLE;
+
 public class CollegeListActivity extends AppCompatActivity {
 
-    private ArrayList<CollegeListModel> CollegeList = new ArrayList<>(),CollegeListDup;
+    private ArrayList<CollegeListModel> CollegeList = new ArrayList<>();
+    private ArrayList<CollegeListModel> CollegeListCopy = new ArrayList<>();
     MaterialCardView searchBar;
     ImageView searchicon,crossicon;
     TextView title;
-    private String tag;
     int count=0;
-    private String which;
     private String Title;
 
     RecyclerView cRecyclerView;
     ProgressBar progressBar;
     RecyclerView.LayoutManager cLayoutManager;
     CollegeListAdapter collegeListAdapter;
+    TextView tryAgain;
+    TextView noCollege;
 
-    public String tableName;
+    public int prevCollegeListSize=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,23 +64,20 @@ public class CollegeListActivity extends AppCompatActivity {
         crossicon = findViewById(R.id.cross_icon_);
         searchBar = findViewById(R.id.search_bar);
         searchicon  = findViewById(R.id.search_icon);
-
-        which = getIntent().getStringExtra("which");
-        tag = getResources().getString(getIntent().getIntExtra("tag",-1));
-        Title = getIntent().getStringExtra("title");
-
+        tryAgain = findViewById(R.id.try_again);
+        noCollege = findViewById(R.id.no_college);
+        Title = getIntent().getStringExtra(TITLE);
 
 
-       // count = CollegeList.size();
+
+        // count = CollegeList.size();
         title.setText(Title);
 
-
-        new GetContacts().execute();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -95,7 +95,7 @@ public class CollegeListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                 onChangedText(s);
+                onChangedText(s);
             }
 
             @Override
@@ -114,14 +114,15 @@ public class CollegeListActivity extends AppCompatActivity {
         });
 
 
-
+        cRecyclerView = findViewById(R.id.college_list_recycler_view);
+        new GetCollegeHandler1().execute(1);
 
 
     }
 
 
-    private class GetContacts extends AsyncTask<Void, Void, Void> {
-        String jsonStr;
+    private class GetCollegeHandler1 extends AsyncTask<Integer, Void, Void> {
+        JSONArray jsonArray=null;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -129,68 +130,37 @@ public class CollegeListActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Void doInBackground(Integer... integers) {
             // Making a request to url and getting response
 
-
-            if(which.equals("category"))
+            DBOperations dbOperations = DBOperations.getInstance();
+            String which = getIntent().getStringExtra("which");
+            int catId = getIntent().getIntExtra("catId",-1);
+            if(which.equals("search"))
             {
-
-                CompleteTableQuery completeTableQuery = new CompleteTableQuery();
-                completeTableQuery.setreqURL(getIntent().getIntExtra("tableName",-1));
-                jsonStr = completeTableQuery.request("");
-                tableName = getString(getIntent().getIntExtra("tableName",-1));
-
+                String state = getIntent().getStringExtra("state");
+                String city = getIntent().getStringExtra("city");
+                String keyword = getIntent().getStringExtra("keyword");
+                jsonArray = dbOperations.getColleges(which, state,city,catId,keyword,integers[0]);
             }
-            else if(which.equals("city"))
+            else
             {
-
-                ByCityQuery byCityQuery = new ByCityQuery();
-                byCityQuery.setreqURL(getIntent().getIntExtra("catId",-1));
-                jsonStr = byCityQuery.request(getString(getIntent().getIntExtra("tag",-1)),"");
-                tableName = getString(getIntent().getIntExtra("catId",-1));
-
-            }
-            else if(which.equals("state"))
-            {
-                ByStateQuery byStateQuery = new ByStateQuery();
-                byStateQuery.setreqURL(getIntent().getIntExtra("catId",-1));
-                jsonStr = byStateQuery.request(getString(getIntent().getIntExtra("tag",-1)),"");
-                tableName = getString(getIntent().getIntExtra("catId",-1));
-
-            }
-            else if(which.equals("prestigious_college"))
-            {
-                PrestigiousCollegeQuery prestigiousCollegeQuery = new PrestigiousCollegeQuery();
-                prestigiousCollegeQuery.setreqURL(getIntent().getIntExtra("tag",-1));
-                jsonStr = prestigiousCollegeQuery.request();
-                tableName = getString(prestigiousCollegeQuery.getCatId());
-
-            }
-            else if(which.equals("search"))
-            {
-                SearchQuery searchQuery = new SearchQuery();
-                jsonStr = searchQuery.setreqURL(getApplicationContext(),getIntent().getStringExtra("category"),getIntent().getStringExtra("state"),getIntent().getStringExtra("city"),getIntent().getStringExtra("keyword"));
-                tableName = getIntent().getStringExtra("category");
+                int query = getIntent().getIntExtra("query",Integer.MIN_VALUE);
+                jsonArray = dbOperations.getColleges(which,
+                        query==-1?"all":getString(query),"", catId, "",integers[0]);
             }
 
-            if(jsonStr!=null)
-            {
-                try {
-                    final JSONArray jsonArray = new JSONArray(jsonStr);
+
+
+            try {
+                if(jsonArray!=null) {
                     setCollegeItems(jsonArray);
                 }
-                catch (final JSONException e)
-                {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    });                }
+            } catch (final Exception e) {
 
-            }
+                System.out.println("Error: "+e.getMessage());
+                              }
+
 
             return null;
         }
@@ -199,69 +169,173 @@ public class CollegeListActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             progressBar.setVisibility(View.GONE);
-            searchBar.setVisibility(View.VISIBLE);
-            setRecyclerView();
+            if(jsonArray!=null)
+            {
+                searchBar.setVisibility(View.VISIBLE);
+                setRecyclerView();
+            }else{
+                setTryAgain();
+            }
+
         }
     }
 
+    public void setTryAgain(){
+        tryAgain.setVisibility(View.VISIBLE);
+        tryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryAgain.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                new GetCollegeHandler1().execute(1);
+            }
+        });
+    }
+
+    private class GetCollegeHandler2 extends AsyncTask<Integer, Void, Void> {
+
+        JSONArray jsonArray;
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            // Making a request to url and getting response
+
+
+            DBOperations dbOperations = DBOperations.getInstance();
+            String which = getIntent().getStringExtra("which");
+            int catId = getIntent().getIntExtra("catId",-1);
+            if(which.equals("search"))
+            {
+                String state = getIntent().getStringExtra("state");
+                String city = getIntent().getStringExtra("city");
+                String keyword = getIntent().getStringExtra("keyword");
+                jsonArray = dbOperations.getColleges(which, state,city,catId,keyword,integers[0]);
+            }
+            else
+            {
+                int query = getIntent().getIntExtra("query",Integer.MIN_VALUE);
+                int start_id;
+                if(which.equals("prestigious_college")) {
+                    start_id = Integer.MAX_VALUE;
+                } else {
+                    start_id = integers[0];
+                }
+                jsonArray = dbOperations.getColleges(which,
+                        query==-1?"all":getString(query),"", catId, "",start_id);
+
+            }
+
+
+
+            try {
+                setCollegeItems(jsonArray);
+            } catch (final Exception e) {
+
+                System.out.println("Error: "+e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if(jsonArray!=null) {
+                int index = CollegeList.indexOf(null);
+                CollegeList.remove(index);
+                collegeListAdapter.notifyItemRemoved(index);
+                collegeListAdapter.notifyDataSetChanged();
+                collegeListAdapter.setLoaded();
+            }
+        }
+    }
 
 
     private void setRecyclerView()
     {
         //set recyclerView with Adapter
-
-        cRecyclerView = findViewById(R.id.college_list_recycler_view);
-        progressBar.setVisibility(View.GONE);
-        cLayoutManager = new LinearLayoutManager(this);
-        collegeListAdapter = new CollegeListAdapter(CollegeList,this);
-        cRecyclerView.setHasFixedSize(true);
-        cRecyclerView.setLayoutManager(cLayoutManager);
-        cRecyclerView.setAdapter(collegeListAdapter);
+        if(CollegeList.size()==0){
+            noCollege.setVisibility(View.VISIBLE);
+            cRecyclerView.setVisibility(View.GONE);
+        }else {
+            noCollege.setVisibility(View.GONE);
+            cRecyclerView.setVisibility(View.VISIBLE);
+            cLayoutManager = new LinearLayoutManager(this);
+            cRecyclerView.setLayoutManager(cLayoutManager);
+            collegeListAdapter = new CollegeListAdapter(CollegeList, this, cRecyclerView);
+            cRecyclerView.setAdapter(collegeListAdapter);
+            setOnLoadMore();
+        }
 
     }
 
+    public void setOnLoadMore()
+    {
+        collegeListAdapter.setOnLoadMoreListener(new CollegeListAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //id of last tuple selected in earlier attemp
+                final int start_id = getIdOfLastItem();
+                if (CollegeList.size()!=prevCollegeListSize && CollegeList.size()%10==0) {
+
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            CollegeList.add(null);
+                            collegeListAdapter.notifyItemInserted(CollegeList.size() - 1);
+                            new GetCollegeHandler2().execute(start_id);
+                        }
+                    });
+                } else {
+                }
+            }
+        });
+    }
 
 
-    public void setCollegeItems(JSONArray jsonArray) throws JSONException {
+    public int getIdOfLastItem()
+    {
+        if(CollegeListCopy!=null && CollegeListCopy.size()!=0)
+        {
+            return  CollegeListCopy.get(CollegeListCopy.size()-1).getId()+1;
+        }
+        return 1;
+    }
 
+    public void setCollegeItems(JSONArray jsonArray) throws Exception {
 
+        prevCollegeListSize = CollegeList.size();
         for(int i=0;i<jsonArray.length();i++)
         {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            CollegeList.add(new CollegeListModel(jsonObject.getInt("id"),jsonObject.getString("college_name"),jsonObject.getString("college_location"),tableName));
+            CollegeList.add(new CollegeListModel(jsonObject.getInt("id"),jsonObject.getString("college_name"),jsonObject.getString("college_location"),getIntent().getIntExtra("catId",-1)));
         }
 
-        CollegeListDup=CollegeList;
+        CollegeListCopy=CollegeList;
     }
 
     public void onChangedText(CharSequence s)
     {
 
-        if(s.length()!=0)
+        if(s.length()==0)
         {
-            crossicon.setVisibility(View.VISIBLE);
+            crossicon.setVisibility(View.GONE);
+            CollegeList = CollegeListCopy;
         }
         else
         {
-            crossicon.setVisibility(View.GONE);
+            crossicon.setVisibility(View.VISIBLE);
+            CollegeList = new ArrayList<>();
+            for(CollegeListModel college :CollegeListCopy)
+            {
+                if((college.getName()+college.getLocation()).toLowerCase().contains(s.toString().toLowerCase()))
+                {
+                    CollegeList.add(college);
+                }
+            }
         }
-        ArrayList<CollegeListModel> arrayList = new ArrayList<>();
-         for(CollegeListModel college :CollegeList)
-         {
-              if((college.getName()+college.getLocation()).toLowerCase().contains(s.toString().toLowerCase()))
-              {
-                  arrayList.add(college);
-              }
-         }
-         CollegeListDup = null;
-         CollegeListDup = arrayList;
-        cLayoutManager = new LinearLayoutManager(this);
-        collegeListAdapter = new CollegeListAdapter(CollegeListDup,this);
-        cRecyclerView.setHasFixedSize(true);
-        cRecyclerView.setLayoutManager(cLayoutManager);
-        cRecyclerView.setAdapter(collegeListAdapter);
 
-        count = CollegeListDup.size();
+       setRecyclerView();
 
 
     }

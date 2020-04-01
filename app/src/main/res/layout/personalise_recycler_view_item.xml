@@ -11,35 +11,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/personalize_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/engineering"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/personalize_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/personalize_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/engineering"
-                android:layout_margin="5dp"/>
-
-            <TextView
-                android:id="@+id/personalize_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Catergory"
-                android:layout_below="@+id/personalize_image"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:fontFamily="cursive"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+            android:text="Catergory"
+            android:layout_below="@+id/personalize_image"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:textColor="@color/homeText"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 
 
-    </com.google.android.material.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>

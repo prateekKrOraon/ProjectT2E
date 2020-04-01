@@ -15,6 +15,7 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.QuestionModel;
@@ -66,6 +67,7 @@ public class QuizActivity extends AppCompatActivity {
 
     Vibrator vibrator;
     MediaPlayer buzzer;
+    String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class QuizActivity extends AppCompatActivity {
             catId = intent.getIntExtra(QUIZ_CATEGORY_ID,0);
             subId = intent.getIntExtra(QUIZ_SUBJECT_ID,0);
             paraId = intent.getIntExtra(QUIZ_PARA_ID,1);
+            title = intent.getStringExtra(TITLE);
         }
         if(questionsModels != null){
             setContentView(R.layout.activity_quiz);
@@ -123,10 +126,13 @@ public class QuizActivity extends AppCompatActivity {
 
         try{
             setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("Quiz");
+            getSupportActionBar().setTitle(title);
         }catch(NullPointerException ex){
             ex.printStackTrace();
         }
+
+        TextView profile = findViewById(R.id.quiz_profile_name);
+        profile.setText(user.fname+" "+user.lname);
 
         layoutOptionOne = findViewById(R.id.option_1_btn);
         optionOneText = findViewById(R.id.option_1);
@@ -144,7 +150,7 @@ public class QuizActivity extends AppCompatActivity {
         pointsCounter = findViewById(R.id.quiz_point_counter_text);
         questionCounter = findViewById(R.id.quiz_question_number);
         String point = "+"+points+"XP";
-        String questionNo = "Question: "+(counter+1)+"/10";
+        String questionNo = "Question: "+(counter+1)+"/"+questionsModels.size();
         pointsCounter.setText(point);
         questionCounter.setText(questionNo);
 
@@ -293,91 +299,12 @@ public class QuizActivity extends AppCompatActivity {
         layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
     }
 
-    private void setQuestions() {
-
-        questions[0] = "Who Programmed the first Computer game 'Space war!' in 1962?";
-        questions[1] = "Who is known as father of supercomputing?";
-        questions[2] = "Who created the C programming language?";
-        questions[3] = "When NASSCOM (National Association of Software and Services Companies was established?";
-        questions[4] = "Who is known as father of Internet";
-        questions[5] = "Which one is the first high level language?";
-        questions[6] = "Which one is the first word processing application?";
-        questions[7] = "Which one is the current fastest Supercomputer in India?";
-        questions[8] = "India's first supercomputer PARAM 8000 was installed in";
-        questions[9] = "Who developed Java programming language?";
-
-
-        options[0] = new Options(
-                "Steave Russel",
-                "Konard Zuse",
-                "Alan Emtage",
-                "Tim Berners Lee",
-                0);
-
-        options[1] = new Options(
-                "David J. Brown",
-                "Gene Amdahl",
-                "Adam Dunkels",
-                "Seymour Cray",
-                3);
-
-        options[2] = new Options(
-                "Ken Thomson",
-                "Dennis Ritchie",
-                "Robin Milner",
-                "Frieder Nake",
-                1);
-
-        options[3] = new Options(
-                "1988",
-                "1997",
-                "1993",
-                "1882",
-                0);
-
-        options[4] = new Options(
-                "Alan Perlis",
-                "Jean E. Sammet",
-                "Vint Cerf",
-                "Steve Lawrence",
-                2);
-        options[5] = new Options(
-                "C",
-                "COBOL",
-                "FORTRAN",
-                "C++",
-                2);
-
-        options[6] = new Options(
-                "MS Word",
-                "Apple iWork",
-                "Sun StarOffice",
-                "WordStar",
-                3);
-        options[7] = new Options(
-                "Aaditya",
-                "SAGA-220",
-                "SahasraT",
-                "HP Apollo 6000",
-                2);
-        options[8] = new Options(
-                "1988",
-                "1991",
-                "1995",
-                "1882",
-                1);
-        options[9] = new Options(
-                "James Gosling",
-                "Douglas Engelbart",
-                "Edmund M. Clarke",
-                "James D. Foley",
-                0);
-
-    }
 
     @Override
     protected void onDestroy() {
-        timerThread.interrupt();
+        if(timerThread!=null) {
+            timerThread.interrupt();
+        }
         super.onDestroy();
     }
 
@@ -389,7 +316,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void setNextQuestion(){
 
-        String questionNo = "Question: "+(counter+1)+"/10";
+        String questionNo = "Question: "+(counter+1)+"/"+questionsModels.size();
         questionCounter.setText(questionNo);
         descriptionView.setText("");
 
@@ -491,6 +418,7 @@ public class QuizActivity extends AppCompatActivity {
                         }
                     }
                 });
+
             }
         }
 
@@ -503,7 +431,7 @@ public class QuizActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (error){
                 setContentView(R.layout.no_questions_layout);
-            }else {
+            }else if(questionsModels!=null && questionsModels.size()!=0){
                 setContentView(R.layout.activity_quiz);
                 initializeQuizLayout();
                 setNextQuestion();
@@ -522,6 +450,14 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(timerThread!=null && timerThread.isAlive()){
+           timerThread.destroy();
+        }else {
+            super.onBackPressed();
+        }
+    }
 }
 
 

@@ -94,4 +94,16 @@ public class PointsSummaryActivity extends AppCompatActivity {
         nextLevelXPView.setText(nextLevelXP+"XP");
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

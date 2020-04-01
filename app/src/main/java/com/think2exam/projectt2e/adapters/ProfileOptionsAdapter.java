@@ -10,9 +10,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.think2exam.projectt2e.LogInActivity;
+import com.think2exam.projectt2e.MainActivity;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.ProfileOptionsModal;
 import com.think2exam.projectt2e.ui.activities.AboutActivity;
+import com.think2exam.projectt2e.ui.activities.AboutAppActivity;
 import com.think2exam.projectt2e.ui.activities.EditProfileActivity;
 import com.think2exam.projectt2e.ui.activities.PointsSummaryActivity;
 import com.think2exam.projectt2e.utilities.User;
@@ -59,8 +62,9 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                     switch (holder.getAdapterPosition()){
                         case 0:
                             intent = new Intent(context,EditProfileActivity.class);
-                            intent.putExtra(PROFILE_NAME,user.name);
-                            intent.putExtra(PHONE_NO,user.phoneNo);
+                            intent.putExtra(FIRST_NAME,user.fname);
+                            intent.putExtra(LAST_NAME,user.lname);
+                            intent.putExtra(EMAIL_ID,user.email);
                             break;
                         case 1:
                             intent = new Intent(context, PointsSummaryActivity.class);
@@ -68,13 +72,25 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                         default:
                             Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();
                     }
+
+                    if(user.id!=-1 && intent != null){
+                        context.startActivity(intent);
+                    }else {
+                        context.startActivity(new Intent(context, LogInActivity.class));
+                        MainActivity.getInstance().finish();
+                    }
+
                 }else if(tagPrefix == Constants.TAG_PROFILE_APPLICATION){
                     switch (holder.getAdapterPosition()){
                         case 0:
-                            Toast.makeText(context,tagPrefix + " position: " + position,Toast.LENGTH_LONG).show();
+                            final String appPackageName = context.getPackageName();
+                            intent = new Intent();
+                            intent.setAction(Intent.ACTION_SEND);
+                            intent.putExtra(Intent.EXTRA_TEXT, "Check out the App at: https://play.google.com/store/apps/details?id=" + appPackageName);
+                            intent.setType("text/plain");
                             break;
                         case 1:
-                            Toast.makeText(context,tagPrefix + " position: " + position,Toast.LENGTH_LONG).show();
+                            intent = new Intent(context, AboutAppActivity.class);
                             break;
                         case 2:
                             intent = new Intent(context, AboutActivity.class);
@@ -82,11 +98,15 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                         default:
                             Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();
                     }
+
+                    if(intent!=null){
+                        context.startActivity(intent);
+                    }
                 }
 
-                if(intent != null){
-                    context.startActivity(intent);
-                }
+
+
+
             }
         });
 

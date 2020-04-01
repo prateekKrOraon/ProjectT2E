@@ -28,7 +28,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         AppCompatImageView imageView = findViewById(R.id.course_info_col_image);
         imageView.setImageDrawable(
                 getResources()
-                        .getDrawable(R.drawable.nit_sikkim)
+                        .getDrawable(R.drawable.col_logo_default)
         );
 
         AppCompatTextView collegeName = findViewById(R.id.course_info_col_name);
