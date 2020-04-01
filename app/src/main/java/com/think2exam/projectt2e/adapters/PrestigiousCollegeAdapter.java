@@ -14,7 +14,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
 
 import java.util.ArrayList;
 
@@ -22,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousCollegeAdapter.TopCollegeViewHolder> {
@@ -29,10 +29,6 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
 
     private ArrayList<PrestigiousCollegeModel> TopCollegeItems;
     private Context context;
-
-    SharedPreferences pref; // 0 - for private mode
-    int catId;
-
     public static class TopCollegeViewHolder extends RecyclerView.ViewHolder{
 
         public TextView name;
@@ -53,8 +49,6 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
     {
         this.TopCollegeItems = arrayList;
         this.context = context;
-        pref = this.context.getSharedPreferences("MyPreference", 0);
-        catId = pref.getInt("category_id", -1);
 
     }
 
@@ -83,13 +77,17 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
             @Override
             public void onClick(View v) {
 
-
+                SharedPreferences per_pref = context.getSharedPreferences("MyPreference", 0); // 0 - for private mode
+                int categoryId = per_pref.getInt("category_id",-1);
 
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","prestigious_college");
                 intent.putExtra("query",TopCollegeItems.get(position).getName());
-                intent.putExtra("catId",TopCollegeItems.get(position).getCatId());
+                intent.putExtra("catId",categoryId);
+                intent.putExtra("title","Top 10 "+context.getString(TopCollegeItems.get(position).getName()));
+
                 context.startActivity(intent);
+
             }
         });
     }

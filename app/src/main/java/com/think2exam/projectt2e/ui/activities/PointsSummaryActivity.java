@@ -8,6 +8,7 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import android.os.Bundle;
 
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.utilities.User;
 
 public class PointsSummaryActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class PointsSummaryActivity extends AppCompatActivity {
     private AppCompatTextView wrongAnswersView;
     private AppCompatTextView didNotAnswerView;
 
-    ContentLoadingProgressBar levelXpBar;
+    private final User user = User.getInstance();
 
     private int level;
     private int levelXP;
@@ -34,6 +35,7 @@ public class PointsSummaryActivity extends AppCompatActivity {
     private int correctAnswers;
     private int wrongsAnswers;
     private int didNotAnswers;
+    private ContentLoadingProgressBar levelXpBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +55,6 @@ public class PointsSummaryActivity extends AppCompatActivity {
 
         initialize();
 
-        levelXpBar.setMax(1000);
-        levelXpBar.setProgress(240);
-
     }
 
     private void initialize() {
@@ -73,16 +72,38 @@ public class PointsSummaryActivity extends AppCompatActivity {
 
         levelXpBar = findViewById(R.id.summary_progress);
 
-        level = 0;
-        levelXP = 0;
-        nextLevelXP = 0;
-        totalPoints = 0;
-        totalWins = 0;
-        totalMatches = 0;
-        avgPoints = 0;
-        correctAnswers = 0;
-        wrongsAnswers = 0;
-        didNotAnswers = 0;
+        level = Integer.parseInt(user.totalPoints)/500;
+        if (level != 0){
+            levelXP = Integer.parseInt(user.totalPoints)/level;
+        }else{
+            levelXP = Integer.parseInt(user.totalPoints);
+        }
+        nextLevelXP = 500;
 
+        totalMatchesView.setText(user.totalMatches);
+        totalWinsView.setText(user.wins);
+        avgPointsView.setText(user.avgPoints);
+        correctAnswersView.setText(user.correctAns);
+        wrongAnswersView.setText(user.wrongAns);
+        didNotAnswerView.setText(user.noAns);
+        totalPointsView.setText(user.totalPoints);
+        levelXPView.setText(levelXP+"XP");
+        levelXpBar.setMax(500);
+        levelXpBar.setProgress(levelXP);
+        levelView.setText("Level " + level);
+        nextLevelXPView.setText(nextLevelXP+"XP");
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

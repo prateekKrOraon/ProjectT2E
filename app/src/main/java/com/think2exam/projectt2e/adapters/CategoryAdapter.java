@@ -16,7 +16,7 @@ import com.think2exam.projectt2e.MainActivity;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.CategoryModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
-import com.think2exam.projectt2e.utility.CompleteTableQuery;
+
 
 import java.util.ArrayList;
 
@@ -102,6 +102,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     intent.putExtra("which","category");
                     intent.putExtra("query",-1);
                     intent.putExtra("catId",tableName);
+                    if(CategoryItems.get(position).getName()==R.string.university)
+                    {
+                        intent.putExtra("title",context.getString(tableName));
+
+                    }
+                    else{
+                        intent.putExtra("title",context.getString(tableName)+" Colleges");
+
+                    }
                     context.startActivity(intent);
 
                 }

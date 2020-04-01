@@ -5,7 +5,7 @@ public class CollegeListModel {
     public int id;
     public String name;
     public String location;
-    public String tableName;
+    public int CatId;
 
     public int getId() {
         return id;
@@ -19,14 +19,14 @@ public class CollegeListModel {
         return location;
     }
 
-    public String getTableName() {
-        return tableName;
+    public int getCatId() {
+        return CatId;
     }
 
-    public CollegeListModel(int id, String name, String location, String tableName) {
+    public CollegeListModel(int id, String name, String location, int catId) {
         this.id = id;
         this.name = name;
         this.location = location;
-        this.tableName = tableName;
+        CatId = catId;
     }
 }

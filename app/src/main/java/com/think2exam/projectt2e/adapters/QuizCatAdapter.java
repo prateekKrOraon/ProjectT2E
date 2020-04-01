@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
+import static com.think2exam.projectt2e.Constants.TITLE;
 
 
 public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatViewHolder> {
@@ -73,6 +74,7 @@ public class QuizCatAdapter extends RecyclerView.Adapter<QuizCatAdapter.QuizCatV
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuizSubCategoryActivity.class);
                 intent.putExtra(QUIZ_CATEGORY_ID, quizCatItems.get(position).id);
+                intent.putExtra(TITLE,quizCatItems.get(position).name);
                 context.startActivity(intent);
             }
         });

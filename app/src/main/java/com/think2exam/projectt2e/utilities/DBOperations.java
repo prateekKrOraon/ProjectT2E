@@ -3,15 +3,10 @@ package com.think2exam.projectt2e.utilities;
 import android.util.Log;
 
 import com.think2exam.projectt2e.R;
-import com.think2exam.projectt2e.utility.ByCityQuery;
-import com.think2exam.projectt2e.utility.ByStateQuery;
-import com.think2exam.projectt2e.utility.CompleteTableQuery;
-import com.think2exam.projectt2e.utility.HttpHandler;
-import com.think2exam.projectt2e.utility.PrestigiousCollegeQuery;
-import com.think2exam.projectt2e.utility.SearchQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -25,11 +20,34 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-import static com.think2exam.projectt2e.Constants.*;
+import static com.think2exam.projectt2e.Constants.CORRECT_ANS;
+import static com.think2exam.projectt2e.Constants.EMAIL_ID;
+import static com.think2exam.projectt2e.Constants.FIRST_NAME;
+import static com.think2exam.projectt2e.Constants.ID;
+import static com.think2exam.projectt2e.Constants.IMAGE;
+import static com.think2exam.projectt2e.Constants.LAST_NAME;
+import static com.think2exam.projectt2e.Constants.LIMIT;
+import static com.think2exam.projectt2e.Constants.NO_ANS;
+import static com.think2exam.projectt2e.Constants.PASSWORD;
+import static com.think2exam.projectt2e.Constants.PHONE_NO;
+import static com.think2exam.projectt2e.Constants.QUERY;
+import static com.think2exam.projectt2e.Constants.QUERY2;
+import static com.think2exam.projectt2e.Constants.QUERY_TYPE;
+import static com.think2exam.projectt2e.Constants.QUIZ_API_URL;
+import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
+import static com.think2exam.projectt2e.Constants.QUIZ_PARA_ID;
+import static com.think2exam.projectt2e.Constants.QUIZ_SUBJECT_ID;
+import static com.think2exam.projectt2e.Constants.SEARCH_KEY;
+import static com.think2exam.projectt2e.Constants.START_ID;
+import static com.think2exam.projectt2e.Constants.TABLE_ID;
+import static com.think2exam.projectt2e.Constants.TOTAL_MATCHES;
+import static com.think2exam.projectt2e.Constants.TOTAL_POINTS;
+import static com.think2exam.projectt2e.Constants.WINS;
+import static com.think2exam.projectt2e.Constants.WRONG_ANS;
 
 public class DBOperations {
 
-    private static final String TAG = HttpHandler.class.getSimpleName();
+    private static final String TAG = DBOperations.class.getSimpleName();
     private static DBOperations db = null;
 
     public static DBOperations getInstance(){
@@ -142,6 +160,20 @@ public class DBOperations {
         return jsonArray;
     }
 
+    private JSONObject convertToJSONObject(String str)
+    {
+        JSONObject jsonObject = null;
+        if(!str.isEmpty())
+        {
+            try {
+                jsonObject = new JSONObject(str);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonObject;
+    }
     public JSONArray getQuestions(String catId, String subId, String paraId) {
         String url = QUIZ_API_URL + "getQuestions.php";
 
@@ -150,9 +182,10 @@ public class DBOperations {
         map.put(QUIZ_SUBJECT_ID,subId);
         map.put(QUIZ_PARA_ID,paraId);
 
+        System.out.println("Query for: cat_id "+catId+" sub_id "+subId+" para_id "+paraId);
         String paramStr = setParameters(map);
         String result = execute(url,paramStr);
-
+        System.out.println(result);
         return convertToJSONArray(result);
     }
 
@@ -171,7 +204,49 @@ public class DBOperations {
         return convertToJSONArray(result);
     }
 
-    public JSONArray getColleges(String queryType,String query,int catId, String keyword){
+    public JSONObject getCollegeInfo(int id, int catId)
+    {
+        String url = QUIZ_API_URL + "getCollegeInfo.php";
+        String tableId = "";
+
+        switch (catId) {
+            case R.string.engineering:
+                tableId = "engineering_colleges";
+                break;
+            case R.string.agriculture:
+                tableId = "agriculture_colleges";
+                break;
+            case R.string.management:
+                tableId = "mba_colleges";
+                break;
+            case R.string.medical_and_dental:
+                tableId = "medical_and_dental_colleges";
+                break;
+            case R.string.pharmacy:
+                tableId = "pharmacy_colleges";
+                break;
+            case R.string.nursing_and_paramedical:
+                tableId = "nursing_and_paramedical_colleges";
+                break;
+            case R.string.education:
+                tableId = "education";
+                break;
+            default:
+                tableId = "university";
+                break;
+        }
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put(ID,""+id);
+        map.put(TABLE_ID,tableId);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        System.out.println(tableId+" "+id);
+        return convertToJSONObject(result);
+
+    }
+
+    public JSONArray getColleges(String queryType,String query,String query2,int catId, String keyword,int startId){
 
         String tableId = "";
 
@@ -202,61 +277,109 @@ public class DBOperations {
                 break;
         }
 
-        System.out.println(queryType + " " + query+ " " + tableId + " " + keyword);
+        System.out.println(queryType + " " + query+ " " +query2+ " " + tableId + " " + keyword+ " "+startId);
 
         String url = QUIZ_API_URL + "getColleges.php";
         HashMap<String,String> map = new HashMap<>();
         map.put(QUERY_TYPE,queryType);
         map.put(QUERY,query);
+        map.put(QUERY2,query2);
         map.put(TABLE_ID,tableId);
         map.put(SEARCH_KEY,keyword);
+        map.put(START_ID,""+startId);
         String paramStr = setParameters(map);
         String result = execute(url,paramStr);
-
+        System.out.println(result);
         return convertToJSONArray(result);
     }
 
-    public JSONArray getTopColleges(int catId,int limit) {
-        String url = QUIZ_API_URL + "getTopColleges.php";
-
-        String tableId = "";
-
-        switch (catId) {
-            case R.string.engineering:
-                tableId = "engineering_colleges";
-                break;
-            case R.string.agriculture:
-                tableId = "agriculture_colleges";
-                break;
-            case R.string.management:
-                tableId = "mba_colleges";
-                break;
-            case R.string.medical_and_dental:
-                tableId = "medical_and_dental_colleges";
-                break;
-            case R.string.pharmacy:
-                tableId = "pharmacy_colleges";
-                break;
-            case R.string.nursing_and_paramedical:
-                tableId = "nursing_and_paramedical_colleges";
-                break;
-            case R.string.education:
-                tableId = "education";
-                break;
-            default:
-                tableId = "university";
-                break;
-        }
 
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put(LIMIT, String.valueOf(limit));
-        map.put(TABLE_ID, tableId);
+    public JSONObject createUser(String mobile,String Fname,String Lname,String email,String image,String password)
+    {
+        String url = QUIZ_API_URL + "createUser.php";
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,mobile);
+        map.put(FIRST_NAME,Fname);
+        map.put(LAST_NAME,Lname);
+        map.put(EMAIL_ID,email);
+        map.put(IMAGE,image);
+        map.put(PASSWORD,password);
+
         String paramStr = setParameters(map);
-        String result = execute(url, paramStr);
-
-        return convertToJSONArray(result);
-
+        String result = execute(url,paramStr);
+        System.out.println(result);
+        return convertToJSONObject(result);
     }
+
+    public JSONObject checkUser(String mobile)
+    {
+        String url = QUIZ_API_URL + "checkUser.php";
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,mobile);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        System.out.println(result);
+
+        return convertToJSONObject(result);
+    }
+
+    public JSONObject getUserDetails(String mobile,String password)
+    {
+        String url = QUIZ_API_URL + "getUserDetails.php";
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,mobile);
+        map.put(PASSWORD,password);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        System.out.println(result);
+        return convertToJSONObject(result);
+    }
+
+    public JSONObject updatePassword(String mobile,String password)
+    {
+        String url = QUIZ_API_URL + "updatePassword.php";
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,mobile);
+        map.put(PASSWORD,password);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        System.out.println(result);
+        return convertToJSONObject(result);
+    }
+
+    public JSONObject updateProfile(String fname,String lname,String email,String phoneNo)
+    {
+        String url = QUIZ_API_URL + "updateProfile.php";
+        HashMap<String,String> map = new HashMap<>();
+        map.put(FIRST_NAME,fname);
+        map.put(LAST_NAME,lname);
+        map.put(EMAIL_ID,email);
+        map.put(PHONE_NO,phoneNo);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        System.out.println(result);
+        return convertToJSONObject(result);
+    }
+
+    public JSONObject sendQuizResult(){
+
+        String url = QUIZ_API_URL + "updateResult.php";
+        User user = User.getInstance();
+        HashMap<String,String> map = new HashMap<>();
+        map.put(PHONE_NO,user.phoneNo);
+        map.put(TOTAL_MATCHES,user.totalMatches);
+        map.put(TOTAL_POINTS,user.totalPoints);
+        map.put(WINS,user.wins);
+        map.put(CORRECT_ANS,user.correctAns);
+        map.put(WRONG_ANS,user.wrongAns);
+        map.put(NO_ANS,user.noAns);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        System.out.println(result);
+        return convertToJSONObject(result);
+    }
+
+
 
 }

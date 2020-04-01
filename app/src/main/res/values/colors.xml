@@ -23,9 +23,14 @@
 
     <color name="homeBackground">#FAFAFA</color>
     <color name="homeRecyclerView">#fff5f5</color>
+    <color name="homeText">#323232</color>
     <color name="progressBar">#fc0505</color>
     <color name="linkColor">#070DEE</color>
     <color name="category_des">#646563</color>
     <color name="green">#4CAF50</color>
     <color name="holo_dark">#000000</color>
+
+    <color name="loginThemeColor">#3868a6</color>
+    <color name="loginRed">#FF4336</color>
+    <color name="correct_otp_color">#0aa149</color>
 </resources>

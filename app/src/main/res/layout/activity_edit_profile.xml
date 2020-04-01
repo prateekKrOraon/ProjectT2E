@@ -22,7 +22,6 @@
             android:background="@color/colorAccent"
             app:popupTheme="@style/AppTheme"
             app:titleTextColor="@color/white"
-            app:title="@string/app_name"
             android:theme="@style/ToolbarTheme">
 
         </androidx.appcompat.widget.Toolbar>
@@ -43,7 +42,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name"
+            android:text="First Name *"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
@@ -52,14 +51,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:id="@+id/edit_profile_name"
+            android:id="@+id/edit_profile_fname"
             android:textColor="@color/black"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Last Name *"
+            android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:text="@string/phone_no"
+            android:textColor="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/edit_profile_lname"
+            android:textColor="@color/black"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Email *"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
@@ -67,8 +83,8 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_profile_phone_no"
-            android:inputType="textPassword"
+            android:id="@+id/edit_profile_email"
+            android:inputType="textEmailAddress"
             android:textColor="@color/black" />
 
 
@@ -86,5 +102,12 @@
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <include
+        android:id="@+id/request_layout"
+        layout="@layout/requesting"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

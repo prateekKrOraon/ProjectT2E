@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.think2exam.projectt2e.modals.UserModel;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -17,10 +21,15 @@ public class SplashScreen extends AppCompatActivity {
 
         Handler handler = new Handler();
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
-        SharedPreferences.Editor editor = pref.edit();
-        int catId = pref.getInt("category_id",-1);
-        if(catId==-1)
+        SharedPreferences per_pref = getSharedPreferences("MyPreference", 0); // 0 - for private mode
+        SharedPreferences user_pref= getSharedPreferences("user",MODE_PRIVATE);
+        int categoryId = per_pref.getInt("category_id",-1);
+
+        Gson gson = new Gson();
+        String json = user_pref.getString("user_details", null);
+        UserModel userModel = gson.fromJson(json, UserModel.class);
+
+        if(categoryId==-1)
         {
             handler.postDelayed(new Runnable() {
                 @Override
@@ -33,7 +42,7 @@ public class SplashScreen extends AppCompatActivity {
                 }
             },5000);
         }
-        else if(false) //@prateek  add condition for USER
+        else if(userModel!=null) //@prateek  add condition for USER
         {
             handler.postDelayed(new Runnable() {
                 @Override

@@ -9,12 +9,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.QuizCatAdapter;
 import com.think2exam.projectt2e.modals.CategoryModel;
 import com.think2exam.projectt2e.modals.QuizCategoryModal;
 import com.think2exam.projectt2e.utilities.DBOperations;
+import com.think2exam.projectt2e.utilities.QuizCategories;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,17 +29,18 @@ import static com.think2exam.projectt2e.Constants.*;
 public class QuizCategoryActivity extends AppCompatActivity {
 
     ArrayList<QuizCategoryModal> categoryModelArrayList;
+    QuizCategories quizCategories = QuizCategories.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryModelArrayList = new ArrayList<>();
 
-        if (categoryModelArrayList.isEmpty()){
+        categoryModelArrayList = quizCategories.getQuizCategories();
+        if (categoryModelArrayList.size()==0){
             setContentView(R.layout.loading);
             new HTTPHandler().execute();
         }else{
-            setContentView(R.layout.activity_quiz_category);
+            initializeLayout();
         }
 
     }
@@ -66,7 +69,7 @@ public class QuizCategoryActivity extends AppCompatActivity {
             try {
                 for(int i = 0; i<jsonArray.length(); i++){
                     JSONObject object = jsonArray.getJSONObject(i);
-                    categoryModelArrayList.add(
+                    quizCategories.setQuizCategories(
                             new QuizCategoryModal(
                                     Integer.parseInt(object.getString(ID)),
                                     object.getString(QUIZ_CATEGORY),
@@ -86,6 +89,7 @@ public class QuizCategoryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            categoryModelArrayList = quizCategories.getQuizCategories();
             initializeLayout();
         }
 

@@ -75,7 +75,7 @@
             android:layout_height="55dp"
             app:civ_border_width="2dp"
             app:civ_border_color="@color/colorAccent"
-            android:src="@drawable/prateek"/>
+            android:src="@drawable/col_logo_default"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -182,7 +182,6 @@
                         android:textAppearance="@android:style/TextAppearance.DeviceDefault.WindowTitle"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/summary_total_wins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/matches_played"
@@ -206,6 +205,7 @@
                         android:src="@drawable/winner"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/summary_total_wins"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="10"

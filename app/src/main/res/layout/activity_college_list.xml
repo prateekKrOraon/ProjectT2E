@@ -22,6 +22,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <ImageView
@@ -39,12 +41,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                     android:textColor="@color/white"
                     android:layout_toRightOf="@+id/back_btn"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:id="@+id/toolbar_title"/>
 
 
@@ -54,13 +59,14 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:cardCornerRadius="5dp"
                 android:elevation="0dp"
+                android:visibility="gone"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/homeBackground">
 
@@ -82,8 +88,7 @@
                             android:id="@+id/search_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_centerVertical="true"
                             android:tint="@color/colorAccent"
                             android:src="@drawable/search_color_accent_24dp"
@@ -97,16 +102,18 @@
                         android:id="@+id/search_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/homeBackground"
-                        android:hint="Search"
-                        android:textColorHint="@color/vpi__bright_foreground_disabled_holo_dark"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:clickable="true"
-                        android:layout_toRightOf="@+id/ll"
                         android:layout_toLeftOf="@+id/icon_layout"
-                        android:textColor="@color/holo_dark" />
+                        android:layout_toRightOf="@+id/ll"
+                        android:background="@color/homeBackground"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:clickable="true"
+                        android:hint="Search"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/holo_dark"
+                        android:textColorHint="@color/vpi__bright_foreground_disabled_holo_dark" />
+
                     <LinearLayout
                         android:id="@+id/icon_layout"
                         android:layout_width="wrap_content"
@@ -127,15 +134,6 @@
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             />
 
-                        <ImageView
-                            android:id="@+id/filter_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/filter"
-                            android:layout_marginRight="15dp"
-                            android:layout_centerVertical="true"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:tint="@color/colorAccent"/>
 
                     </LinearLayout>
 
@@ -152,6 +150,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/try_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRY AGAIN"
+        android:layout_gravity="center"
+        android:textColor="@color/loginThemeColor"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:background="?android:attr/selectableItemBackground"/>
+    <TextView
+        android:id="@+id/no_college"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No colleges found"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/college_list_recycler_view"

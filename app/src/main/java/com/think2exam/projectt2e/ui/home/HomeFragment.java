@@ -2,50 +2,38 @@ package com.think2exam.projectt2e.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import com.chahinem.pageindicator.PageIndicator;
-import com.hanks.htextview.base.AnimationListener;
-import com.hanks.htextview.base.HTextView;
-import com.hanks.htextview.typer.TyperTextView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CategoryAdapter;
 import com.think2exam.projectt2e.adapters.CityAdapter;
+import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
+import com.think2exam.projectt2e.adapters.QuizCatAdapterHome;
+import com.think2exam.projectt2e.adapters.SnapHelperOneByOne;
 import com.think2exam.projectt2e.adapters.StateAdapter;
 import com.think2exam.projectt2e.adapters.PrestigiousCollegeAdapter;
-import com.think2exam.projectt2e.adapters.ViewPagerAdapter;
 import com.think2exam.projectt2e.modals.CategoryModel;
 import com.think2exam.projectt2e.modals.CityModel;
 import com.think2exam.projectt2e.modals.FeaturedCollegeModel;
+import com.think2exam.projectt2e.modals.QuizCategoryModal;
 import com.think2exam.projectt2e.modals.StateModel;
 import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
-import com.think2exam.projectt2e.adapters.SnapHelperOneByOne;
-import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
-import com.think2exam.projectt2e.modals.ViewPagerModel;
-import com.think2exam.projectt2e.ui.activities.AboutQuizActivity;
+
 import com.think2exam.projectt2e.utilities.DBOperations;
-import com.think2exam.projectt2e.utility.HttpHandler;
-import com.think2exam.projectt2e.utility.Top5CollegesQuery;
+import com.think2exam.projectt2e.utilities.FeaturedColleges;
+import com.think2exam.projectt2e.utilities.QuizCategories;
 
 
 import org.json.JSONArray;
@@ -53,11 +41,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
+
+import static com.think2exam.projectt2e.Constants.ID;
+import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY;
+import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_DES;
 import static com.think2exam.projectt2e.Constants.SHARED_PREF;
-import static java.lang.Thread.sleep;
+
 
 public class HomeFragment extends Fragment {
     public static final String id = "home_fragment";
@@ -68,19 +58,17 @@ public class HomeFragment extends Fragment {
     private ArrayList<PrestigiousCollegeModel> prestigiousCollegeModelArrayList;
 
     private static Context mainActivityContext;
-    private ArrayList<FeaturedCollegeModel> featuredCollegeModels;
-    private ArrayList<ViewPagerModel> viewPagerModels;
-    private static int currentPage=0,numPages=0;
-    private ProgressBar progressBarFeaturedClg;
-    private LinearLayout FeaturedClgLayout;
+    FeaturedCollegeAdapter featuredCollegeAdapter;
+    QuizCatAdapterHome quizCatAdapterHome;
 
     private int catId;
-    private int i=1;
+    public FeaturedColleges featuredColleges = FeaturedColleges.getInstance();
+    public QuizCategories quizCategories = QuizCategories.getInstance();
+    public ArrayList<FeaturedCollegeModel> featuredCollegeModels;
+    public ArrayList<QuizCategoryModal> quizCategoryModals;
 
-    GetTop5Colleges getTop5Colleges;
 
     public HomeFragment() {
-
     }
 
     @SuppressLint("ValidFragment")
@@ -89,12 +77,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //getTop5Colleges.execute();
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -102,64 +84,64 @@ public class HomeFragment extends Fragment {
         SharedPreferences pref = getContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
         catId = pref.getInt("category_id",-1);
 
-        //Toast.makeText(mainActivityContext, ""+R.string.university+" "+R.string.did_not_answer, Toast.LENGTH_SHORT).show();
+
         //set Top cities and top states
         final TextView topCity = root.findViewById(R.id.popular_city_text);
         TextView topState = root.findViewById(R.id.popular_state_text);
         if(catId!=R.string.university) {
-            topCity.setText(getResources().getString(catId) + " College in Top Cities");
-            topState.setText(getResources().getString(catId) + " College in Top States");
+            topCity.setText(getResources().getString(catId) + " college in top cities");
+            topState.setText(getResources().getString(catId) + " college in top states");
         }
         else
         {
-            topCity.setText("Universities in Top Cities");
-            topState.setText("Universities in Top States");
+            topCity.setText("Universities in top cities");
+            topState.setText("Universities in top states");
         }
 
-        final TyperTextView typerTextView1 = root.findViewById(R.id.view_pager_text1);
-
-        TyperTextAnimater typerTextAnimater = new TyperTextAnimater(typerTextView1);
-        typerTextAnimater.setTyperTextView();
 
 
 
         //set ArrayList
         setArrayList();
+        featuredCollegeModels = featuredColleges.getFeaturedColleges();
+        if(featuredCollegeModels.size()==0) {
+            new GetTop5Colleges().execute();
+        }
+        initFeaturedCollegeSlider();
 
-        //setting viewpager slideshow
-        initViewPagerSlider(root);
-        FeaturedClgLayout = root.findViewById(R.id.ll_featured_clg);
-        progressBarFeaturedClg = root.findViewById(R.id.progress_bar_featured_clg);
+        quizCategoryModals = quizCategories.getQuizCategories();
+        if(quizCategoryModals.size()==0){
+            new GetQuiZCategory().execute();
+        }
+        initQuizCatSlider(root);
 
-        new GetTop5Colleges().execute();
 
-        //Recycler view for top colleges
-        RecyclerView tcRecyclerView = root.findViewById(R.id.home_top_colleges_recycler_view);
-        RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
-        ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        PrestigiousCollegeAdapter prestigiousCollegeAdapter = new PrestigiousCollegeAdapter(prestigiousCollegeModelArrayList,mainActivityContext);
-        tcRecyclerView.setHasFixedSize(true);
-        tcRecyclerView.setLayoutManager(tcLayoutManager);
-        tcRecyclerView.setAdapter(prestigiousCollegeAdapter);
+        setPrestigiousCollege(root);
 
-        //Recycler view for City
-        RecyclerView ctRecyclerView = root.findViewById(R.id.home_city_recycler_view);
-        RecyclerView.LayoutManager ctLayoutManager = new LinearLayoutManager(mainActivityContext);
-        ((LinearLayoutManager) ctLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        CityAdapter cityAdapter = new CityAdapter(CityModelArrayList,mainActivityContext);
-        ctRecyclerView.setHasFixedSize(true);
-        ctRecyclerView.setLayoutManager(ctLayoutManager);
-        ctRecyclerView.setAdapter(cityAdapter);
+        setCityAdapter(root);
 
-        //Recycler view for state
-        RecyclerView stRecyclerView = root.findViewById(R.id.home_state_recycler_view);
+        setStateAdapter(root);
+
+        setCategoryAdapter(root);
+        //learn more quiz
+
+
+        return root;
+    }
+
+    public void initQuizCatSlider(View root)
+    {
+        RecyclerView qRecyclerView = root.findViewById(R.id.quiz_cat_rv_home);
         RecyclerView.LayoutManager stLayoutManager = new LinearLayoutManager(mainActivityContext);
         ((LinearLayoutManager) stLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
-        StateAdapter stateAdapter = new StateAdapter(StateModelArrayList,mainActivityContext);
-        stRecyclerView.setHasFixedSize(true);
-        stRecyclerView.setLayoutManager(stLayoutManager);
-        stRecyclerView.setAdapter(stateAdapter);
+        quizCatAdapterHome = new QuizCatAdapterHome(quizCategoryModals,mainActivityContext);
+        qRecyclerView.setHasFixedSize(true);
+        qRecyclerView.setLayoutManager(stLayoutManager);
+        qRecyclerView.setAdapter(quizCatAdapterHome);
+    }
 
+    private void setCategoryAdapter(View root)
+    {
         //Recycler view for category
         RecyclerView catRecyclerView   = root.findViewById(R.id.home_category_recycler_view);
         RecyclerView.LayoutManager catLayoutManager = new GridLayoutManager(mainActivityContext,3);
@@ -168,26 +150,47 @@ public class HomeFragment extends Fragment {
         catRecyclerView.setLayoutManager(catLayoutManager);
         catRecyclerView.setAdapter(categoryAdapter);
 
-        //learn more quiz
-        LinearLayout learn_more_btn = root.findViewById(R.id.learn_more_btn);
-        learn_more_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mainActivityContext, AboutQuizActivity.class);
-                mainActivityContext.startActivity(intent);
-            }
-        });
+    }
+
+    private void setStateAdapter(View root)
+    {
+        //Recycler view for state
+        RecyclerView stRecyclerView = root.findViewById(R.id.home_state_recycler_view);
+        RecyclerView.LayoutManager stLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) stLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        StateAdapter stateAdapter = new StateAdapter(StateModelArrayList,mainActivityContext);
+        stRecyclerView.setHasFixedSize(true);
+        stRecyclerView.setLayoutManager(stLayoutManager);
+        stRecyclerView.setAdapter(stateAdapter);
+    }
+
+    private void setCityAdapter(View root)
+    {
+        //Recycler view for City
+        RecyclerView ctRecyclerView = root.findViewById(R.id.home_city_recycler_view);
+        RecyclerView.LayoutManager ctLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) ctLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        CityAdapter cityAdapter = new CityAdapter(CityModelArrayList,mainActivityContext);
+        ctRecyclerView.setHasFixedSize(true);
+        ctRecyclerView.setLayoutManager(ctLayoutManager);
+        ctRecyclerView.setAdapter(cityAdapter);
+    }
 
 
-        return root;
+    private void setPrestigiousCollege(View root)
+    {
+        //Recycler view for top colleges
+        RecyclerView tcRecyclerView = root.findViewById(R.id.home_top_colleges_recycler_view);
+        RecyclerView.LayoutManager tcLayoutManager = new LinearLayoutManager(mainActivityContext);
+        ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        PrestigiousCollegeAdapter prestigiousCollegeAdapter = new PrestigiousCollegeAdapter(prestigiousCollegeModelArrayList,mainActivityContext);
+        tcRecyclerView.setHasFixedSize(true);
+        tcRecyclerView.setLayoutManager(tcLayoutManager);
+        tcRecyclerView.setAdapter(prestigiousCollegeAdapter);
     }
 
     private void setArrayList()
     {
-        viewPagerModels = new ArrayList<>();
-        viewPagerModels.add(new ViewPagerModel("Do you want to Explore colleges in India?",R.drawable.university_back));
-        viewPagerModels.add(new ViewPagerModel("Then Think2Exam is here for you",R.drawable.iit_back));
-        viewPagerModels.add(new ViewPagerModel("6000+ Colleges",R.drawable.tezpur_university));
 
         featuredCollegeModels = new ArrayList<>();
 
@@ -224,11 +227,11 @@ public class HomeFragment extends Fragment {
 
 
         prestigiousCollegeModelArrayList = new ArrayList<>();
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.string.engineering,R.drawable.iit));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.string.engineering,R.drawable.nit));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.string.medical_and_dental,R.drawable.aiims));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.string.management,R.drawable.top_college1));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.string.university,R.drawable.university));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.drawable.iit));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.drawable.nit));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.drawable.aiims));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.drawable.top_college1));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.drawable.university));
 
     }
 
@@ -242,91 +245,35 @@ public class HomeFragment extends Fragment {
         ((LinearLayoutManager) tcLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(tcRecyclerView);
-
-        FeaturedCollegeAdapter featuredCollegeAdapter = new FeaturedCollegeAdapter(featuredCollegeModels,mainActivityContext);
+        featuredCollegeAdapter = new FeaturedCollegeAdapter(featuredCollegeModels,mainActivityContext);
         tcRecyclerView.setLayoutManager(tcLayoutManager);
         tcRecyclerView.setAdapter(featuredCollegeAdapter);
 
-        PageIndicator pageIndicator = parentView.findViewById(R.id.page_indicator);
-        pageIndicator.attachTo(tcRecyclerView);
-
 
     }
 
-    private void initViewPagerSlider(View root)
-    {
-        final ViewPager viewPager = parentView.findViewById(R.id.view_pager);
-        viewPager.setAdapter(new ViewPagerAdapter(mainActivityContext,viewPagerModels));
-        numPages = viewPagerModels.size();
-        final Handler handler = new Handler();
-        final Runnable update = new Runnable() {
-            @Override
-            public void run() {
-                if(currentPage == numPages){
-                    currentPage = 0;
-                }
-                viewPager.setCurrentItem(currentPage++,true);
 
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        },4000,3000);
-
-    }
 
     private class GetTop5Colleges extends AsyncTask<Void, Void, Void> {
-        String jsonStr;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBarFeaturedClg.setVisibility(View.VISIBLE);
-            FeaturedClgLayout.setVisibility(View.GONE);
 
-        }
+        JSONArray jsonArray=null;
+
+
 
         @Override
         protected Void doInBackground(Void... arg0) {
 
+
             DBOperations dbOperations = DBOperations.getInstance();
-            JSONArray jsonArray = dbOperations.getColleges(SHARED_PREF,SHARED_PREF,catId,"");
+            jsonArray = dbOperations.getColleges(SHARED_PREF,SHARED_PREF,"",catId,"",-1);
 
-            try {
-                setTop5Colleges(jsonArray);
-            } catch (final JSONException e) {
-                e.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
+            if(jsonArray!=null && featuredCollegeModels.size()==0) {
+                try {
+                    setTop5Colleges(jsonArray);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-//            HttpHandler sh = new HttpHandler();
-//            Top5CollegesQuery top5CollegesQuery = new Top5CollegesQuery();
-//            String reqURL = top5CollegesQuery.setreqURL(catId);
-//            jsonStr = sh.getTop5Colleges(reqURL);
-//            if(jsonStr!=null){
-//                try {
-//                    final JSONArray jsonArray = new JSONArray(jsonStr);
-//                    setTop5Colleges(jsonArray);
-//
-//                }catch (final JSONException e){
-//                    e.printStackTrace();
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(getContext(),""+ e.getMessage(),Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//                }
-//
-//            }
 
             return null;
         }
@@ -334,24 +281,67 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            try {
-                progressBarFeaturedClg.setVisibility(View.GONE);
-                FeaturedClgLayout.setVisibility(View.VISIBLE);
-                initFeaturedCollegeSlider();
-            }catch (Exception e){}finally {
+            featuredCollegeModels = featuredColleges.getFeaturedColleges();
+            featuredCollegeAdapter.notifyDataSetChanged();
+        }
+    }
 
+    private void setTop5Colleges(JSONArray jsonArray) throws Exception {
+        for(int i=0;i<jsonArray.length();i++)
+        {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            featuredColleges.setFeaturedColleges(new FeaturedCollegeModel(R.drawable.col_logo_default,
+                    jsonObject.getInt("id"),
+                    jsonObject.getString("college_name"),
+                    "rank "+jsonObject.getString("college_rank"),
+                    jsonObject.getString("college_location")));
+        }
+
+    }
+
+
+    private void setCategories(JSONArray jsonArray){
+        if(jsonArray != null){
+            try {
+                for(int i = 0; i<jsonArray.length(); i++){
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    quizCategories.setQuizCategories(
+                            new QuizCategoryModal(
+                                    Integer.parseInt(object.getString(ID)),
+                                    object.getString(QUIZ_CATEGORY),
+                                    object.getString(QUIZ_CATEGORY_DES),
+                                    R.drawable.ic_google_physical_web_black_48dp
+                            )
+                    );
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
             }
         }
     }
 
-    private void setTop5Colleges(JSONArray jsonArray) throws JSONException {
+    private class GetQuiZCategory extends AsyncTask<Void,Void,Void> {
 
-        for(int i=0;i<jsonArray.length();i++)
-        {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            featuredCollegeModels.add(new FeaturedCollegeModel(R.drawable.col_logo_default,jsonObject.getInt("id"),jsonObject.getString("college_name"),"rank "+jsonObject.getString("college_rank"),jsonObject.getString("college_location")));
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            quizCategoryModals = quizCategories.getQuizCategories();
+            quizCatAdapterHome.notifyDataSetChanged();
+
         }
 
+        @Override
+        protected Void doInBackground(Void... strings) {
+
+            DBOperations dbOperations = DBOperations.getInstance();
+            JSONArray jsonArray = dbOperations.getCategories();
+            if(jsonArray!=null && quizCategoryModals.size()==0) {
+                setCategories(jsonArray);
+            }
+
+            return null;
+        }
     }
 
 
