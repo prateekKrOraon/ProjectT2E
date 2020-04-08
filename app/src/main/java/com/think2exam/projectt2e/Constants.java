@@ -4,8 +4,9 @@ public class Constants {
 
     public static final String TAG_PROFILE_PERSONAL = "personal";
     public static final String TAG_PROFILE_APPLICATION = "application";
-    public static String QUIZ_API_URL="https://projectt2e.000webhostapp.com/think2exam/services/";
-    //public static String QUIZ_API_URL="https://course-finder-prateek.000webhostapp.com/think2exam/services/";
+    //public static String QUIZ_API_URL="https://projectt2e.000webhostapp.com/think2exam/services/";
+    //public static String QUIZ_API_URL="http://dhruvaism9999.atwebpages.com/think2exam/services/";
+    public static String QUIZ_API_URL = "http://think2exam.com/apps/services/";
     public static String OTP_API_KEY="+Wcv50hjhf0-ibhaYFzF5KTqz2HKuGdbkCZUaVeuEC";
     public static String OTP_API="https://api.textlocal.in/send/?";
     public static String TERMS = "http://think2exam.com/pages.php?id=19";
@@ -14,7 +15,7 @@ public class Constants {
     public static String QUIZ_CATEGORY = "category";
     public static String QUIZ_CATEGORY_ID = "category_id";
     public static String QUIZ_SUBJECT_ID = "subject_id";
-    public static String QUIZ_SUB_CAT = "sub_category";
+    public static String QUIZ_SUB_CAT = "subcategory";
     public static String QUIZ_PARA_ID = "para_id";
     public static String STATUS = "status";
     public static String TABLE_ID = "table";
@@ -37,11 +38,8 @@ public class Constants {
     public static String QUIZ_OPTION_5 = "option5";
     public static String QUIZ_ANSWER_DES = "description";
     public static String QUIZ_ANSWER_KEY= "answar";
-    //public static String BASE_API_URL = "https://localhost/think2exam/services/";
 
     //for User
-    public static String USER_ID = "id";
-    public static String PROFILE_NAME = "profile_name";
 
     public static String PHONE_NO = "mobile";
     public static String FIRST_NAME = "fname";
@@ -61,5 +59,49 @@ public class Constants {
     public static String FLAG = "flag";
     public static String ERRORS = "errors";
     public static String TITLE = "title";
+
+    public static String COLLEGE_NAME = "college_name";
+    public static String COLLEGE_LOCATION = "college_location";
+    public static String DISTRICT = "district";
+    public static String STATE = "state";
+    public static String COUNTRY = "country";
+    public static String PIN = "pin";
+    public static String COLLEGE_TYPE = "college_type";
+    public static String COLLEGE_RANK = "college_rank";
+    public static String COLLEGE_DESC = "college_desc";
+    public static String MASTER_DEGREE = "master";
+    public static String BACHELOR_DEGREE = "bachelor";
+    public static String BTECH_01 = "BTECH_01";
+    public static String BTECH_02 = "BTECH_02";
+    public static String BTECH_03 = "BTECH_03";
+    public static String BTECH_04 = "BTECH_04";
+    public static String BTECH_05 = "BTECH_05";
+    public static String BTECH_06 = "BTECH_06";
+    public static String BTECH_07 = "BTECH_07";
+    public static String BTECH_08 = "BTECH_08";
+    public static String BTECH_09 = "BTECH_09";
+    public static String BTECH_10 = "BTECH_10";
+    public static String MTECH_01 = "MTECH_01";
+    public static String MTECH_02 = "MTECH_02";
+    public static String MTECH_03 = "MTECH_03";
+    public static String MTECH_04 = "MTECH_04";
+    public static String MTECH_05 = "MTECH_05";
+    public static String BACHELOR_DEGREE_COURSE_01 ="bachelor_degree_course_01";
+    public static String BACHELOR_DEGREE_COURSE_02 ="bachelor_degree_course_02";
+    public static String BACHELOR_DEGREE_COURSE_03 ="bachelor_degree_course_03";
+    public static String BACHELOR_DEGREE_COURSE_04 ="bachelor_degree_course_04";
+    public static String BACHELOR_DEGREE_COURSE_05 ="bachelor_degree_course_05";
+    public static String  MASTER_DEGREE_COURSE_01= "master_degree_course_01";
+    public static String  MASTER_DEGREE_COURSE_02= "master_degree_course_02";
+    public static String YEAR_ESTABLISHED = "year_established";
+    public static String COLLEGE_IMAGE1 = "college_image1";
+    public static String COLLEGE_IMAGE2 = "college_image2";
+    public static String COLLEGE_IMAGE3 = "college_image3";
+    public static String COLLEGE_IMAGE4 = "college_image4";
+    public static String URL = "url";
+    public static String ENGINEERING_COLLEGE_CI_URL ="http://admin.think2exam.com/engineering/images/";
+    public static String MANAGEMENT_COLLEGE_CI_URL = "http://admin.think2exam.com/mba/images/";
+    public static String OTHER_COLLEGE_CI_URL = "http://admin.think2exam.com/others/images/";
+
 
 }

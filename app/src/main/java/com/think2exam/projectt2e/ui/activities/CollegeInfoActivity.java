@@ -1,24 +1,28 @@
 package com.think2exam.projectt2e.ui.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.icu.lang.UCharacter;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.smarteist.autoimageslider.IndicatorAnimations;
@@ -40,35 +44,87 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.think2exam.projectt2e.Constants.BACHELOR_DEGREE;
+import static com.think2exam.projectt2e.Constants.BACHELOR_DEGREE_COURSE_01;
+import static com.think2exam.projectt2e.Constants.BACHELOR_DEGREE_COURSE_02;
+import static com.think2exam.projectt2e.Constants.BACHELOR_DEGREE_COURSE_03;
+import static com.think2exam.projectt2e.Constants.BACHELOR_DEGREE_COURSE_04;
+import static com.think2exam.projectt2e.Constants.BACHELOR_DEGREE_COURSE_05;
+import static com.think2exam.projectt2e.Constants.BTECH_01;
+import static com.think2exam.projectt2e.Constants.BTECH_02;
+import static com.think2exam.projectt2e.Constants.BTECH_03;
+import static com.think2exam.projectt2e.Constants.BTECH_04;
+import static com.think2exam.projectt2e.Constants.BTECH_05;
+import static com.think2exam.projectt2e.Constants.BTECH_06;
+import static com.think2exam.projectt2e.Constants.BTECH_07;
+import static com.think2exam.projectt2e.Constants.BTECH_08;
+import static com.think2exam.projectt2e.Constants.BTECH_09;
+import static com.think2exam.projectt2e.Constants.BTECH_10;
+import static com.think2exam.projectt2e.Constants.COLLEGE_DESC;
+import static com.think2exam.projectt2e.Constants.COLLEGE_IMAGE1;
+import static com.think2exam.projectt2e.Constants.COLLEGE_IMAGE2;
+import static com.think2exam.projectt2e.Constants.COLLEGE_IMAGE3;
+import static com.think2exam.projectt2e.Constants.COLLEGE_IMAGE4;
+import static com.think2exam.projectt2e.Constants.COLLEGE_LOCATION;
+import static com.think2exam.projectt2e.Constants.COLLEGE_NAME;
+import static com.think2exam.projectt2e.Constants.COLLEGE_RANK;
+import static com.think2exam.projectt2e.Constants.COLLEGE_TYPE;
+import static com.think2exam.projectt2e.Constants.COUNTRY;
+import static com.think2exam.projectt2e.Constants.DISTRICT;
+import static com.think2exam.projectt2e.Constants.ENGINEERING_COLLEGE_CI_URL;
+import static com.think2exam.projectt2e.Constants.ID;
+import static com.think2exam.projectt2e.Constants.MANAGEMENT_COLLEGE_CI_URL;
+import static com.think2exam.projectt2e.Constants.MASTER_DEGREE;
+import static com.think2exam.projectt2e.Constants.MASTER_DEGREE_COURSE_01;
+import static com.think2exam.projectt2e.Constants.MASTER_DEGREE_COURSE_02;
+import static com.think2exam.projectt2e.Constants.MTECH_01;
+import static com.think2exam.projectt2e.Constants.MTECH_02;
+import static com.think2exam.projectt2e.Constants.MTECH_03;
+import static com.think2exam.projectt2e.Constants.MTECH_04;
+import static com.think2exam.projectt2e.Constants.MTECH_05;
+import static com.think2exam.projectt2e.Constants.OTHER_COLLEGE_CI_URL;
+import static com.think2exam.projectt2e.Constants.PIN;
+import static com.think2exam.projectt2e.Constants.STATE;
+import static com.think2exam.projectt2e.Constants.TABLE_ID;
+import static com.think2exam.projectt2e.Constants.URL;
+import static com.think2exam.projectt2e.Constants.YEAR_ESTABLISHED;
+
 public class CollegeInfoActivity extends AppCompatActivity {
 
     private int catId;
     private int id;
     CollegeInfoModel collegeInfoModel=null;
-    ArrayList<CoursesOfferedModal> courses;
-    ArrayList<String>  images = new ArrayList<>();;
+    ArrayList<CoursesOfferedModal> bcourses;
+    ArrayList<CoursesOfferedModal> mcourses;
+    RecyclerView coursesOfferedRV;
+    TextView bachelor, master;
+    CoursesOfferedAdapter adapter;
+    ArrayList<String>  images = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        catId = getIntent().getIntExtra("catId",-1);
-        id = getIntent().getIntExtra("id",-1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
-        if (collegeInfoModel == null){
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+        catId = getIntent().getIntExtra(TABLE_ID,-1);
+        id = getIntent().getIntExtra(ID,-1);
+
+        if(collegeInfoModel==null) {
             setContentView(R.layout.loading);
             try {
                 new GetCollegeInfo().execute();
 
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }else{
+            }catch (Exception e){}
+        }else {
             setContentView(R.layout.activity_college_info);
         }
 
-        setContentView(R.layout.activity_college_info);
 
-        //have to use imageURI
+
 
 
 
@@ -120,19 +176,42 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initializeCoursesOffered() {
 
-        CoursesOfferedAdapter adapter = new CoursesOfferedAdapter(this,courses);
-        ListView coursesOffered = findViewById(R.id.offered_course_list);
-        coursesOffered.setAdapter(adapter);
+        bachelor = findViewById(R.id.bachelor);
+        master = findViewById(R.id.master);
+        bachelor.setBackgroundTintList(getColorStateList(R.color.colorAccentTrans));
+        coursesOfferedRV = findViewById(R.id.offered_course_list);
+        setCoursesOfferedAdapter(bcourses);
 
-        ViewGroup.LayoutParams params = coursesOffered.getLayoutParams();
-        params.height = (courses.size()*coursesOffered.getMinimumHeight());
-        coursesOffered.setLayoutParams(params);
-        coursesOffered.setVerticalScrollBarEnabled(false);
-        coursesOffered.requestLayout();
-        //setListViewHeightBasedOnChildren(coursesOffered);
+        bachelor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                master.setBackgroundTintList(null);
+                bachelor.setBackgroundTintList(getColorStateList(R.color.colorAccentTrans));
+                setCoursesOfferedAdapter(bcourses);
 
+            }
+        });
+        master.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bachelor.setBackgroundTintList(null);
+                master.setBackgroundTintList(getColorStateList(R.color.colorAccentTrans));
+                setCoursesOfferedAdapter(mcourses);
+            }
+        });
+
+
+    }
+
+    private void setCoursesOfferedAdapter(ArrayList<CoursesOfferedModal> courses){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        adapter = new CoursesOfferedAdapter(courses,this);
+        coursesOfferedRV.setLayoutManager(layoutManager);
+        coursesOfferedRV.setAdapter(adapter);
     }
 
     private void initializeQuickFacts() {
@@ -177,14 +256,59 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
     }
 
+
+
+    private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            DBOperations dbOperations = DBOperations.getInstance();
+            JSONObject jsonObject = dbOperations.getCollegeInfo(id,catId);
+            if(jsonObject!=null)
+            {
+                try {
+                    setColInfoModel(jsonObject);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    setImages(jsonObject);
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+                try {
+                    setCourses(jsonObject);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+            return null;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            try {
+                if(collegeInfoModel!=null) {
+                    setLayout();
+                }
+            }catch (Exception e){}
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setLayout()
     {
-
+        setContentView(R.layout.activity_college_info);
         try {
             setImageSliderLayout();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        }catch (Exception e){}
 
         AppCompatTextView collegeName = findViewById(R.id.college_info_col_name);
         collegeName.setText(collegeInfoModel.getClgName());
@@ -249,114 +373,129 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
     }
 
-    private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
-        String jsonStr;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            DBOperations dbOperations = DBOperations.getInstance();
-            JSONObject jsonObject = dbOperations.getCollegeInfo(id,catId);
-            if(jsonObject!=null)
-            {
-                try {
-                    setColInfoModel(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            try {
-                setLayout();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     private void setColInfoModel(JSONObject jsonObject) throws JSONException {
 
-        //setting basic colInfoModel
-        collegeInfoModel =  new CollegeInfoModel(jsonObject.getInt("id"),jsonObject.getString("college_name"),jsonObject.getString("college_location"),jsonObject.getString("DISTRICT"),
-                jsonObject.getString("STATE"),jsonObject.getString("COUNTRY"),jsonObject.getString("PIN"),jsonObject.getString("college_type"),
-                jsonObject.getInt("college_rank"),jsonObject.getString("college_desc"),jsonObject.getString("year_established"),jsonObject.getString("url"));
+        collegeInfoModel =  new CollegeInfoModel(jsonObject.getInt(ID),
+                jsonObject.getString(COLLEGE_NAME),
+                jsonObject.getString(COLLEGE_LOCATION),
+                jsonObject.getString(DISTRICT),
+                jsonObject.getString(STATE),
+                jsonObject.getString(COUNTRY),
+                jsonObject.getString(PIN),
+                jsonObject.getString(COLLEGE_TYPE),
+                jsonObject.getString(COLLEGE_RANK),
+                jsonObject.getString(COLLEGE_DESC),
+                jsonObject.getString(YEAR_ESTABLISHED),
+                jsonObject.getString(URL));
 
-
-
-        //setting image;
-
-        for(int i=1;i<=4;i++)
-        {
-                if(!jsonObject.getString("college_image"+i).equals(""))
-                {
-                    images.add(jsonObject.getString("college_image"+i));
-                }
-
-        }
 
     }
 
-    private void setCourses(JSONObject jsonObject, int catId) throws JSONException
+    private void setImages(JSONObject jsonObject) throws JSONException
     {
-        //setting course offered
-        courses = new ArrayList<>();
+        String image_url;
+        if(catId == R.string.engineering){
+            image_url = ENGINEERING_COLLEGE_CI_URL;
+        }else if(catId == R.string.management){
+            image_url = MANAGEMENT_COLLEGE_CI_URL;
+        }else {
+            image_url = OTHER_COLLEGE_CI_URL;
+        }
+        images.add(image_url+jsonObject.getString(COLLEGE_IMAGE1));
+        images.add(image_url+jsonObject.getString(COLLEGE_IMAGE2));
+        images.add(image_url+jsonObject.getString(COLLEGE_IMAGE3));
+        images.add(image_url+jsonObject.getString(COLLEGE_IMAGE4));
+
+
+    }
+
+    private void setCourses(JSONObject jsonObject) throws JSONException
+    {
+
+        bcourses = new ArrayList<>();
+        mcourses = new ArrayList<>();
         if(catId == R.string.engineering)
         {
-            for(int i=1;i<=10;i++)
-            {
 
-                if(i!=10 && !jsonObject.getString("BTECH_0"+i).equals(""))
-                {
-                    courses.add(new CoursesOfferedModal("BTECH ("+jsonObject.getString("BTECH_0"+i)+")"));
-                }
-                if(i==10 && !jsonObject.getString("BTECH_"+i).equals(""))
-                {
-                    courses.add(new CoursesOfferedModal("BTECH ("+jsonObject.getString("BTECH_"+i)+")"));
-                }
-
+            if(jsonObject.getString(BTECH_01).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_01)));
+            }
+            if(jsonObject.getString(BTECH_02).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_02)));
+            }
+            if(jsonObject.getString(BTECH_03).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_03)));
+            }
+            if(jsonObject.getString(BTECH_04).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_04)));
+            }
+            if(jsonObject.getString(BTECH_05).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_05)));
+            }
+            if(jsonObject.getString(BTECH_06).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_06)));
+            }
+            if(jsonObject.getString(BTECH_07).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_07)));
+            }
+            if(jsonObject.getString(BTECH_08).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_08)));
+            }
+            if(jsonObject.getString(BTECH_09).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_09)));
+            }
+            if(jsonObject.getString(BTECH_10).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_10)));
             }
 
-            for(int i=1;i<=5;i++)
-            {
-                if(!jsonObject.getString("MTECH_0"+i).equals(""))
-                {
-                    courses.add(new CoursesOfferedModal("MTECH ("+jsonObject.getString("MTECH_0"+i)+")"));
-                }
-
+            if(jsonObject.getString(MTECH_01).trim().length()!=0){
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_01)));
             }
+            if(jsonObject.getString(MTECH_02).trim().length()!=0){
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_02)));
+            }
+            if(jsonObject.getString(MTECH_03).trim().length()!=0){
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_03)));
+            }
+            if(jsonObject.getString(MTECH_04).trim().length()!=0){
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_04)));
+            }
+            if(jsonObject.getString(MTECH_05).trim().length()!=0){
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_05)));
+            }
+
+
+
         }
        else
         {
-            for(int i=1;i<=5;i++)
-            {
-
-                if(!jsonObject.get("bachelor_degree_course_0"+i).equals(""))
-                {
-                    courses.add(new CoursesOfferedModal(jsonObject.getString("bachelor_degree_course_0"+i)));
-                }
-
-
+            if(jsonObject.getString(BACHELOR_DEGREE_COURSE_01).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_01)));
+            }
+            if(jsonObject.getString(BACHELOR_DEGREE_COURSE_02).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_02)));
+            }
+            if(jsonObject.getString(BACHELOR_DEGREE_COURSE_03).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_03)));
+            }
+            if(jsonObject.getString(BACHELOR_DEGREE_COURSE_04).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_04)));
+            }
+            if(jsonObject.getString(BACHELOR_DEGREE_COURSE_05).trim().length()!=0) {
+                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_05)));
             }
 
-            for(int i=1;i<=2;i++)
-            {
-                if(!jsonObject.getString("master_degree_course_0"+i).equals(""))
-                {
-                    courses.add(new CoursesOfferedModal(jsonObject.getString("master_degree_course_0"+i)));
-                }
-
+            if(jsonObject.getString(MASTER_DEGREE_COURSE_01).trim().length()!=0) {
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE, jsonObject.getString(MASTER_DEGREE_COURSE_01)));
             }
+            if(jsonObject.getString(MASTER_DEGREE_COURSE_02).trim().length()!=0) {
+                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE, jsonObject.getString(MASTER_DEGREE_COURSE_02)));
+            }
+
         }
+
+
 
     }
 

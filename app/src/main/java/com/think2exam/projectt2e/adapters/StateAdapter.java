@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
+import com.think2exam.projectt2e.MainActivity;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.StateModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
@@ -62,7 +64,11 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final StateViewHolder holder, final int position) {
-
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        MainActivity.activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float size = displayMetrics.widthPixels;
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        layoutParams.width=(int)size*1/3;
 
         holder.name.setText(context.getResources().getString(StateItems.get(position).getName()));
         Glide.with(context)

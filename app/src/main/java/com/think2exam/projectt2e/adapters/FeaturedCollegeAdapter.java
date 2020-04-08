@@ -103,39 +103,9 @@ public class FeaturedCollegeAdapter extends RecyclerView.Adapter<FeaturedCollege
         holder.explore_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = mainActivityContext.getSharedPreferences("MyPreference", 0); // 0 - for private mode
-                SharedPreferences.Editor editor = pref.edit();
-                int catId = pref.getInt("category_id",-1);
-                String tableId;
-                switch (catId) {
-                    case R.string.engineering:
-                        tableId = "engineering_colleges";
-                        break;
-                    case R.string.agriculture:
-                        tableId = "agriculture_colleges";
-                        break;
-                    case R.string.management:
-                        tableId = "mba_colleges";
-                        break;
-                    case R.string.medical_and_dental:
-                        tableId = "medical_and_dental_colleges";
-                        break;
-                    case R.string.pharmacy:
-                        tableId = "pharmacy_colleges";
-                        break;
-                    case R.string.nursing_and_paramedical:
-                        tableId = "nursing_and_paramedical_colleges";
-                        break;
-                    case R.string.education:
-                        tableId = "education";
-                        break;
-                    default:
-                        tableId = "university";
-                        break;
-                }
                 Intent intent = new Intent(mainActivityContext, CollegeInfoActivity.class);
                 intent.putExtra(ID,featuredCollegeModels.get(position).getId());
-                intent.putExtra(TABLE_ID,tableId);
+                intent.putExtra(TABLE_ID,featuredCollegeModels.get(position).getCatId());
                 mainActivityContext.startActivity(intent);
             }
         });

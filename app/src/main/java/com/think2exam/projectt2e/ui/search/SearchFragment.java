@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
@@ -68,6 +70,11 @@ public class SearchFragment extends Fragment {
         categoryll = categoryRL.findViewById(R.id.search_box_ll);
         statell = stateRL.findViewById(R.id.search_box_ll);
         cityll = cityRL.findViewById(R.id.search_box_ll);
+
+        ImageView searchImage = root.findViewById(R.id.search_image);
+        Glide.with(root.getContext())
+                .load(R.drawable.search_background)
+                .into(searchImage);
 
         categoryText.setText(getString(R.string.all_category));
         stateText.setText(getString(R.string.all_states));

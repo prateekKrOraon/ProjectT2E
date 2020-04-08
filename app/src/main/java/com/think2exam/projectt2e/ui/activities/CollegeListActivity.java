@@ -12,10 +12,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.think2exam.projectt2e.R;
@@ -48,6 +50,7 @@ public class CollegeListActivity extends AppCompatActivity {
     RecyclerView.LayoutManager cLayoutManager;
     CollegeListAdapter collegeListAdapter;
     TextView tryAgain;
+    LinearLayout tryAgainLayout;
     TextView noCollege;
 
     public int prevCollegeListSize=-1;
@@ -65,6 +68,7 @@ public class CollegeListActivity extends AppCompatActivity {
         searchBar = findViewById(R.id.search_bar);
         searchicon  = findViewById(R.id.search_icon);
         tryAgain = findViewById(R.id.try_again);
+        tryAgainLayout = findViewById(R.id.try_again_layout);
         noCollege = findViewById(R.id.no_college);
         Title = getIntent().getStringExtra(TITLE);
 
@@ -181,11 +185,15 @@ public class CollegeListActivity extends AppCompatActivity {
     }
 
     public void setTryAgain(){
-        tryAgain.setVisibility(View.VISIBLE);
+        tryAgainLayout.setVisibility(View.VISIBLE);
+        ImageView imageView  = findViewById(R.id.try_again_image);
+        Glide.with(this)
+                .load(R.drawable.internet_down)
+                .into(imageView);
         tryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tryAgain.setVisibility(View.GONE);
+                tryAgainLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 new GetCollegeHandler1().execute(1);
             }
@@ -214,6 +222,7 @@ public class CollegeListActivity extends AppCompatActivity {
             {
                 int query = getIntent().getIntExtra("query",Integer.MIN_VALUE);
                 int start_id;
+                System.out.println(which);
                 if(which.equals("prestigious_college")) {
                     start_id = Integer.MAX_VALUE;
                 } else {
@@ -274,7 +283,7 @@ public class CollegeListActivity extends AppCompatActivity {
         collegeListAdapter.setOnLoadMoreListener(new CollegeListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                //id of last tuple selected in earlier attemp
+                //id of last tuple selected in earlier attempt
                 final int start_id = getIdOfLastItem();
                 if (CollegeList.size()!=prevCollegeListSize && CollegeList.size()%10==0) {
 
@@ -293,7 +302,7 @@ public class CollegeListActivity extends AppCompatActivity {
     }
 
 
-    public int getIdOfLastItem()
+    public int getIdOfLastItem() //incremented by 1
     {
         if(CollegeListCopy!=null && CollegeListCopy.size()!=0)
         {
@@ -308,7 +317,10 @@ public class CollegeListActivity extends AppCompatActivity {
         for(int i=0;i<jsonArray.length();i++)
         {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            CollegeList.add(new CollegeListModel(jsonObject.getInt("id"),jsonObject.getString("college_name"),jsonObject.getString("college_location"),getIntent().getIntExtra("catId",-1)));
+            CollegeList.add(new CollegeListModel(jsonObject.getInt("id"),
+                    jsonObject.getString("college_name"),
+                    jsonObject.getString("college_location"),
+                    getIntent().getIntExtra("catId",-1)));
         }
 
         CollegeListCopy=CollegeList;

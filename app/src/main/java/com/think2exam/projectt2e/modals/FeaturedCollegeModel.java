@@ -7,6 +7,7 @@ public class FeaturedCollegeModel {
     public String name;
     public String rank;
     public String location;
+    public int catId;
 
     public int getLogo() {
         return logo;
@@ -28,11 +29,16 @@ public class FeaturedCollegeModel {
         return location;
     }
 
-    public FeaturedCollegeModel(int logo, int id, String name, String rank, String location) {
+    public int getCatId() {
+        return catId;
+    }
+
+    public FeaturedCollegeModel(int logo, int id, String name, String rank, String location, int catId) {
         this.logo = logo;
         this.id = id;
         this.name = name;
         this.rank = rank;
         this.location = location;
+        this.catId = catId;
     }
 }

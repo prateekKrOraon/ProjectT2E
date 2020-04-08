@@ -151,17 +151,38 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/try_again"
+    <LinearLayout
+        android:id="@+id/try_again_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TRY AGAIN"
-        android:layout_gravity="center"
-        android:textColor="@color/loginThemeColor"
-        android:textStyle="bold"
-        android:padding="10dp"
+        android:orientation="vertical"
         android:visibility="gone"
-        android:background="?android:attr/selectableItemBackground"/>
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/try_again_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="Oops, Internet Connection down"/>
+        <TextView
+            android:id="@+id/try_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TRY AGAIN"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/loginThemeColor"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:background="@drawable/try_again_back"/>
+
+    </LinearLayout>
     <TextView
         android:id="@+id/no_college"
         android:layout_width="wrap_content"
