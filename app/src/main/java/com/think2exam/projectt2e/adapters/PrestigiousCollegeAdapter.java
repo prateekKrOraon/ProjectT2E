@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
+import com.think2exam.projectt2e.MainActivity;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
 import com.think2exam.projectt2e.ui.activities.CollegeListActivity;
@@ -62,7 +64,11 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final TopCollegeViewHolder holder, final int position) {
-
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        MainActivity.activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float size = displayMetrics.widthPixels;
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        layoutParams.width=(int)size*1/3;
 
         holder.name.setText(TopCollegeItems.get(position).getName());
         holder.name.setSelected(true);
@@ -77,13 +83,11 @@ public class PrestigiousCollegeAdapter extends RecyclerView.Adapter<PrestigiousC
             @Override
             public void onClick(View v) {
 
-                SharedPreferences per_pref = context.getSharedPreferences("MyPreference", 0); // 0 - for private mode
-                int categoryId = per_pref.getInt("category_id",-1);
 
                 Intent intent = new Intent(context, CollegeListActivity.class);
                 intent.putExtra("which","prestigious_college");
                 intent.putExtra("query",TopCollegeItems.get(position).getName());
-                intent.putExtra("catId",categoryId);
+                intent.putExtra("catId",TopCollegeItems.get(position).getCatId());
                 intent.putExtra("title","Top 10 "+context.getString(TopCollegeItems.get(position).getName()));
 
                 context.startActivity(intent);

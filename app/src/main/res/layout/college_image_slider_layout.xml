@@ -13,4 +13,10 @@
     android:scaleType="fitXY"
     xmlns:android="http://schemas.android.com/apk/res/android"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/viewpager_gradient_layout" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

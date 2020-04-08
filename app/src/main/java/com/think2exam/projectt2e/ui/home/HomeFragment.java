@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CategoryAdapter;
 import com.think2exam.projectt2e.adapters.CityAdapter;
@@ -81,9 +84,13 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         parentView = root;
-        SharedPreferences pref = getContext().getSharedPreferences("MyPreference", 0); // 0 - for private mode
+        SharedPreferences pref = getContext().getSharedPreferences("MyPreference", 0);
         catId = pref.getInt("category_id",-1);
 
+        ImageView homeImage = root.findViewById(R.id.home_image);
+        Glide.with(root.getContext())
+                .load(R.drawable.home_background)
+                .into(homeImage);
 
         //set Top cities and top states
         final TextView topCity = root.findViewById(R.id.popular_city_text);
@@ -227,11 +234,11 @@ public class HomeFragment extends Fragment {
 
 
         prestigiousCollegeModelArrayList = new ArrayList<>();
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.drawable.iit));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.drawable.nit));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.drawable.aiims));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.drawable.top_college1));
-        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.drawable.university));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iit,R.drawable.iit,R.string.engineering));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.nit,R.drawable.nit,R.string.engineering));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.aiims,R.drawable.aiims,R.string.medical_and_dental));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.iim,R.drawable.top_college1,R.string.management));
+        prestigiousCollegeModelArrayList.add(new PrestigiousCollegeModel(R.string.university,R.drawable.university,R.string.university));
 
     }
 
@@ -294,7 +301,8 @@ public class HomeFragment extends Fragment {
                     jsonObject.getInt("id"),
                     jsonObject.getString("college_name"),
                     "rank "+jsonObject.getString("college_rank"),
-                    jsonObject.getString("college_location")));
+                    jsonObject.getString("college_location"),
+                    catId));
         }
 
     }

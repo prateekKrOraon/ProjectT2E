@@ -30,7 +30,7 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/progress_bar_layout_fl"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:orientation="vertical">
 
             <ProgressBar

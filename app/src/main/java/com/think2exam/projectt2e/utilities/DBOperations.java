@@ -241,7 +241,8 @@ public class DBOperations {
         map.put(TABLE_ID,tableId);
         String paramStr = setParameters(map);
         String result = execute(url,paramStr);
-        System.out.println(tableId+" "+id);
+        System.out.println(" "+tableId+" "+id);
+        System.out.println(result);
         return convertToJSONObject(result);
 
     }

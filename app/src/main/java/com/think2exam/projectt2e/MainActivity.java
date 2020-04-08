@@ -139,14 +139,7 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
-
-        int selectedItemId = bottomNavigationView.getSelectedItemId();
-        if(selectedItemId != R.id.bottom_nav_bar_home){
-            bottomNavigationView.setSelectedItemId(R.id.bottom_nav_bar_home);
-            switchFragment(mHomeFragment, HomeFragment.id);
-        }else{
             super.onBackPressed();
-        }
 
     }
 }

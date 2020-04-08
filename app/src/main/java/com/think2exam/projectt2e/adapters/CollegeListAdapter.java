@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.think2exam.projectt2e.Constants.ID;
+import static com.think2exam.projectt2e.Constants.TABLE_ID;
 
 
 public class CollegeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -96,7 +98,7 @@ public class CollegeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         {
             ((ViewHolderRow) holder).name.setText(CollegeListItems.get(position).getName());
             Glide.with(context)
-                    .load(context.getResources().getDrawable(R.drawable.location_color_primary_24dp))
+                    .load(R.drawable.location_color_primary_24dp)
                     .into(((ViewHolderRow) holder).locIcon);
             ((ViewHolderRow) holder).location.setText(CollegeListItems.get(position).getLocation());
             ((ViewHolderRow) holder).materialCardView.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +106,8 @@ public class CollegeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View v) {
 
                     Intent intent = new Intent(context, CollegeInfoActivity.class);
-                    intent.putExtra("id",CollegeListItems.get(position).getId());
-                    intent.putExtra("catId",CollegeListItems.get(position).getCatId());
+                    intent.putExtra(ID,CollegeListItems.get(position).getId());
+                    intent.putExtra(TABLE_ID,CollegeListItems.get(position).getCatId());
                     context.startActivity(intent);
                 }
             });

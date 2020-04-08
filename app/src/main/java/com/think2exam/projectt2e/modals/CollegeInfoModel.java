@@ -4,11 +4,11 @@ public class CollegeInfoModel {
 
     int id;
     String clgName,clgLocation,clgDist,clgState,clgCountry,clgPin,clgType;
-    int rank;
+    String rank;
     String clgDesc,clgYOE;
     String clgUrl;
 
-    public CollegeInfoModel(int id, String clgName, String clgLocation, String clgDist, String clgState, String clgCountry, String clgPin, String clgType, int rank, String clgDesc, String clgYOE, String clgUrl) {
+    public CollegeInfoModel(int id, String clgName, String clgLocation, String clgDist, String clgState, String clgCountry, String clgPin, String clgType, String rank, String clgDesc, String clgYOE, String clgUrl) {
         this.id = id;
         this.clgName = clgName;
         this.clgLocation = clgLocation;
@@ -55,7 +55,7 @@ public class CollegeInfoModel {
         return clgType;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
