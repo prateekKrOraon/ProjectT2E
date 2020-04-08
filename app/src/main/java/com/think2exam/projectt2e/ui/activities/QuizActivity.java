@@ -1,9 +1,12 @@
 package com.think2exam.projectt2e.ui.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ContentLoadingProgressBar;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -92,6 +95,8 @@ public class QuizActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     private void getQuestions(JSONArray array) {
         questionsModels = new ArrayList<>();
@@ -255,6 +260,9 @@ public class QuizActivity extends AppCompatActivity {
                     intent.putExtra("score",points);
                     startActivity(intent);
                     try {
+                        if(timerThread != null && timerThread.isAlive()){
+                            timerThread.interrupt();
+                        }
                         finish();
                     }catch (Throwable ex){
                         ex.printStackTrace();
@@ -453,7 +461,42 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(timerThread!=null && timerThread.isAlive()){
-           timerThread.destroy();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Your progress will be lost").setTitle("Exit quiz?");
+            builder.setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                    user.setTotalMatches(1);
+                    user.setTotalPoints(points);
+                    user.setAvgPoints();
+                    user.setCorrectAns(points/10);
+                    user.setWrongAns(wrongAns);
+                    user.setNoAns(10-(points/10)-wrongAns);
+                    if (points>=50){
+                        user.setWins(1);
+                    }
+                    Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
+                    intent.putExtra("score",points);
+                    startActivity(intent);
+                    try {
+                        if(timerThread != null && timerThread.isAlive()){
+                            timerThread.interrupt();
+                        }
+                        finish();
+                    }catch (Throwable ex){
+                        ex.printStackTrace();
+                    }
+
+                }
+            });
+            builder.setNegativeButton("Stay", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }else {
             super.onBackPressed();
         }

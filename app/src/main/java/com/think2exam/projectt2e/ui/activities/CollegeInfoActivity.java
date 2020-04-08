@@ -50,17 +50,26 @@ public class CollegeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_college_info);
-
-        //have to use imageURI
 
         catId = getIntent().getIntExtra("catId",-1);
         id = getIntent().getIntExtra("id",-1);
 
-        try {
-            new GetCollegeInfo().execute();
+        if (collegeInfoModel == null){
+            setContentView(R.layout.loading);
+            try {
+                new GetCollegeInfo().execute();
 
-        }catch (Exception e){}
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            setContentView(R.layout.activity_college_info);
+        }
+
+        setContentView(R.layout.activity_college_info);
+
+        //have to use imageURI
+
 
 
     }
@@ -168,45 +177,14 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
     }
 
-
-
-    private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
-        String jsonStr;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            DBOperations dbOperations = DBOperations.getInstance();
-            JSONObject jsonObject = dbOperations.getCollegeInfo(id,catId);
-            if(jsonObject!=null)
-            {
-                try {
-                    setColInfoModel(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            try {
-                setLayout();
-            }catch (Exception e){}
-        }
-    }
-
     private void setLayout()
     {
+
         try {
             setImageSliderLayout();
-        }catch (Exception e){}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         AppCompatTextView collegeName = findViewById(R.id.college_info_col_name);
         collegeName.setText(collegeInfoModel.getClgName());
@@ -269,6 +247,40 @@ public class CollegeInfoActivity extends AppCompatActivity {
 
         }catch (Exception e){}
 
+    }
+
+    private class GetCollegeInfo extends AsyncTask<Void, Void, Void> {
+        String jsonStr;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            DBOperations dbOperations = DBOperations.getInstance();
+            JSONObject jsonObject = dbOperations.getCollegeInfo(id,catId);
+            if(jsonObject!=null)
+            {
+                try {
+                    setColInfoModel(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            try {
+                setLayout();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
 

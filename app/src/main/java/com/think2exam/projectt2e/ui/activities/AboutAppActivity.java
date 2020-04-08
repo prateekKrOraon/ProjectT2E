@@ -3,6 +3,7 @@ package com.think2exam.projectt2e.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -16,6 +17,9 @@ public class AboutAppActivity extends AppCompatActivity {
 
     LinearLayout defaultLayout;
     LinearLayout developersLayout;
+
+    LinearLayout thirdPartyRes;
+
     int count=4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,17 @@ public class AboutAppActivity extends AppCompatActivity {
                 }
             }
         });
+
+        thirdPartyRes = findViewById(R.id.tpr_button);
+
+        thirdPartyRes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ThirdPartyResourcesActivity.class));
+            }
+        });
+
+
     }
 
     @Override
