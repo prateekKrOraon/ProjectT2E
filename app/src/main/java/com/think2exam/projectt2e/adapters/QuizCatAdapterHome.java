@@ -78,7 +78,7 @@ public class QuizCatAdapterHome extends RecyclerView.Adapter<QuizCatAdapterHome.
         float size = displayMetrics.widthPixels;
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         layoutParams.width=(int)size*1/3;
-        layoutParams.height=(int)size*1/3;
+        layoutParams.height=(int)size*1/4;
 
 
         if(quizCategoryModals.size()==0){

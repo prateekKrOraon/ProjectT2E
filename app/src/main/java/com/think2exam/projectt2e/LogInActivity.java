@@ -775,6 +775,7 @@ public class LogInActivity extends AppCompatActivity {
         UserModel userModel = null;
         if(jsonObject!=null)
         {
+
             userModel = new UserModel(jsonObject.getInt(ID),
                     jsonObject.getString(FIRST_NAME),
                     jsonObject.getString(LAST_NAME),
