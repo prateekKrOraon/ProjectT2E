@@ -4,8 +4,6 @@ public class Constants {
 
     public static final String TAG_PROFILE_PERSONAL = "personal";
     public static final String TAG_PROFILE_APPLICATION = "application";
-    //public static String QUIZ_API_URL="https://projectt2e.000webhostapp.com/think2exam/services/";
-    //public static String QUIZ_API_URL="http://dhruvaism9999.atwebpages.com/think2exam/services/";
     public static String QUIZ_API_URL = "http://think2exam.com/apps/services/";
     public static String OTP_API_KEY="+Wcv50hjhf0-ibhaYFzF5KTqz2HKuGdbkCZUaVeuEC";
     public static String OTP_API="https://api.textlocal.in/send/?";
@@ -17,6 +15,7 @@ public class Constants {
     public static String QUIZ_SUBJECT_ID = "subject_id";
     public static String QUIZ_SUB_CAT = "subcategory";
     public static String QUIZ_PARA_ID = "para_id";
+    public static String QUIZ_PARAGRAPH = "description";
     public static String STATUS = "status";
     public static String TABLE_ID = "table";
     public static String SEARCH_KEY = "keyword";

@@ -28,263 +28,349 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/quiz_profile"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_quiz"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_constraint_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/quiz_profile_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/outline_person_black_48"
-                app:civ_border_color="@color/colorAccent"
-                app:civ_border_width="0dp" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <RelativeLayout
+                    android:id="@+id/option_1_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/quiz_option_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="45dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/option_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/option_1"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/option_2_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/quiz_option_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="45dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/option_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/option_2"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/option_3_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/quiz_option_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="45dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/option_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/option_3"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/option_4_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/quiz_option_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="45dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/option_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/option_4"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/option_5_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/quiz_option_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="45dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/option_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/option_5"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical">
+                android:id="@+id/quiz_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="0dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/quiz_profile_name"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.WindowTitle" />
+                    android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/quiz_point_counter_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle" />
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/quiz_profile_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:maxLines="1"
+                            android:text=""
+                            android:textAppearance="@android:style/TextAppearance.DeviceDefault.WindowTitle" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/quiz_point_counter_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/quiz_profile_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/outline_person_black_48"
+                        app:civ_border_color="@color/colorAccent"
+                        app:civ_border_width="0dp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/paragraph_card"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@id/questions_card"
+                app:layout_constraintTop_toBottomOf="@id/quiz_timer"
+                tools:layout_editor_absoluteX="10dp">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/quiz_profile"
-        android:id="@+id/quiz_timer"
-        android:layout_marginBottom="10dp"
-        android:max="10"
-        android:progressDrawable="@drawable/quiz_timer_indicator"
-        android:background="@color/white"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-        <RelativeLayout
-            android:id="@+id/option_1_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/quiz_option_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="45dp"
-            android:padding="5dp">
+                    <Button
+                        android:id="@+id/show_question_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:backgroundTint="@color/colorAccent"
+                        android:elevation="2dp"
+                        android:text="@string/show_question"
+                        android:textColor="@color/white"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/option_1"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/quiz_paragraph"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/question_1"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/linear_layout_options"
+                        app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
+                        tools:layout_editor_absoluteX="10dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/paragraph"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/paragraph"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_quiz" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/questions_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/option_1"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/white" />
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/linear_layout_options"
+                app:layout_constraintTop_toBottomOf="@id/paragraph_card"
+                tools:layout_editor_absoluteX="10dp">
 
-        </RelativeLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-        <RelativeLayout
-            android:id="@+id/option_2_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/quiz_option_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="45dp"
-            android:padding="5dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/quiz_question_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/question_num"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_quiz" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/option_2"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/quiz_question"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/question_1"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/linear_layout_options"
+                        app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
+                        tools:layout_editor_absoluteX="10dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/quiz_ans_des"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Description"
+                        android:textAlignment="center"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/quiz_timer"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/option_2"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/white" />
+                android:layout_height="5dp"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:max="10"
+                android:progressDrawable="@drawable/quiz_timer_indicator"
+                app:layout_constraintTop_toBottomOf="@+id/quiz_profile"/>
 
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/option_3_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/quiz_option_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="45dp"
-            android:padding="5dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/option_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/option_3"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <RelativeLayout
-            android:id="@+id/option_4_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/quiz_option_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="45dp"
-            android:padding="5dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/option_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/option_4"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/white" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/option_5_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/quiz_option_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="45dp"
-            android:padding="5dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/option_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/option_5"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/white" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/questions_card"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:elevation="2dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@id/quiz_timer"
-        tools:layout_editor_absoluteX="10dp">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/quiz_question_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/question_num"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                app:layout_constraintTop_toBottomOf="@+id/appBarLayout_quiz" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/quiz_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/question_1"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
-                tools:layout_editor_absoluteX="10dp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/quiz_ans_des"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Description"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

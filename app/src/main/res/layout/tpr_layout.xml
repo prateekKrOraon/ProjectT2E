@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/grey"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_copyright_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Circle Image View"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="githubLink"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_lic_provider_abs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Licensed under the Apache License, Version 2.0"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_lic_pro_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Licensed under the Apache License, Version 2.0"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textStyle="bold"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_lic_pro_al"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Licensed under the Apache License, Version 2.0"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Circle Image View"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+</LinearLayout>

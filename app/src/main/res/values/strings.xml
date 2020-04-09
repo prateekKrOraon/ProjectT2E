@@ -142,5 +142,8 @@ Best Education Platforms</string>
     <string name="forgot_password_instruction">Tap Next to Recover your account. An SMS may be sent to verify your number.</string>
     <string name="developers1">Dhrubajit Sarkar</string>
     <string name="developers2">Prateek Kumar Oraon</string>
+    <string name="third_party_res">Third Party Resources</string>
+    <string name="paragraph">Paragraph</string>
+    <string name="show_question">Show question</string>
 
 </resources>

@@ -40,7 +40,7 @@ public class SplashScreen extends AppCompatActivity {
                     onBackPressed();
 
                 }
-            },5000);
+            },3000);
         }
         else if(userModel!=null) //@prateek  add condition for USER
         {
@@ -53,7 +53,7 @@ public class SplashScreen extends AppCompatActivity {
                     onBackPressed();
 
                 }
-            },5000);
+            },3000);
         }
         else
         {
@@ -66,7 +66,7 @@ public class SplashScreen extends AppCompatActivity {
                     onBackPressed();
 
                 }
-            },5000);
+            },3000);
         }
     }
 }

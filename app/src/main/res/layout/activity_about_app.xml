@@ -91,10 +91,30 @@
 
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/tpr_button"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/grey"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_library_black_24dp"
+                android:tint="@color/colorAccent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/third_party_res"
+                android:layout_marginLeft="10dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="@color/homeText"/>
+
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,34 +138,15 @@
 
 
         </LinearLayout>
-        <TextView
+        <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/grey"/>
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_library_black_24dp"
-                android:tint="@color/colorAccent"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Third Party Libraries"
-                android:layout_marginLeft="10dp"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                android:textColor="@color/homeText"/>
-
-
-        </LinearLayout>
-        <TextView
+            android:layout_height="0.5dp"
+            android:background="@color/grey"/>
+        <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/grey"/>

@@ -1,9 +1,13 @@
 package com.think2exam.projectt2e.ui.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.widget.ContentLoadingProgressBar;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -12,7 +16,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.text.Layout;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,6 +54,9 @@ public class QuizActivity extends AppCompatActivity {
     int wrongAns = 0;
     AppCompatTextView pointsCounter;
     AppCompatTextView questionCounter;
+    AppCompatTextView paragraphTextView;
+    Button showQuestionBtn;
+    CardView paragraphCard;
 
     ProgressBar progressBar;
 
@@ -77,21 +87,21 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int catId = 0;
         int subId = 0;
-        int paraId = 0;
         if(intent != null){
             catId = intent.getIntExtra(QUIZ_CATEGORY_ID,0);
             subId = intent.getIntExtra(QUIZ_SUBJECT_ID,0);
-            paraId = intent.getIntExtra(QUIZ_PARA_ID,1);
             title = intent.getStringExtra(TITLE);
         }
         if(questionsModels != null){
             setContentView(R.layout.activity_quiz);
         }else{
             setContentView(R.layout.loading);
-            handler.execute(String.valueOf(catId),String.valueOf(subId),String.valueOf(paraId));
+            handler.execute(String.valueOf(catId),String.valueOf(subId));
         }
 
     }
+
+
 
     private void getQuestions(JSONArray array) {
         questionsModels = new ArrayList<>();
@@ -107,7 +117,9 @@ public class QuizActivity extends AppCompatActivity {
                             object.getString(QUIZ_OPTION_4),
                             object.getString(QUIZ_OPTION_5),
                             Integer.parseInt(object.getString(QUIZ_ANSWER_KEY)),
-                            object.getString(QUIZ_ANSWER_DES)
+                            object.getString(QUIZ_ANSWER_DES),
+                            Integer.parseInt(object.getString(QUIZ_PARA_ID)),
+                            object.getString(object.getString(QUIZ_PARAGRAPH))
                     ));
                     //System.out.println(questionsModels.get(i).question);
                 }
@@ -149,6 +161,10 @@ public class QuizActivity extends AppCompatActivity {
         quizTimer = findViewById(R.id.quiz_timer);
         pointsCounter = findViewById(R.id.quiz_point_counter_text);
         questionCounter = findViewById(R.id.quiz_question_number);
+        paragraphTextView = findViewById(R.id.quiz_paragraph);
+        showQuestionBtn = findViewById(R.id.show_question_btn);
+        paragraphCard = findViewById(R.id.paragraph_card);
+
         String point = "+"+points+"XP";
         String questionNo = "Question: "+(counter+1)+"/"+questionsModels.size();
         pointsCounter.setText(point);
@@ -194,6 +210,14 @@ public class QuizActivity extends AppCompatActivity {
                 handleResponse(layoutOptionFive,4);
             }
         });
+
+        showQuestionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNextQuestion();
+            }
+        });
+
     }
 
     private void handleResponse(RelativeLayout layout,int index) {
@@ -255,6 +279,9 @@ public class QuizActivity extends AppCompatActivity {
                     intent.putExtra("score",points);
                     startActivity(intent);
                     try {
+                        if(timerThread != null && timerThread.isAlive()){
+                            timerThread.interrupt();
+                        }
                         finish();
                     }catch (Throwable ex){
                         ex.printStackTrace();
@@ -263,7 +290,15 @@ public class QuizActivity extends AppCompatActivity {
                 }
                 counter++;
                 if (counter < questionsModels.size()){
-                    setNextQuestion();
+                    if(questionsModels.get(counter).paraId!=1 && !questionsModels.get(counter).paragraph.equals("")){
+                        setParagraphText();
+                    }else{
+                        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+                        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        params.height = 0;
+                        paragraphCard.setLayoutParams(params);
+                        setNextQuestion();
+                    }
                 }
 
             }
@@ -312,6 +347,23 @@ public class QuizActivity extends AppCompatActivity {
     protected void finalize() throws Throwable {
         this.finish();
         super.finalize();
+    }
+
+    private void setParagraphText(){
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        int width = WindowManager.LayoutParams.MATCH_PARENT;
+        int height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        try {
+            params.width = width;
+            params.height =height;
+            params.horizontalMargin = 10;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        paragraphCard.setLayoutParams(params);
+        paragraphTextView.setText(questionsModels.get(counter).paragraph);
     }
 
     private void setNextQuestion(){
@@ -443,7 +495,7 @@ public class QuizActivity extends AppCompatActivity {
         protected Void doInBackground(String... strings) {
 
             DBOperations dbOperations = DBOperations.getInstance();
-            JSONArray jsonArray = dbOperations.getQuestions(strings[0],strings[1],strings[2]);
+            JSONArray jsonArray = dbOperations.getQuestions(strings[0],strings[1]);
             getQuestions(jsonArray);
 
             return null;
@@ -453,7 +505,42 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(timerThread!=null && timerThread.isAlive()){
-           timerThread.destroy();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Your progress will be lost").setTitle("Exit quiz?");
+            builder.setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                    user.setTotalMatches(1);
+                    user.setTotalPoints(points);
+                    user.setAvgPoints();
+                    user.setCorrectAns(points/10);
+                    user.setWrongAns(wrongAns);
+                    user.setNoAns(10-(points/10)-wrongAns);
+                    if (points>=50){
+                        user.setWins(1);
+                    }
+                    Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
+                    intent.putExtra("score",points);
+                    startActivity(intent);
+                    try {
+                        if(timerThread != null && timerThread.isAlive()){
+                            timerThread.interrupt();
+                        }
+                        finish();
+                    }catch (Throwable ex){
+                        ex.printStackTrace();
+                    }
+
+                }
+            });
+            builder.setNegativeButton("Stay", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }else {
             super.onBackPressed();
         }
