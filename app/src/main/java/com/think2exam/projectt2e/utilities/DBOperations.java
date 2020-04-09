@@ -174,15 +174,12 @@ public class DBOperations {
 
         return jsonObject;
     }
-    public JSONArray getQuestions(String catId, String subId, String paraId) {
+    public JSONArray getQuestions(String catId, String subId) {
         String url = QUIZ_API_URL + "getQuestions.php";
 
         HashMap<String,String> map = new HashMap<>();
         map.put(QUIZ_CATEGORY_ID,catId);
         map.put(QUIZ_SUBJECT_ID,subId);
-        map.put(QUIZ_PARA_ID,paraId);
-
-        System.out.println("Query for: cat_id "+catId+" sub_id "+subId+" para_id "+paraId);
         String paramStr = setParameters(map);
         String result = execute(url,paramStr);
         System.out.println(result);
