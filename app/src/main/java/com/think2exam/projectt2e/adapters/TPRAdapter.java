@@ -1,7 +1,9 @@
 package com.think2exam.projectt2e.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,7 @@ public class TPRAdapter extends RecyclerView.Adapter<TPRViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TPRViewHolder holder, int position) {
 
-        TPRModel model = list.get(position);
+        final TPRModel model = list.get(position);
 
         holder.title.setText(model.title);
         holder.copyrightInfo.setText(model.copyrightInfo);
@@ -47,6 +49,24 @@ public class TPRAdapter extends RecyclerView.Adapter<TPRViewHolder> {
         holder.licLink.setText(model.licLink);
         holder.licLink.setPaintFlags(holder.licLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.licAL.setText(model.licAl);
+
+        holder.link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse(model.link));
+                context.startActivity(launchBrowser);
+            }
+        });
+
+        holder.licLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!model.licLink.equals("")){
+                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW,Uri.parse(model.licLink));
+                    context.startActivity(launchBrowser);
+                }
+            }
+        });
 
     }
 

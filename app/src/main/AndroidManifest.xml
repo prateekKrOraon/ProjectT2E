@@ -8,9 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.ThirdPartyResourcesActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.activities.InternshipActivity"></activity>
+        <activity android:name=".ui.activities.ThirdPartyResourcesActivity" />
         <activity android:name=".ui.activities.AboutAppActivity" />
         <activity android:name=".ui.activities.QuizSubCategoryActivity" />
         <activity android:name=".LogInActivity" />
@@ -39,8 +40,8 @@
             android:name=".MainActivity"
             android:label="@string/app_name" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -33,6 +33,7 @@ import static com.think2exam.projectt2e.Constants.PHONE_NO;
 import static com.think2exam.projectt2e.Constants.QUERY;
 import static com.think2exam.projectt2e.Constants.QUERY2;
 import static com.think2exam.projectt2e.Constants.QUERY_TYPE;
+import static com.think2exam.projectt2e.Constants.QUESTIONS_API_URL;
 import static com.think2exam.projectt2e.Constants.QUIZ_API_URL;
 import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_PARA_ID;
@@ -175,7 +176,7 @@ public class DBOperations {
         return jsonObject;
     }
     public JSONArray getQuestions(String catId, String subId) {
-        String url = QUIZ_API_URL + "getQuestions.php";
+        String url = QUESTIONS_API_URL + "getQuestions.php";
 
         HashMap<String,String> map = new HashMap<>();
         map.put(QUIZ_CATEGORY_ID,catId);
@@ -374,8 +375,20 @@ public class DBOperations {
         map.put(NO_ANS,user.noAns);
         String paramStr = setParameters(map);
         String result = execute(url,paramStr);
-        System.out.println(result);
         return convertToJSONObject(result);
+    }
+
+    public JSONObject applyForInternship(String name,String phoneNo,String email){
+
+        String url = QUIZ_API_URL + "";
+        HashMap<String,String> map = new HashMap<>();
+        map.put("name",name);
+        map.put("contactnumber",phoneNo);
+        map.put("email",email);
+        String paramStr = setParameters(map);
+        String result = execute(url,paramStr);
+        return convertToJSONObject(result);
+
     }
 
 

@@ -129,6 +129,7 @@ public class ProfileFragment extends Fragment {
         appOptions.add(new ProfileOptionsModal("Share",R.drawable.baseline_share_black_48));
         appOptions.add(new ProfileOptionsModal("About Application",R.drawable.ic_app_information_black_24dp));
         appOptions.add(new ProfileOptionsModal("About Think2Exam",R.drawable.outline_info_black_48));
+        appOptions.add(new ProfileOptionsModal("Internship at Think2Exam",R.drawable.ic_laptop_black_48dp));
 
         LinearLayoutManager appManager = new LinearLayoutManager(this.getContext());
         personalManger.setOrientation(LinearLayoutManager.VERTICAL);

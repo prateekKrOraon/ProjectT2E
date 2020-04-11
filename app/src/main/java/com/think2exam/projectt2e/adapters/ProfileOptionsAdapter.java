@@ -17,6 +17,7 @@ import com.think2exam.projectt2e.modals.ProfileOptionsModal;
 import com.think2exam.projectt2e.ui.activities.AboutActivity;
 import com.think2exam.projectt2e.ui.activities.AboutAppActivity;
 import com.think2exam.projectt2e.ui.activities.EditProfileActivity;
+import com.think2exam.projectt2e.ui.activities.InternshipActivity;
 import com.think2exam.projectt2e.ui.activities.PointsSummaryActivity;
 import com.think2exam.projectt2e.utilities.User;
 import com.think2exam.projectt2e.view_holders.ProfileOptionsViewHolder;
@@ -94,6 +95,9 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                             break;
                         case 2:
                             intent = new Intent(context, AboutActivity.class);
+                            break;
+                        case 3:
+                            intent = new Intent(context, InternshipActivity.class);
                             break;
                         default:
                             Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();
