@@ -4,8 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingStart="10dp"
+    android:paddingTop="30dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="10dp">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tpr_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Circle Image View"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
     <View
         android:layout_width="match_parent"
@@ -69,12 +78,5 @@
         android:text="Licensed under the Apache License, Version 2.0"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
 
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tpr_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Circle Image View"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
 </LinearLayout>

@@ -33,7 +33,10 @@
     <string name="more">More</string>
     <string name="locate_college">Locate on map</string>
     <string name="visit_web">Visit Website</string>
-
+    <string name="first_name">First Name *</string>
+    <string name="last_name">Last Name *</string>
+    <string name="phone_no_imp">Phone no. *</string>
+    <string name="email_id">Email *</string>
 
     <string name="about_quiz">Think2exam now comes up with Quizes that help students to prepare for different Competitive exams.
         \n\n<u>How to play</u>: \n\n1. You have to login first (no need if you already have done).
@@ -142,8 +145,11 @@ Best Education Platforms</string>
     <string name="forgot_password_instruction">Tap Next to Recover your account. An SMS may be sent to verify your number.</string>
     <string name="developers1">Dhrubajit Sarkar</string>
     <string name="developers2">Prateek Kumar Oraon</string>
-    <string name="third_party_res">Third Party Resources</string>
+    <string name="third_party_res">Open Source Licenses</string>
     <string name="paragraph">Paragraph</string>
     <string name="show_question">Show question</string>
+    <string name="apply_internship">Apply for Internship</string>
+    <string name="apply">APPLY NOW</string>
+    <string name="internship_abstract">Think2Exam provide in-office and work from internship to students in the field of Web and Android application development.\nStudents having previous experience in the mentioned areas can apply to the internship.\nWe will contact you in few days</string>
 
 </resources>

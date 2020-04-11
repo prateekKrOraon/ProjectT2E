@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.text.HtmlCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import android.content.DialogInterface;
@@ -16,7 +17,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.text.Layout;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -32,6 +32,10 @@ import com.think2exam.projectt2e.utilities.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
+
 import java.util.ArrayList;
 import static com.think2exam.projectt2e.Constants.*;
 
@@ -119,7 +123,7 @@ public class QuizActivity extends AppCompatActivity {
                             Integer.parseInt(object.getString(QUIZ_ANSWER_KEY)),
                             object.getString(QUIZ_ANSWER_DES),
                             Integer.parseInt(object.getString(QUIZ_PARA_ID)),
-                            object.getString(object.getString(QUIZ_PARAGRAPH))
+                            object.getString(QUIZ_PARAGRAPH)
                     ));
                     //System.out.println(questionsModels.get(i).question);
                 }
@@ -292,11 +296,24 @@ public class QuizActivity extends AppCompatActivity {
                 if (counter < questionsModels.size()){
                     if(questionsModels.get(counter).paraId!=1 && !questionsModels.get(counter).paragraph.equals("")){
                         setParagraphText();
+                        questionView.setText("");
+                        optionOneText.setText("");
+                        optionTwoText.setText("");
+                        optionThreeText.setText("");
+                        optionFourText.setText("");
+                        optionFiveText.setText("");
+                        progressBar.setProgress(0);
+                        layoutOptionOne.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                        layoutOptionTwo.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                        layoutOptionThree.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                        layoutOptionFour.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                        layoutOptionFive.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
                     }else{
                         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
                         params.width = WindowManager.LayoutParams.MATCH_PARENT;
                         params.height = 0;
-                        paragraphCard.setLayoutParams(params);
+                        paragraphCard.getLayoutParams().height = params.height;
+                        paragraphCard.getLayoutParams().width = params.width;
                         setNextQuestion();
                     }
                 }
@@ -362,8 +379,13 @@ public class QuizActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        paragraphCard.setLayoutParams(params);
-        paragraphTextView.setText(questionsModels.get(counter).paragraph);
+        paragraphCard.getLayoutParams().height = params.height;
+        paragraphCard.getLayoutParams().width = params.width;
+        String para = questionsModels.get(counter).paragraph.toString();
+        String htmlData = HtmlCompat.fromHtml(para,HtmlCompat.FROM_HTML_MODE_COMPACT).toString();
+        Document doc = Jsoup.parse(htmlData);
+        String str = doc.select("p").toString().replaceAll("<[^>]*>","");
+        paragraphTextView.setText(str);
     }
 
     private void setNextQuestion(){
