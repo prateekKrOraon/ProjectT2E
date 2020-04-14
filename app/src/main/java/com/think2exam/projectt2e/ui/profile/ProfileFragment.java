@@ -1,6 +1,8 @@
 package com.think2exam.projectt2e.ui.profile;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ public class ProfileFragment extends Fragment {
     private ArrayList<ProfileOptionsModal> personalOptions;
     private ArrayList<ProfileOptionsModal> appOptions;
     User user = User.getInstance();
+    View root;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +57,7 @@ public class ProfileFragment extends Fragment {
         }else {
             setLogout(root);
         }
+        this.root=root;
         return root;
     }
 
@@ -71,15 +75,31 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setLogout(final View root){
+        final AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Do you want to logout ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        user.setId(-1);
+                        deleteFromSharefPref();
+                        startActivity(new Intent(getContext(), LogInActivity.class));
+                        MainActivity.getInstance().finish();
+                        dialog.cancel();
+                    }
+                });
+          builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+            }
+        });
         TextView logOut = root.findViewById(R.id.log_out);
         logOut.setVisibility(View.VISIBLE);
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    user.setId(-1);
-                    deleteFromSharefPref();
-                    startActivity(new Intent(getContext(), LogInActivity.class));
-                    MainActivity.getInstance().finish();
+                builder.show();
 
             }
         });
@@ -115,6 +135,8 @@ public class ProfileFragment extends Fragment {
         //Creating list for personal section of profile
         personalOptions.add(new ProfileOptionsModal("Edit Profile",R.drawable.outline_person_black_48));
         personalOptions.add(new ProfileOptionsModal("Points Summary",R.drawable.ic_trophy_outline_white_48dp));
+        personalOptions.add(new ProfileOptionsModal("Internship at Think2Exam",R.drawable.ic_laptop_black_48dp));
+
 
         LinearLayoutManager personalManger = new LinearLayoutManager(this.getContext());
         personalManger.setOrientation(LinearLayoutManager.VERTICAL);
@@ -129,7 +151,6 @@ public class ProfileFragment extends Fragment {
         appOptions.add(new ProfileOptionsModal("Share",R.drawable.baseline_share_black_48));
         appOptions.add(new ProfileOptionsModal("About Application",R.drawable.ic_app_information_black_24dp));
         appOptions.add(new ProfileOptionsModal("About Think2Exam",R.drawable.outline_info_black_48));
-        appOptions.add(new ProfileOptionsModal("Internship at Think2Exam",R.drawable.ic_laptop_black_48dp));
 
         LinearLayoutManager appManager = new LinearLayoutManager(this.getContext());
         personalManger.setOrientation(LinearLayoutManager.VERTICAL);
@@ -142,4 +163,9 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUserDetails(root);
+    }
 }

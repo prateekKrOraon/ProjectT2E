@@ -38,68 +38,46 @@
         android:padding="20dp"
         android:gravity="center">
 
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="20dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="@string/save_changes"
-            android:elevation="4dp"
-            android:layout_gravity="center_horizontal"
-            android:enabled="true"
-            android:textColor="@color/white"
-            android:id="@+id/save_profile_changes"
-            android:background="@drawable/stadium_border_button"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/user_default"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/colorAccent">
+
+                <ImageView
+                    android:id="@+id/edit_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_camera_alt_black_24dp"
+                    android:tint="@color/white"
+                    android:layout_margin="5dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_gravity="center"/>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/edit_profile_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:id="@+id/edit_profile_fname"
-            android:textColor="@color/black"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/last_name"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/colorAccent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:id="@+id/edit_profile_lname"
-            android:textColor="@color/black"/>
+            android:layout_height="wrap_content"/>
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/email_id"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_profile_email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/black" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/first_name"
-            android:textStyle="bold"
-            android:textColor="@color/colorAccent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

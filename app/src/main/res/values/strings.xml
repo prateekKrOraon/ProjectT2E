@@ -33,10 +33,11 @@
     <string name="more">More</string>
     <string name="locate_college">Locate on map</string>
     <string name="visit_web">Visit Website</string>
-    <string name="first_name">First Name *</string>
-    <string name="last_name">Last Name *</string>
-    <string name="phone_no_imp">Phone no. *</string>
-    <string name="email_id">Email *</string>
+    <string name="profile_fname">First Name</string>
+    <string name="profile_lname">Last Name</string>
+    <string name="profile_phone">Phone no</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_clg_name">College Name</string>
 
     <string name="about_quiz">Think2exam now comes up with Quizes that help students to prepare for different Competitive exams.
         \n\n<u>How to play</u>: \n\n1. You have to login first (no need if you already have done).

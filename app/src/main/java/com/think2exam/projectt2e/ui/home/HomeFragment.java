@@ -19,10 +19,18 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.hanks.htextview.base.AnimationListener;
+import com.hanks.htextview.base.HTextView;
+import com.hanks.htextview.typer.TyperTextView;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.adapters.CategoryAdapter;
 import com.think2exam.projectt2e.adapters.CityAdapter;
+import com.think2exam.projectt2e.adapters.ColImageSliderAdapter;
 import com.think2exam.projectt2e.adapters.FeaturedCollegeAdapter;
+import com.think2exam.projectt2e.adapters.HomeImageSliderAdapter;
 import com.think2exam.projectt2e.adapters.QuizCatAdapterHome;
 import com.think2exam.projectt2e.adapters.SnapHelperOneByOne;
 import com.think2exam.projectt2e.adapters.StateAdapter;
@@ -87,11 +95,6 @@ public class HomeFragment extends Fragment {
         SharedPreferences pref = getContext().getSharedPreferences("MyPreference", 0);
         catId = pref.getInt("category_id",-1);
 
-        ImageView homeImage = root.findViewById(R.id.home_image);
-        Glide.with(root.getContext())
-                .load(R.drawable.home_background)
-                .into(homeImage);
-
         //set Top cities and top states
         final TextView topCity = root.findViewById(R.id.popular_city_text);
         TextView topState = root.findViewById(R.id.popular_state_text);
@@ -130,10 +133,52 @@ public class HomeFragment extends Fragment {
         setStateAdapter(root);
 
         setCategoryAdapter(root);
-        //learn more quiz
+
+        setHomeSliderLayout(root);
+
+        setTyperText(root);
 
 
         return root;
+    }
+
+    private void setTyperText(View root){
+        TyperTextView typerTextView = root.findViewById(R.id.text_typer);
+        typerTextView.setTyperSpeed(120);
+        typerTextView.setCharIncrease(1);
+            typerTextView.animateText("Do you want to find right college?");
+            typerTextView.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationEnd(HTextView hTextView) {
+                    hTextView.animateText("Then THINK2EXAM is here for you");
+                    hTextView.setAnimationListener(new AnimationListener() {
+                        @Override
+                        public void onAnimationEnd(HTextView hTextView) {
+                            hTextView.animateText("with 6000+ Colleges");
+                            hTextView.setAnimationListener(new AnimationListener() {
+                                @Override
+                                public void onAnimationEnd(HTextView hTextView) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+    }
+
+    private void setHomeSliderLayout(View root)
+    {
+        ArrayList<Integer> Images = new ArrayList<>();
+        Images.add(R.drawable.home_slider_image_1);
+        Images.add(R.drawable.home_slider_image_2);
+        Images.add(R.drawable.home_slider_image_3);
+        SliderView imageSlider = root.findViewById(R.id.home_image_slider);
+        imageSlider.setSliderAdapter(new HomeImageSliderAdapter(this,Images));
+        imageSlider.startAutoCycle();
+        imageSlider.setIndicatorAnimation(IndicatorAnimations.WORM);
+        imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
     }
 
     public void initQuizCatSlider(View root)
