@@ -391,6 +391,20 @@ public class DBOperations {
 
     }
 
+    public JSONArray getTopPlayers(){
+        String url = QUIZ_API_URL + "";
+        //TODO: implement api
+        /*
+            First position card background gradient_golden.xml
+            second position card background gradient_silver.xml
+            third position card background gradient_bronze.xml
+
+            Gradient files are in drawable folder
+         */
+        String result = execute(url,"");
+        return convertToJSONArray(result);
+    }
+
 
 
 }

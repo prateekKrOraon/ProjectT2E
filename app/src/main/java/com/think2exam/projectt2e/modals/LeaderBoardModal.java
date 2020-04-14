@@ -4,12 +4,13 @@ public class LeaderBoardModal {
 
     public int image;
     public String name;
-    public String level;
+    public String points;
     public String rank;
-    public LeaderBoardModal(String rank, int image, String name, String level){
+
+    public LeaderBoardModal(String rank, int image, String name, String points){
         this.image = image;
         this.name = name;
-        this.level = level;
+        this.points = points;
         this.rank = rank;
     }
 
