@@ -81,8 +81,6 @@ public class SearchFragment extends Fragment {
         cityText.setText(getString(R.string.all_cities));
 
         cityll.setVisibility(View.GONE);
-        cityRL.setBackgroundColor(getResources().getColor(R.color.gray_search_box));
-
         categoryRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -70,6 +70,9 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                         case 1:
                             intent = new Intent(context, PointsSummaryActivity.class);
                             break;
+                        case 2:
+                            intent = new Intent(context, InternshipActivity.class);
+                            break;
                         default:
                             Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();
                     }
@@ -95,9 +98,6 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                             break;
                         case 2:
                             intent = new Intent(context, AboutActivity.class);
-                            break;
-                        case 3:
-                            intent = new Intent(context, InternshipActivity.class);
                             break;
                         default:
                             Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();

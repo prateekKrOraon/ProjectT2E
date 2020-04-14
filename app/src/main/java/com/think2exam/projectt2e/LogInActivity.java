@@ -775,6 +775,31 @@ public class LogInActivity extends AppCompatActivity {
         UserModel userModel = null;
         if(jsonObject!=null)
         {
+            int total_matches,total_points,wins,correct_ans,wrong_ans,no_ans;
+            if(jsonObject.getString(TOTAL_MATCHES).trim().length()!=0)
+                total_matches = jsonObject.getInt(TOTAL_MATCHES);
+            else
+                total_matches = 0;
+            if(jsonObject.getString(TOTAL_POINTS).trim().length()!=0)
+                total_points = jsonObject.getInt(TOTAL_POINTS);
+            else
+                total_points = 0;
+            if(jsonObject.getString(WINS).trim().length()!=0)
+                wins = jsonObject.getInt(WINS);
+            else
+                wins = 0;
+            if(jsonObject.getString(CORRECT_ANS).trim().length()!=0)
+                correct_ans = jsonObject.getInt(CORRECT_ANS);
+            else
+                correct_ans = 0;
+            if(jsonObject.getString(WRONG_ANS).trim().length()!=0)
+                wrong_ans = jsonObject.getInt(WRONG_ANS);
+            else
+                wrong_ans = 0;
+            if(jsonObject.getString(NO_ANS).trim().length()!=0)
+                no_ans = jsonObject.getInt(NO_ANS);
+            else
+                no_ans = 0;
 
             userModel = new UserModel(jsonObject.getInt(ID),
                     jsonObject.getString(FIRST_NAME),
@@ -782,12 +807,12 @@ public class LogInActivity extends AppCompatActivity {
                     jsonObject.getString(PHONE_NO),
                     jsonObject.getString(EMAIL_ID),
                     jsonObject.getString(IMAGE),
-                    jsonObject.getInt(TOTAL_MATCHES),
-                    jsonObject.getInt(TOTAL_POINTS),
-                    jsonObject.getInt(WINS),
-                    jsonObject.getInt(CORRECT_ANS),
-                    jsonObject.getInt(WRONG_ANS),
-                    jsonObject.getInt(NO_ANS));
+                    total_matches,
+                    total_points,
+                    wins,
+                    correct_ans,
+                    wrong_ans,
+                    no_ans);
         }
         return userModel;
     }

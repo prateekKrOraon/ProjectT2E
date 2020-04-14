@@ -378,15 +378,17 @@ public class DBOperations {
         return convertToJSONObject(result);
     }
 
-    public JSONObject applyForInternship(String name,String phoneNo,String email){
+    public JSONObject applyForInternship(String name,String phoneNo,String email,String clgName){
 
-        String url = QUIZ_API_URL + "";
+        String url = QUIZ_API_URL + "applyForInternship.php";
         HashMap<String,String> map = new HashMap<>();
         map.put("name",name);
         map.put("contactnumber",phoneNo);
         map.put("email",email);
+        map.put("College_name",clgName);
         String paramStr = setParameters(map);
         String result = execute(url,paramStr);
+        System.out.println(result);
         return convertToJSONObject(result);
 
     }

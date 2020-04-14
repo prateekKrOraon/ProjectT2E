@@ -29,12 +29,12 @@ public class OTPRequestHandler {
         int fourth = random.nextInt(10);
         String otp = first+""+ second+""+ third +""+ fourth;
         this.otp = otp;
-        String msg = otp+" is the OTP for your Think2Exam app login, valid for 5 mins.\n\nYou may reach us at Think2Exam.com for assistance";
+        String msg = otp+" is your OTP for Think2Exam app login. It is valid for 5 minutes. Do not share your OTP with anyone.";
 
 
         String apiKey = "apiKey="+ Constants.OTP_API_KEY;
         String message = "&message="+ msg;
-        String sender = "&sender="+ "TXTLCL";
+        String sender = "&sender="+ "onexam";
         String number = "&numbers="+phone;
 
         try {

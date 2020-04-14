@@ -4,7 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -32,21 +34,30 @@ public class InternshipActivity extends AppCompatActivity {
     private AppCompatEditText lastNameEdit;
     private AppCompatEditText phoneEdit;
     private AppCompatEditText emailEdit;
+    private AppCompatEditText clgNameEdit;
     private AppCompatButton applyBtn;
-    private ProgressBar progress;
+    private ProgressDialog progressDialog;
     private User user = User.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_internship);
+        Toolbar toolbar = findViewById(R.id.internship_toolbar);
+        setSupportActionBar(toolbar);
+        try {
+            getSupportActionBar().setTitle(getString(R.string.apply_internship));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         firstNameEdit = findViewById(R.id.internship_first_name_edit);
         lastNameEdit = findViewById(R.id.internship_last_name_edit);
         phoneEdit = findViewById(R.id.internship_phone_no_edit);
         emailEdit = findViewById(R.id.internship_email_edit);
+        clgNameEdit = findViewById(R.id.internship_college_name_edit);
         applyBtn = findViewById(R.id.internship_apply_btn);
-        progress = findViewById(R.id.internship_progress_bar);
 
         firstNameEdit.setText(user.fname);
         lastNameEdit.setText(user.lname);
@@ -60,11 +71,13 @@ public class InternshipActivity extends AppCompatActivity {
                 String lastName = "";
                 String phoneNo = "";
                 String email = "";
+                String clgName = "";
                 try {
                     firstName = firstNameEdit.getText().toString();
                     lastName = lastNameEdit.getText().toString();
                     phoneNo = phoneEdit.getText().toString();
                     email = emailEdit.getText().toString();
+                    clgName = clgNameEdit.getText().toString();
                 }catch (NullPointerException ex){
                     emptyField = true;
                     ex.printStackTrace();
@@ -82,41 +95,59 @@ public class InternshipActivity extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }else{
-                    applyBtn.setVisibility(View.GONE);
-                    progress.setVisibility(View.VISIBLE);
+
                     //TODO: attach link to url in DBOperations.applyForInternship()
-                    //ApplyInternship apply = new ApplyInternship();
-                    //apply.execute(firstName,lastName,phoneNo,email);
+                    ApplyInternship apply = new ApplyInternship();
+                    apply.execute(firstName,lastName,phoneNo,email,clgName);
+                    setProgressDialog();
                 }
             }
         });
 
     }
 
-    private class ApplyInternship extends AsyncTask<String,Void,Void>{
+    private void setProgressDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Apply for Internship");
+        progressDialog.setMessage("Requesting...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
 
+
+    private class ApplyInternship extends AsyncTask<String,Void,Void>{
+        JSONObject object;
         @Override
         protected Void doInBackground(String... strings) {
             DBOperations dbOperations = DBOperations.getInstance();
-            JSONObject object = dbOperations.applyForInternship(strings[0]+strings[1],strings[2],strings[3]);
-            try {
-                if(object.getBoolean(ERROR)){
-                    Toast.makeText(getApplicationContext(),object.getString(MESSAGE),Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(getApplicationContext(),object.getString(MESSAGE),Toast.LENGTH_LONG).show();
-                    finish();
-                }
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
+            object = dbOperations.applyForInternship(strings[0]+" "+strings[1],strings[2],strings[3],strings[4]);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progress.setVisibility(View.GONE);
-            progress.setVisibility(View.VISIBLE);
+            progressDialog.dismiss();
+            try {
+                if(object!=null && !object.getBoolean(ERROR)){
+                    Toast.makeText(getApplicationContext(),object.getString(MESSAGE),Toast.LENGTH_LONG).show();
+                    finish();
+                }else if(object!=null && object.getBoolean(ERROR)) {
+                    Toast.makeText(getApplicationContext(),object.getString(MESSAGE),Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(InternshipActivity.this, "OOPS! Some Error Occurred, may be your Internet connection down", Toast.LENGTH_SHORT).show();
+                }
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+
     }
 }

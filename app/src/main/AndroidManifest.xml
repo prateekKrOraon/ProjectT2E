@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.think2exam.projectt2e">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,8 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.CheckAnswersActivity"></activity>
-        <activity android:name=".ui.activities.InternshipActivity" />
+        <activity android:name=".ui.activities.InternshipActivity"></activity>
         <activity android:name=".ui.activities.ThirdPartyResourcesActivity" />
         <activity android:name=".ui.activities.AboutAppActivity" />
         <activity android:name=".ui.activities.QuizSubCategoryActivity" />
@@ -41,8 +44,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.VIBRATE" />
+
 
 </manifest>

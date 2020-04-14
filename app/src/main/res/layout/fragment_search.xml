@@ -11,20 +11,27 @@
               android:background="@android:color/transparent"
               android:orientation="vertical">
 
-              <ImageView
-                  android:id="@+id/search_image"
+              <androidx.coordinatorlayout.widget.CoordinatorLayout
                   android:layout_width="match_parent"
-                  android:layout_height="150dp"
-                  android:scaleType="fitXY" />
+                  android:layout_height="120dp">
 
-              <TextView
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:text="Search Colleges"
-                  android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                  android:textAlignment="center"
-                  android:fontFamily="sans-serif-condensed"
-                  android:layout_marginTop="-40dp"/>
+                  <ImageView
+                      android:id="@+id/search_image"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:scaleType="fitXY" />
+
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Search Colleges"
+                      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                      android:textAlignment="center"
+                      android:layout_margin="10dp"
+                      android:layout_gravity="bottom"/>
+
+              </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
               <include
                   android:id="@+id/category_box_layout"
@@ -69,6 +76,7 @@
                       android:layout_height="match_parent"
                       android:background="@android:color/transparent"
                       android:hint="College Name Contains"
+                      android:inputType="text"
                       android:layout_marginLeft="10dp"
                       android:layout_marginRight="10dp"
                       android:layout_centerVertical="true"/>
