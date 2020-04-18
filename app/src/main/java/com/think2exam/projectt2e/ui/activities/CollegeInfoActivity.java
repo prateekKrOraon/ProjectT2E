@@ -71,9 +71,9 @@ import static com.think2exam.projectt2e.Constants.COLLEGE_RANK;
 import static com.think2exam.projectt2e.Constants.COLLEGE_TYPE;
 import static com.think2exam.projectt2e.Constants.COUNTRY;
 import static com.think2exam.projectt2e.Constants.DISTRICT;
-import static com.think2exam.projectt2e.Constants.ENGINEERING_COLLEGE_CI_URL;
+import static com.think2exam.projectt2e.Constants.ENGINEERING_COLLEGE_IMAGE_URL;
 import static com.think2exam.projectt2e.Constants.ID;
-import static com.think2exam.projectt2e.Constants.MANAGEMENT_COLLEGE_CI_URL;
+import static com.think2exam.projectt2e.Constants.MANAGEMENT_COLLEGE_IMAGE_URL;
 import static com.think2exam.projectt2e.Constants.MASTER_DEGREE;
 import static com.think2exam.projectt2e.Constants.MASTER_DEGREE_COURSE_01;
 import static com.think2exam.projectt2e.Constants.MASTER_DEGREE_COURSE_02;
@@ -82,7 +82,8 @@ import static com.think2exam.projectt2e.Constants.MTECH_02;
 import static com.think2exam.projectt2e.Constants.MTECH_03;
 import static com.think2exam.projectt2e.Constants.MTECH_04;
 import static com.think2exam.projectt2e.Constants.MTECH_05;
-import static com.think2exam.projectt2e.Constants.OTHER_COLLEGE_CI_URL;
+import static com.think2exam.projectt2e.Constants.NURSING_AND_PARA_IMAGE_URL;
+import static com.think2exam.projectt2e.Constants.OTHER_COLLEGE_IMAGE_URL;
 import static com.think2exam.projectt2e.Constants.PIN;
 import static com.think2exam.projectt2e.Constants.STATE;
 import static com.think2exam.projectt2e.Constants.TABLE_ID;
@@ -396,12 +397,15 @@ public class CollegeInfoActivity extends AppCompatActivity {
     {
         String image_url;
         if(catId == R.string.engineering){
-            image_url = ENGINEERING_COLLEGE_CI_URL;
+            image_url = ENGINEERING_COLLEGE_IMAGE_URL;
         }else if(catId == R.string.management){
-            image_url = MANAGEMENT_COLLEGE_CI_URL;
+            image_url = MANAGEMENT_COLLEGE_IMAGE_URL;
+        }else if(catId == R.string.nursing_and_paramedical){
+            image_url = NURSING_AND_PARA_IMAGE_URL;
         }else {
-            image_url = OTHER_COLLEGE_CI_URL;
+            image_url = OTHER_COLLEGE_IMAGE_URL;
         }
+        image_url.trim();
         images.add(image_url+jsonObject.getString(COLLEGE_IMAGE1));
         images.add(image_url+jsonObject.getString(COLLEGE_IMAGE2));
         images.add(image_url+jsonObject.getString(COLLEGE_IMAGE3));

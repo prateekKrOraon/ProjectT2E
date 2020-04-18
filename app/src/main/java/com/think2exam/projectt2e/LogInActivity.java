@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mukesh.OnOtpCompletionListener;
 import com.mukesh.OtpView;
 import com.think2exam.projectt2e.modals.UserModel;
@@ -771,8 +772,9 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-    public UserModel convertToUserModel(JSONObject jsonObject) throws JSONException {
+    public UserModel convertToUserModel(JSONObject jsonObject1) throws JSONException {
         UserModel userModel = null;
+        JSONObject jsonObject = jsonObject1.getJSONObject("0");
         if(jsonObject!=null)
         {
             int total_matches,total_points,wins,correct_ans,wrong_ans,no_ans;

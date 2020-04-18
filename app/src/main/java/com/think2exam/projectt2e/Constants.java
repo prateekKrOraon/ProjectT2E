@@ -100,9 +100,10 @@ public class Constants {
     public static String COLLEGE_IMAGE3 = "college_image3";
     public static String COLLEGE_IMAGE4 = "college_image4";
     public static String URL = "url";
-    public static String ENGINEERING_COLLEGE_CI_URL ="http://admin.think2exam.com/engineering/images/";
-    public static String MANAGEMENT_COLLEGE_CI_URL = "http://admin.think2exam.com/mba/images/";
-    public static String OTHER_COLLEGE_CI_URL = "http://admin.think2exam.com/others/images/";
+    public static String ENGINEERING_COLLEGE_IMAGE_URL ="http://admin.think2exam.com/engineering/images/";
+    public static String MANAGEMENT_COLLEGE_IMAGE_URL = "http://admin.think2exam.com/mba/images/";
+    public static String NURSING_AND_PARA_IMAGE_URL = "http://admin.think2exam.com/Nursing&Paramedical/images/";
+    public static String OTHER_COLLEGE_IMAGE_URL = "http://admin.think2exam.com/others/images/";
 
 
 }

@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.modals.HomeImageSliderModel;
 import com.think2exam.projectt2e.ui.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -19,9 +21,9 @@ public class HomeImageSliderAdapter extends SliderViewAdapter<HomeImageSliderAda
 
     private HomeFragment context;
 
-    private ArrayList<Integer> images;
+    private ArrayList<HomeImageSliderModel> images;
 
-    public HomeImageSliderAdapter(HomeFragment context, ArrayList<Integer> images) {
+    public HomeImageSliderAdapter(HomeFragment context, ArrayList<HomeImageSliderModel> images) {
         this.context = context;
         this.images = images;
     }
@@ -29,7 +31,7 @@ public class HomeImageSliderAdapter extends SliderViewAdapter<HomeImageSliderAda
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.college_image_slider_layout, null);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_image_slider_layout, null);
         return new SliderAdapterVH(inflate);
     }
 
@@ -38,8 +40,9 @@ public class HomeImageSliderAdapter extends SliderViewAdapter<HomeImageSliderAda
 
 
         Glide.with(context)
-                .load(images.get(position))
+                .load(images.get(position).getImage())
                 .into(viewHolder.image);
+        viewHolder.name.setText(images.get(position).getName());
 
 
     }
@@ -54,12 +57,14 @@ public class HomeImageSliderAdapter extends SliderViewAdapter<HomeImageSliderAda
 
         View itemView;
         ImageView image;
+        TextView name;
 
 
         public SliderAdapterVH(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            image = itemView.findViewById(R.id.col_info_image);
+            image = itemView.findViewById(R.id.home_image);
+            name = itemView.findViewById(R.id.home_image_name);
         }
     }
 
