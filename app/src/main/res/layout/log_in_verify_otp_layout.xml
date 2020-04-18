@@ -48,6 +48,7 @@
             app:itemCount="4"
             app:lineColor="@color/colorPrimary"
             app:lineWidth="2dp"
+            app:itemRadius="5dp"
             android:textStyle="bold"
             android:focusedByDefault="true"
             android:focusableInTouchMode="true"
