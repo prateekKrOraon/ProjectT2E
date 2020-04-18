@@ -73,7 +73,7 @@
                         android:background="@android:color/transparent"
                         android:focusedByDefault="true"
                         android:padding="10dp"
-                        android:text="9999996759"
+                        android:textStyle="bold"
                         android:focusableInTouchMode="true"
                         android:inputType="phone"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1">
