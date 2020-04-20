@@ -54,7 +54,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@android:color/transparent"
-                        android:focusedByDefault="true"
                         android:textStyle="bold"
                         android:focusableInTouchMode="true"
                         android:inputType="phone"
@@ -98,8 +97,7 @@
                     android:focusableInTouchMode="true"
                     android:inputType="textPassword"
                     android:padding="10dp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textStyle="bold"></EditText>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"></EditText>
 
                 <ImageView
                     android:id="@+id/show_hide_password"

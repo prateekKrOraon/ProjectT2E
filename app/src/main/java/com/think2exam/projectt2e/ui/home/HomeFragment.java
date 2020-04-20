@@ -38,6 +38,7 @@ import com.think2exam.projectt2e.adapters.PrestigiousCollegeAdapter;
 import com.think2exam.projectt2e.modals.CategoryModel;
 import com.think2exam.projectt2e.modals.CityModel;
 import com.think2exam.projectt2e.modals.FeaturedCollegeModel;
+import com.think2exam.projectt2e.modals.HomeImageSliderModel;
 import com.think2exam.projectt2e.modals.QuizCategoryModal;
 import com.think2exam.projectt2e.modals.StateModel;
 import com.think2exam.projectt2e.modals.PrestigiousCollegeModel;
@@ -170,10 +171,10 @@ public class HomeFragment extends Fragment {
 
     private void setHomeSliderLayout(View root)
     {
-        ArrayList<Integer> Images = new ArrayList<>();
-        Images.add(R.drawable.home_slider_image_1);
-        Images.add(R.drawable.home_slider_image_2);
-        Images.add(R.drawable.home_slider_image_3);
+        ArrayList<HomeImageSliderModel> Images = new ArrayList<>();
+        Images.add(new HomeImageSliderModel(R.drawable.home_slider_image_1,"Buddha Park, Ravangla"));
+        Images.add(new HomeImageSliderModel(R.drawable.home_slider_image_2,"AIIMS Delhi"));
+        Images.add(new HomeImageSliderModel(R.drawable.home_slider_image_3,"IIT Guwahati"));
         SliderView imageSlider = root.findViewById(R.id.home_image_slider);
         imageSlider.setSliderAdapter(new HomeImageSliderAdapter(this,Images));
         imageSlider.startAutoCycle();
