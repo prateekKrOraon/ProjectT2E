@@ -195,6 +195,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/quiz_profile_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/user_default"
+                        app:civ_border_color="@color/colorAccent"
+                        app:civ_border_width="0dp" />
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -220,14 +228,6 @@
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/quiz_profile_image"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/outline_person_black_48"
-                        app:civ_border_color="@color/colorAccent"
-                        app:civ_border_width="0dp" />
-
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -251,6 +251,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
+
                     <Button
                         android:id="@+id/show_question_btn"
                         android:layout_width="wrap_content"
@@ -264,7 +265,6 @@
                         android:paddingEnd="20dp"
                         android:text="@string/show_question"
                         android:textColor="@color/white"/>
-
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/quiz_paragraph"

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.text.HtmlCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
@@ -352,8 +351,12 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(timerThread!=null) {
-            timerThread.interrupt();
+        try {
+            if(timerThread!=null && timerThread.isAlive()) {
+                timerThread.interrupt();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
         super.onDestroy();
     }
@@ -413,24 +416,6 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    private class Options{
-
-        Options(String option1, String option2, String option3, String option4, int correctIndex) {
-            this.option1 = option1;
-            this.option2 = option2;
-            this.option3 = option3;
-            this.option4 = option4;
-            this.correctIndex = correctIndex;
-        }
-
-        String option1;
-        String option2;
-        String option3;
-        String option4;
-
-        int correctIndex;
-
-    }
 
     private class TimerThread extends Thread{
 
@@ -473,7 +458,7 @@ public class QuizActivity extends AppCompatActivity {
                                 assert vibrator != null;
                                 vibrator.vibrate(200);
                             }
-                            timerThread.interrupt();
+                            interrupt();
                         }
                     }
                 });

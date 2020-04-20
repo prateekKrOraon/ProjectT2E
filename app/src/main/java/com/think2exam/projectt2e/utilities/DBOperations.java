@@ -176,7 +176,7 @@ public class DBOperations {
         return jsonObject;
     }
     public JSONArray getQuestions(String catId, String subId) {
-        String url = QUESTIONS_API_URL + "getQuestions.php";
+        String url = QUIZ_API_URL + "getQuestions.php";
 
         HashMap<String,String> map = new HashMap<>();
         map.put(QUIZ_CATEGORY_ID,catId);
@@ -394,7 +394,7 @@ public class DBOperations {
     }
 
     public JSONArray getTopPlayers(){
-        String url = QUIZ_API_URL + "";
+        String url = QUIZ_API_URL + "getTopPlayers.php";
         //TODO: implement api
         /*
             First position card background gradient_golden.xml
