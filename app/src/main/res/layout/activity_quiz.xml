@@ -60,7 +60,10 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="45dp"
-                    android:padding="5dp">
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="10dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/option_1"
@@ -86,7 +89,10 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="45dp"
-                    android:padding="5dp">
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="10dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/option_2"
@@ -112,7 +118,10 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="45dp"
-                    android:padding="5dp">
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="10dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/option_3"
@@ -138,7 +147,10 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="45dp"
-                    android:padding="5dp">
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="10dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/option_4"
@@ -164,7 +176,10 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="45dp"
-                    android:padding="5dp">
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="10dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/option_5"
@@ -232,6 +247,23 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <TextView
+                android:id="@+id/skip_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/try_again_back"
+                android:clickable="true"
+                android:elevation="2dp"
+                android:focusable="true"
+                android:padding="5dp"
+                android:text="@string/skip"
+                android:textColor="@color/loginThemeColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quiz_profile"/>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/paragraph_card"
                 android:layout_width="match_parent"
@@ -240,7 +272,7 @@
                 android:elevation="2dp"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toTopOf="@id/questions_card"
-                app:layout_constraintTop_toBottomOf="@id/quiz_timer"
+                app:layout_constraintTop_toBottomOf="@id/skip_btn"
                 tools:layout_editor_absoluteX="10dp">
 
 
@@ -278,7 +310,7 @@
                         android:textColor="@color/black"
                         android:layout_marginTop="10dp"
                         app:layout_constraintBottom_toTopOf="@+id/linear_layout_options"
-                        app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
+                        app:layout_constraintTop_toBottomOf="@+id/skip_btn"
                         tools:layout_editor_absoluteX="10dp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -337,24 +369,11 @@
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/linear_layout_options"
-                        app:layout_constraintTop_toBottomOf="@+id/quiz_timer"
+                        app:layout_constraintTop_toBottomOf="@+id/skip_btn"
                         tools:layout_editor_absoluteX="10dp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
-
-
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/quiz_timer"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/white"
-                android:max="10"
-                android:progressDrawable="@drawable/quiz_timer_indicator"
-                app:layout_constraintTop_toBottomOf="@+id/quiz_profile"/>
 
 
 

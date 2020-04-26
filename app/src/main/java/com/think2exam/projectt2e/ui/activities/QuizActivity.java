@@ -65,7 +65,8 @@ public class QuizActivity extends AppCompatActivity {
     Button showQuestionBtn;
     CardView paragraphCard;
 
-    ProgressBar progressBar;
+    private TextView skipBtn;
+    //ProgressBar progressBar;
 
     ArrayList<QuestionModel> questionsModels;
 
@@ -75,8 +76,8 @@ public class QuizActivity extends AppCompatActivity {
     AppCompatTextView questionView;
     private boolean error = false;
 
-    private ContentLoadingProgressBar quizTimer;
-    private Thread timerThread;
+    //private ContentLoadingProgressBar quizTimer;
+    //private Thread timerThread;
 
     Vibrator vibrator;
     MediaPlayer buzzer;
@@ -165,7 +166,8 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionFive = findViewById(R.id.option_5_btn);
         optionFiveText = findViewById(R.id.option_5);
         questionView = findViewById(R.id.quiz_question);
-        quizTimer = findViewById(R.id.quiz_timer);
+        //quizTimer = findViewById(R.id.quiz_timer);
+        skipBtn = findViewById(R.id.skip_btn);
         pointsCounter = findViewById(R.id.quiz_point_counter_text);
         questionCounter = findViewById(R.id.quiz_question_number);
         paragraphTextView = findViewById(R.id.quiz_paragraph);
@@ -224,14 +226,46 @@ public class QuizActivity extends AppCompatActivity {
                 setNextQuestion();
             }
         });
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(counter == questionsModels.size()-1){
+                    user.setTotalMatches(1);
+                    user.setTotalPoints(points);
+                    user.setAvgPoints();
+                    user.setCorrectAns(points/10);
+                    user.setWrongAns(wrongAns);
+                    user.setNoAns(10-(points/10)-wrongAns);
+                    if (points>=50){
+                        user.setWins(1);
+                    }
+                    Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
+                    intent.putExtra("score",points);
+                    startActivity(intent);
+//                    try {
+////                        if(timerThread != null && timerThread.isAlive()){
+////                            timerThread.interrupt();
+////                        }
+//                        finish();
+//                    }catch (Throwable ex){
+//                        ex.printStackTrace();
+//                    }
+//                    return;
+                    finish();
+                }else{
+                    counter++;
+                    setNextQuestion();
+                }
+            }
+        });
 
     }
 
     private void handleResponse(RelativeLayout layout, final int index) {
 
-        if(counter == questionsModels.size()-1){
-            timerThread.interrupt();
-        }
+//        if(counter == questionsModels.size()-1){
+//            timerThread.interrupt();
+//        }
 
         if(index == questionsModels.get(counter).answerKey-1){
             layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
@@ -268,7 +302,7 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionFive.setClickable(false);
         layoutOptionFive.setFocusable(false);
 
-        timerThread.interrupt();
+        //timerThread.interrupt();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -286,9 +320,9 @@ public class QuizActivity extends AppCompatActivity {
                     intent.putExtra("score",points);
                     startActivity(intent);
                     try {
-                        if(timerThread != null && timerThread.isAlive()){
-                            timerThread.interrupt();
-                        }
+//                        if(timerThread != null && timerThread.isAlive()){
+//                            timerThread.interrupt();
+//                        }
                         finish();
                     }catch (Throwable ex){
                         ex.printStackTrace();
@@ -317,7 +351,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
             }
-        },(index == questionsModels.get(counter).answerKey-1)?2000:8000);
+        },(index == questionsModels.get(counter).answerKey-1)?2000:3000);
     }
 
     private void viewCorrectAnswer() {
@@ -351,13 +385,13 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        try {
-            if(timerThread!=null && timerThread.isAlive()) {
-                timerThread.interrupt();
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+//        try {
+//            if(timerThread!=null && timerThread.isAlive()) {
+//                timerThread.interrupt();
+//            }
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//        }
         super.onDestroy();
     }
 
@@ -402,7 +436,23 @@ public class QuizActivity extends AppCompatActivity {
 
         layoutOptionFive.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
 
-        questionView.setText(questionsModels.get(counter).question);
+        String question = questionsModels.get(counter).question;
+        System.out.println(question);
+        String htmlData = HtmlCompat.fromHtml(question,HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+
+        if(htmlData.charAt(0)=='<'){
+
+            Document doc = Jsoup.parse(htmlData);
+            String str = doc.select("p").toString().replaceAll("<[^>]*>","");
+            htmlData = HtmlCompat.fromHtml(str,HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+            questionView.setText(htmlData);
+        }else{
+            questionView.setText(htmlData);
+        }
+        //if(str.equals("")){
+        //}else{
+        //    questionView.setText(str);
+        //}
 
         optionOneText.setText(questionsModels.get(counter).option1);
         optionTwoText.setText(questionsModels.get(counter).option2);
@@ -410,63 +460,63 @@ public class QuizActivity extends AppCompatActivity {
         optionFourText.setText(questionsModels.get(counter).option4);
         optionFiveText.setText(questionsModels.get(counter).option5);
 
-        quizTimer.setVisibility(View.VISIBLE);
-        timerThread = new TimerThread();
-        timerThread.start();
+        //quizTimer.setVisibility(View.VISIBLE);
+//        timerThread = new TimerThread();
+//        timerThread.start();
 
     }
 
 
-    private class TimerThread extends Thread{
-
-        final Handler handler = new Handler();
-
-        @Override
-        public void run() {
-            super.run();
-            final int max = 1000;
-            int current = 1000;
-            final int min = 0;
-            quizTimer.setMax(max);
-
-            while (current>min){
-                try {
-                    sleep(10);
-                }catch (InterruptedException ex){
-                    ex.printStackTrace();
-                    return;
-                }
-
-                current = current - 1;
-                quizTimer.setProgress(current);
-
-                final int end = current;
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(end == min){
-                            handleResponse(null,Integer.MAX_VALUE);
-                            if(counter == questionsModels.size()-1){
-                                onDestroy();
-                                return;
-                            }
-                            if(Build.VERSION.SDK_INT >= 26){
-                                assert vibrator != null;
-                                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
-                            }else{
-                                assert vibrator != null;
-                                vibrator.vibrate(200);
-                            }
-                            interrupt();
-                        }
-                    }
-                });
-
-            }
-        }
-
-    }
+//    private class TimerThread extends Thread{
+//
+//        final Handler handler = new Handler();
+//
+//        @Override
+//        public void run() {
+//            super.run();
+//            final int max = 1000;
+//            int current = 1000;
+//            final int min = 0;
+//            quizTimer.setMax(max);
+//
+//            while (current>min){
+//                try {
+//                    sleep(10);
+//                }catch (InterruptedException ex){
+//                    ex.printStackTrace();
+//                    return;
+//                }
+//
+//                current = current - 1;
+//                quizTimer.setProgress(current);
+//
+//                final int end = current;
+//
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(end == min){
+//                            handleResponse(null,Integer.MAX_VALUE);
+//                            if(counter == questionsModels.size()-1){
+//                                onDestroy();
+//                                return;
+//                            }
+//                            if(Build.VERSION.SDK_INT >= 26){
+//                                assert vibrator != null;
+//                                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+//                            }else{
+//                                assert vibrator != null;
+//                                vibrator.vibrate(200);
+//                            }
+//                            interrupt();
+//                        }
+//                    }
+//                });
+//
+//            }
+//        }
+//
+//    }
 
     private class HTTPHandler extends AsyncTask<String,Void,Void> {
 
@@ -515,7 +565,12 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(timerThread!=null && timerThread.isAlive()){
+        if(counter < questionsModels.size()){
+//            try {
+//                timerThread.wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Your progress will be lost").setTitle("Exit quiz?");
             builder.setPositiveButton("Quit", new DialogInterface.OnClickListener() {
@@ -533,20 +588,23 @@ public class QuizActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
                     intent.putExtra("score",points);
                     startActivity(intent);
-                    try {
-                        if(timerThread != null && timerThread.isAlive()){
-                            timerThread.interrupt();
-                        }
-                        finish();
-                    }catch (Throwable ex){
-                        ex.printStackTrace();
-                    }
+//                    try {
+//                        if(timerThread != null && timerThread.isAlive()){
+//                            timerThread.interrupt();
+//                        }else if(timerThread != null && !timerThread.isInterrupted()){
+//                            timerThread.interrupt();
+//                        }
+//                        finish();
+//                    }catch (Throwable ex){
+//                        ex.printStackTrace();
+//                    }
 
                 }
             });
             builder.setNegativeButton("Stay", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
+                    //timerThread.notify();
                 }
             });
 

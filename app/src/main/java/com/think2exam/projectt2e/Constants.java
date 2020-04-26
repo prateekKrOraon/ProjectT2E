@@ -16,7 +16,7 @@ public class Constants {
     public static String QUIZ_SUBJECT_ID = "subject_id";
     public static String QUIZ_SUB_CAT = "subcategory";
     public static String QUIZ_PARA_ID = "para_id";
-    public static String QUIZ_PARAGRAPH = "paragraph";
+    public static String QUIZ_PARAGRAPH = "PARAGRAPH";
     public static String STATUS = "status";
     public static String TABLE_ID = "table";
     public static String SEARCH_KEY = "keyword";

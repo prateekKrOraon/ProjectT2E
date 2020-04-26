@@ -157,5 +157,6 @@ Best Education Platforms</string>
     <string name="correct_answers">Correct Answers</string>
     <string name="result_check_ans_btn">Check Answers</string>
     <string name="quiz_proceed_play">Proceed to play</string>
+    <string name="skip">Skip question</string>
 
 </resources>
