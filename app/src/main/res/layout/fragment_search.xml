@@ -89,7 +89,7 @@
                   android:id="@+id/field_required"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="* category field is necesary"
+                  android:text="* category field is necessary"
                   android:layout_gravity="center_horizontal"
                   android:layout_marginTop="10dp"
                   android:visibility="gone"

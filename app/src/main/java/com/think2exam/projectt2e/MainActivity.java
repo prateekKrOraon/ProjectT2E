@@ -1,11 +1,19 @@
 package com.think2exam.projectt2e;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,12 +25,17 @@ import com.think2exam.projectt2e.ui.quiz.QuizFragment;
 import com.think2exam.projectt2e.ui.search.SearchFragment;
 import com.think2exam.projectt2e.utilities.User;
 
+import java.lang.reflect.Constructor;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import static com.think2exam.projectt2e.Constants.EMAIL_FEEDBACK;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -31,7 +44,7 @@ public class MainActivity extends AppCompatActivity  {
     SearchFragment mSearchFragment;
     ProfileFragment mProfileFragment;
     BottomNavigationView bottomNavigationView;
-
+    ImageView tbIcon;
     public static MainActivity activity;
     public User user = User.getInstance();
 
@@ -49,6 +62,13 @@ public class MainActivity extends AppCompatActivity  {
 
         activity = this;
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
     }
 
     public void getUserFromSharedPref(){
@@ -98,7 +118,63 @@ public class MainActivity extends AppCompatActivity  {
 
         activity = this;
 
+        tbIcon = findViewById(R.id.icon_toolbar);
+        tbIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPopup();
+            }
+        });
+
     }
+
+    private void openPopup(){
+        final PopupMenu menu = new PopupMenu(this,tbIcon);
+        menu.getMenu().add(0,0,0,"Rate us");
+        menu.getMenu().add(0,1,1,"Give us feedback");
+
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                 if(item.getItemId()==0){
+                     rateUs();
+                 }else if(item.getItemId()==1) {
+                     sendFeedback();
+                 }
+                 return true;
+            }
+        });
+        menu.show();
+
+
+    }
+
+    private void sendFeedback(){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + EMAIL_FEEDBACK));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback Think2Exam App");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Device: "+getDeviceName());
+        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    private String getDeviceName(){
+        String deviceName = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
+        return deviceName;
+    }
+
+    private void rateUs(){
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+        }
+    }
+
 
     private void switchFragment(Fragment fragment,String id) {
         FragmentManager fragmentManager = getSupportFragmentManager();

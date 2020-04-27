@@ -10,6 +10,7 @@ public class Constants {
     public static String OTP_API="https://api.textlocal.in/send/?";
     public static String TERMS = "http://think2exam.com/pages.php?id=19";
     public static String PRIVACY = "http://think2exam.com/pages.php?id=21";
+    public static String EMAIL_FEEDBACK = "feedback@think2exam.com";
     public static String ID = "id";
     public static String QUIZ_CATEGORY = "category";
     public static String QUIZ_CATEGORY_ID = "category_id";

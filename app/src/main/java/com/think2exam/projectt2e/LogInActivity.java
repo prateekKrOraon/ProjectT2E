@@ -39,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.mukesh.OnOtpCompletionListener;
 import com.mukesh.OtpView;
 import com.think2exam.projectt2e.modals.UserModel;
+import com.think2exam.projectt2e.ui.activities.TermsAndPrivacyActivity;
 import com.think2exam.projectt2e.utilities.DBOperations;
 import com.think2exam.projectt2e.utilities.LogInActivityHelper;
 import com.think2exam.projectt2e.utilities.OTPRequestHandler;
@@ -130,17 +131,22 @@ public class LogInActivity extends AppCompatActivity {
         Terms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse(TERMS);
-                Intent urlIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                startActivity(urlIntent);
+                Intent intent = new Intent(getApplicationContext(), TermsAndPrivacyActivity.class);
+                intent.putExtra(TITLE,"Terms and Conditions");
+                intent.putExtra("URL",TERMS);
+                startActivity(intent);
+
             }
         });
         Privacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse(PRIVACY);
-                Intent urlIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                startActivity(urlIntent);
+                Intent intent = new Intent(getApplicationContext(), TermsAndPrivacyActivity.class);
+                intent.putExtra(TITLE,"Privacy Policy");
+                intent.putExtra("URL",PRIVACY);
+                startActivity(intent);
+
+
             }
         });
     }
