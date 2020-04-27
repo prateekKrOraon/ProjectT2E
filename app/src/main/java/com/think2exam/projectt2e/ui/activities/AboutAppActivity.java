@@ -13,12 +13,16 @@ import android.widget.Toast;
 
 import com.think2exam.projectt2e.R;
 
+import static com.think2exam.projectt2e.Constants.PRIVACY;
+import static com.think2exam.projectt2e.Constants.TITLE;
+
 public class AboutAppActivity extends AppCompatActivity {
 
     LinearLayout defaultLayout;
     LinearLayout developersLayout;
 
     LinearLayout thirdPartyRes;
+    LinearLayout privacyPolicy;
 
     int count=4;
     @Override
@@ -52,6 +56,17 @@ public class AboutAppActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),ThirdPartyResourcesActivity.class));
+            }
+        });
+
+        privacyPolicy = findViewById(R.id.privacy_button);
+        privacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TermsAndPrivacyActivity.class);
+                intent.putExtra(TITLE,"Privacy Policy");
+                intent.putExtra("URL",PRIVACY);
+                startActivity(intent);
             }
         });
 

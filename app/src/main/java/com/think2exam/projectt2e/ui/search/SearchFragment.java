@@ -379,7 +379,6 @@ public class SearchFragment extends Fragment {
                         cityText.setText(getString(R.string.all_cities));
                         if(stateText.getText().toString().equals(getString(R.string.all_states)))
                         {
-                            cityRL.setBackgroundColor(getResources().getColor(R.color.gray_search_box));
                             cityll.setVisibility(View.GONE);
                             categoryText.setTextColor(getResources().getColor(R.color.black));
 

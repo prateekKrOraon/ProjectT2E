@@ -80,8 +80,7 @@ public class ProfileOptionsAdapter extends RecyclerView.Adapter<ProfileOptionsVi
                     if(user.id!=-1 && intent != null){
                         context.startActivity(intent);
                     }else {
-                        context.startActivity(new Intent(context, LogInActivity.class));
-                        MainActivity.getInstance().finish();
+                        Toast.makeText(context, "Login first", Toast.LENGTH_SHORT).show();
                     }
 
                 }else if(tagPrefix == Constants.TAG_PROFILE_APPLICATION){
