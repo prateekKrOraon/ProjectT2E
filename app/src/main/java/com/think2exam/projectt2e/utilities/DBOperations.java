@@ -35,6 +35,7 @@ import static com.think2exam.projectt2e.Constants.QUERY2;
 import static com.think2exam.projectt2e.Constants.QUERY_TYPE;
 import static com.think2exam.projectt2e.Constants.QUESTIONS_API_URL;
 import static com.think2exam.projectt2e.Constants.QUIZ_API_URL;
+import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY;
 import static com.think2exam.projectt2e.Constants.QUIZ_CATEGORY_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_PARA_ID;
 import static com.think2exam.projectt2e.Constants.QUIZ_SUBJECT_ID;
@@ -396,6 +397,11 @@ public class DBOperations {
     public JSONArray getTopPlayers(){
         String url = QUIZ_API_URL + "getTopPlayers.php";
         //TODO: implement api
+        HashMap<String,String> map = new HashMap<>();
+        map.put(QUIZ_CATEGORY_ID,"1");
+        map.put(QUIZ_SUBJECT_ID,"1");
+
+        String paramStr = setParameters(map);
         /*
             First position card background gradient_golden.xml
             second position card background gradient_silver.xml
@@ -403,7 +409,8 @@ public class DBOperations {
 
             Gradient files are in drawable folder
          */
-        String result = execute(url,"");
+        String result = execute(url,paramStr);
+        System.out.println(result);
         return convertToJSONArray(result);
     }
 

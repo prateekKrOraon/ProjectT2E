@@ -138,7 +138,7 @@ public class LogInActivity extends AppCompatActivity {
         Privacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse(PRIVACY);
+                Uri gmmIntentUri = Uri.parse(PRIVACY_POLICY_LINK);
                 Intent urlIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 startActivity(urlIntent);
             }

@@ -7,7 +7,6 @@
     android:backgroundTint="@color/grey_light">
 
 
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,7 +40,6 @@
 
             </androidx.cardview.widget.CardView>
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,6 +54,13 @@
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/how_to_play"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -387,12 +392,6 @@
 
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/how_to_play"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
                 </LinearLayout>
 
@@ -402,7 +401,6 @@
 
 
     </androidx.core.widget.NestedScrollView>
-
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/quiz_rules_app_bar"
@@ -439,6 +437,9 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
