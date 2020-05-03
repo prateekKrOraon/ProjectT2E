@@ -4,19 +4,19 @@ public class Constants {
 
     public static final String TAG_PROFILE_PERSONAL = "personal";
     public static final String TAG_PROFILE_APPLICATION = "application";
-    public static String QUIZ_API_URL = "https://think2exam.com/apps/services/";
+    public static String QUIZ_API_URL = "http://think2exam.com/apps/services/";
     public static String QUESTIONS_API_URL = "http://prateek-demo.atwebpages.com/apps/services/";
     public static String OTP_API_KEY="+Wcv50hjhf0-ibhaYFzF5KTqz2HKuGdbkCZUaVeuEC";
     public static String OTP_API="https://api.textlocal.in/send/?";
-    public static String TERMS = "https://think2exam.com/pages.php?id=19";
-    public static String PRIVACY_POLICY_LINK = "https://think2exam.com/pages.php?id=21";
+    public static String TERMS = "http://think2exam.com/pages.php?id=19";
+    public static String PRIVACY = "http://think2exam.com/pages.php?id=21";
     public static String ID = "id";
     public static String QUIZ_CATEGORY = "category";
     public static String QUIZ_CATEGORY_ID = "category_id";
     public static String QUIZ_SUBJECT_ID = "subject_id";
     public static String QUIZ_SUB_CAT = "subcategory";
     public static String QUIZ_PARA_ID = "para_id";
-    public static String QUIZ_PARAGRAPH = "PARAGRAPH";
+    public static String QUIZ_PARAGRAPH = "paragraph";
     public static String STATUS = "status";
     public static String TABLE_ID = "table";
     public static String SEARCH_KEY = "keyword";
