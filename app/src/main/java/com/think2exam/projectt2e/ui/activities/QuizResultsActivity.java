@@ -17,12 +17,17 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.think2exam.projectt2e.R;
+import com.think2exam.projectt2e.modals.QuestionModel;
 import com.think2exam.projectt2e.modals.UserModel;
 import com.think2exam.projectt2e.utilities.DBOperations;
 import com.think2exam.projectt2e.utilities.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.SerializationException;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.think2exam.projectt2e.Constants.CORRECT_ANS;
 import static com.think2exam.projectt2e.Constants.EMAIL_ID;
@@ -38,7 +43,7 @@ import static com.think2exam.projectt2e.Constants.TOTAL_POINTS;
 import static com.think2exam.projectt2e.Constants.WINS;
 import static com.think2exam.projectt2e.Constants.WRONG_ANS;
 
-public class QuizResultsActivity extends AppCompatActivity {
+public class QuizResultsActivity extends AppCompatActivity{
 
     private AppCompatImageView image;
     private AppCompatTextView title;
@@ -47,12 +52,15 @@ public class QuizResultsActivity extends AppCompatActivity {
     private AppCompatTextView scoreQuestions;
     private AppCompatButton backToTopics;
     private AppCompatButton tryAgain;
+    ArrayList<QuestionModel> questions;
 
     private boolean fetch = false;
+    private AppCompatButton checkAnsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (!fetch){
             setContentView(R.layout.loading);
@@ -72,7 +80,6 @@ public class QuizResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int score = intent.getIntExtra("score",0);
 
-
         Toolbar toolbar = findViewById(R.id.quiz_result_toolbar);
 
         try {
@@ -90,6 +97,7 @@ public class QuizResultsActivity extends AppCompatActivity {
         backToTopics = findViewById(R.id.result_back_to_topic_btn);
         scoreQuestions = findViewById(R.id.result_question_score);
         tryAgain = findViewById(R.id.result_try_again);
+        checkAnsBtn = findViewById(R.id.result_check_ans_btn);
 
         setListeners();
 
@@ -147,6 +155,14 @@ public class QuizResultsActivity extends AppCompatActivity {
                 setContentView(R.layout.loading);
                 SendResult send = new SendResult();
                 send.execute();
+            }
+        });
+        checkAnsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),CheckAnswersActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

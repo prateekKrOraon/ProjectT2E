@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.icu.lang.UCharacter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,10 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -95,8 +91,8 @@ public class CollegeInfoActivity extends AppCompatActivity {
     private int catId;
     private int id;
     CollegeInfoModel collegeInfoModel=null;
-    ArrayList<CoursesOfferedModal> bcourses;
-    ArrayList<CoursesOfferedModal> mcourses;
+    ArrayList<CoursesOfferedModal> bCourses;
+    ArrayList<CoursesOfferedModal> mCourses;
     RecyclerView coursesOfferedRV;
     TextView bachelor, master;
     CoursesOfferedAdapter adapter;
@@ -105,11 +101,8 @@ public class CollegeInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         catId = getIntent().getIntExtra(TABLE_ID,-1);
         id = getIntent().getIntExtra(ID,-1);
@@ -119,7 +112,9 @@ public class CollegeInfoActivity extends AppCompatActivity {
             try {
                 new GetCollegeInfo().execute();
 
-            }catch (Exception e){}
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }else {
             setContentView(R.layout.activity_college_info);
         }
@@ -185,14 +180,14 @@ public class CollegeInfoActivity extends AppCompatActivity {
         master = findViewById(R.id.master);
         bachelor.setBackgroundTintList(getColorStateList(R.color.colorAccentTrans));
         coursesOfferedRV = findViewById(R.id.offered_course_list);
-        setCoursesOfferedAdapter(bcourses);
+        setCoursesOfferedAdapter(bCourses);
 
         bachelor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 master.setBackgroundTintList(null);
                 bachelor.setBackgroundTintList(getColorStateList(R.color.colorAccentTrans));
-                setCoursesOfferedAdapter(bcourses);
+                setCoursesOfferedAdapter(bCourses);
 
             }
         });
@@ -201,7 +196,7 @@ public class CollegeInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 bachelor.setBackgroundTintList(null);
                 master.setBackgroundTintList(getColorStateList(R.color.colorAccentTrans));
-                setCoursesOfferedAdapter(mcourses);
+                setCoursesOfferedAdapter(mCourses);
             }
         });
 
@@ -226,7 +221,7 @@ public class CollegeInfoActivity extends AppCompatActivity {
         );
         quickFactsList.add(new QuickFactsModal(
                 "Ownership",
-                "Govt. of India",
+                collegeInfoModel.getClgType(),
                 R.drawable.outline_person_black_48)
         );
 
@@ -417,56 +412,56 @@ public class CollegeInfoActivity extends AppCompatActivity {
     private void setCourses(JSONObject jsonObject) throws JSONException
     {
 
-        bcourses = new ArrayList<>();
-        mcourses = new ArrayList<>();
+        bCourses = new ArrayList<>();
+        mCourses = new ArrayList<>();
         if(catId == R.string.engineering)
         {
 
             if(jsonObject.getString(BTECH_01).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_01)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_01)));
             }
             if(jsonObject.getString(BTECH_02).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_02)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_02)));
             }
             if(jsonObject.getString(BTECH_03).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_03)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_03)));
             }
             if(jsonObject.getString(BTECH_04).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_04)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_04)));
             }
             if(jsonObject.getString(BTECH_05).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_05)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_05)));
             }
             if(jsonObject.getString(BTECH_06).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_06)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_06)));
             }
             if(jsonObject.getString(BTECH_07).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_07)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_07)));
             }
             if(jsonObject.getString(BTECH_08).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_08)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_08)));
             }
             if(jsonObject.getString(BTECH_09).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_09)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_09)));
             }
             if(jsonObject.getString(BTECH_10).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_10)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BTECH_10)));
             }
 
             if(jsonObject.getString(MTECH_01).trim().length()!=0){
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_01)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_01)));
             }
             if(jsonObject.getString(MTECH_02).trim().length()!=0){
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_02)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_02)));
             }
             if(jsonObject.getString(MTECH_03).trim().length()!=0){
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_03)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_03)));
             }
             if(jsonObject.getString(MTECH_04).trim().length()!=0){
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_04)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_04)));
             }
             if(jsonObject.getString(MTECH_05).trim().length()!=0){
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_05)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE,jsonObject.getString(MTECH_05)));
             }
 
 
@@ -475,26 +470,26 @@ public class CollegeInfoActivity extends AppCompatActivity {
        else
         {
             if(jsonObject.getString(BACHELOR_DEGREE_COURSE_01).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_01)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_01)));
             }
             if(jsonObject.getString(BACHELOR_DEGREE_COURSE_02).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_02)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_02)));
             }
             if(jsonObject.getString(BACHELOR_DEGREE_COURSE_03).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_03)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_03)));
             }
             if(jsonObject.getString(BACHELOR_DEGREE_COURSE_04).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_04)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_04)));
             }
             if(jsonObject.getString(BACHELOR_DEGREE_COURSE_05).trim().length()!=0) {
-                bcourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_05)));
+                bCourses.add(new CoursesOfferedModal(BACHELOR_DEGREE, jsonObject.getString(BACHELOR_DEGREE_COURSE_05)));
             }
 
             if(jsonObject.getString(MASTER_DEGREE_COURSE_01).trim().length()!=0) {
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE, jsonObject.getString(MASTER_DEGREE_COURSE_01)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE, jsonObject.getString(MASTER_DEGREE_COURSE_01)));
             }
             if(jsonObject.getString(MASTER_DEGREE_COURSE_02).trim().length()!=0) {
-                mcourses.add(new CoursesOfferedModal(MASTER_DEGREE, jsonObject.getString(MASTER_DEGREE_COURSE_02)));
+                mCourses.add(new CoursesOfferedModal(MASTER_DEGREE, jsonObject.getString(MASTER_DEGREE_COURSE_02)));
             }
 
         }

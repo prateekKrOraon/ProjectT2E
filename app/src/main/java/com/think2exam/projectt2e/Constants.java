@@ -4,12 +4,12 @@ public class Constants {
 
     public static final String TAG_PROFILE_PERSONAL = "personal";
     public static final String TAG_PROFILE_APPLICATION = "application";
-    public static String QUIZ_API_URL = "http://think2exam.com/apps/services/";
+    public static String QUIZ_API_URL = "https://think2exam.com/apps/services/";
     public static String QUESTIONS_API_URL = "http://prateek-demo.atwebpages.com/apps/services/";
     public static String OTP_API_KEY="+Wcv50hjhf0-ibhaYFzF5KTqz2HKuGdbkCZUaVeuEC";
     public static String OTP_API="https://api.textlocal.in/send/?";
-    public static String TERMS = "http://think2exam.com/pages.php?id=19";
-    public static String PRIVACY = "http://think2exam.com/pages.php?id=21";
+    public static String TERMS = "https://think2exam.com/pages.php?id=19";
+    public static String PRIVACY = "https://think2exam.com/pages.php?id=21";
     public static String EMAIL_FEEDBACK = "feedback@think2exam.com";
     public static String ID = "id";
     public static String QUIZ_CATEGORY = "category";
@@ -101,10 +101,10 @@ public class Constants {
     public static String COLLEGE_IMAGE3 = "college_image3";
     public static String COLLEGE_IMAGE4 = "college_image4";
     public static String URL = "url";
-    public static String ENGINEERING_COLLEGE_IMAGE_URL ="http://admin.think2exam.com/engineering/images/";
-    public static String MANAGEMENT_COLLEGE_IMAGE_URL = "http://admin.think2exam.com/mba/images/";
-    public static String NURSING_AND_PARA_IMAGE_URL = "http://admin.think2exam.com/Nursing&Paramedical/images/";
-    public static String OTHER_COLLEGE_IMAGE_URL = "http://admin.think2exam.com/others/images/";
+    public static String ENGINEERING_COLLEGE_IMAGE_URL ="https://admin.think2exam.com/engineering/images/";
+    public static String MANAGEMENT_COLLEGE_IMAGE_URL = "https://admin.think2exam.com/mba/images/";
+    public static String NURSING_AND_PARA_IMAGE_URL = "https://admin.think2exam.com/Nursing&Paramedical/images/";
+    public static String OTHER_COLLEGE_IMAGE_URL = "https://admin.think2exam.com/others/images/";
 
 
 }

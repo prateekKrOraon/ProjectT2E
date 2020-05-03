@@ -1,6 +1,7 @@
 package com.think2exam.projectt2e.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,16 +15,23 @@ import java.util.ArrayList;
 
 public class ThirdPartyResourcesActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private TPRAdapter adapter;
-    private RecyclerView.LayoutManager manager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_party_resources);
 
         ArrayList<TPRModel> res = new ArrayList<>();
+
+        Toolbar toolbar = findViewById(R.id.tps_toolbar);
+
+        setSupportActionBar(toolbar);
+
+        try {
+            getSupportActionBar().setTitle(getString(R.string.third_party_res));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
 
         res.add(
                 new TPRModel(
@@ -184,7 +192,7 @@ public class ThirdPartyResourcesActivity extends AppCompatActivity {
 
         res.add(
                 new TPRModel(
-                        "Icons by FLaticon",
+                        "Icons by Flaticon",
                         "Multiple Copyrights",
                         "https://www.flaticon.com",
                         "Copyrights of all icons belong to their respective artists",
@@ -194,10 +202,9 @@ public class ThirdPartyResourcesActivity extends AppCompatActivity {
         );
 
 
-
-        recyclerView = findViewById(R.id.tpr_recycler_view);
-        adapter = new TPRAdapter(res,this);
-        manager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = findViewById(R.id.tpr_recycler_view);
+        TPRAdapter adapter = new TPRAdapter(res, this);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 

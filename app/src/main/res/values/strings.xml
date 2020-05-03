@@ -39,22 +39,23 @@
     <string name="profile_email">Email</string>
     <string name="profile_clg_name">College Name</string>
 
-    <string name="about_quiz">Think2exam now comes up with Quizes that help students to prepare for different Competitive exams.
-        \n\n<u>How to play</u>: \n\n1. You have to login first (no need if you already have done).
-                                                          \n2. Quizes are based on different Competitive exams. For each Exam section there are different subjects.
-                                                           \n3. For each Subject you will be given 10 questions.
-                                                            \n4. For each Question there will be 5 options.
-                                                              \n5. a timer will be set for 10 sec. after 10 sec automaticaly next question will come.
-                                                                \n6. you will be rewared 10XP for each correct answer
-                                                                  \n7. if your total XPs more than 50 out 100, you will win.</string>
+    <string name="about_quiz">Think2exam now comes up with Quizes that help students to prepare for different Competitive exams.</string>
 
+    <string name="quiz_rule_1">You have to login first (no need if you already have done).</string>
+    <string name="quiz_rule_2">Quizzes are based on different Competitive exams. For each Exam section there are different subjects.</string>
+    <string name="quiz_rule_3">For each Subject you will be given 10 questions.</string>
+    <string name="quiz_rule_4">For each Question there will be 5 options.</string>
+    <string name="quiz_rule_5">A timer will be set for 10 seconds. After 10 seconds next question will automatically appear.\nFor Questions which will have an abstract of paragraph, you will be given a paragraph to read. The question won\'t appear and the timer won\'t start until \'Show Question\' button is pressed.</string>
+    <string name="quiz_rule_6">You will be rewarded 10XP for each correct answer. No negative points for wrong answers</string>
+    <string name="quiz_rule_7">At the end of the quiz, if your total XPs are more than or equal to 50 out 100, you will win.</string>
+    <string name="quiz_rule_8">You can check the correct answer from the \'Quiz Result\' screen.</string>
     <string name="title_my_account">My Account</string>
     <string name="slider_button_text">explore</string>
     <string name="result_win">Congratulations!</string>
     <string name="result_win_subtitle">You have passed this stage</string>
     <string name="result_button">Back to Topics</string>
     <string name="score_dummy">8/10</string>
-    <string name="rules">Rules</string>
+    <string name="rules">Guide &amp; Rules</string>
     <string name="correctly_answered">Correctly answered</string>
     <string name="back_btn">Back Button</string>
     <string name="summary_level">Level 5</string>
@@ -152,5 +153,10 @@ Best Education Platforms</string>
     <string name="apply_internship">Apply for Internship</string>
     <string name="apply">APPLY NOW</string>
     <string name="internship_abstract">Think2Exam provide in-office and work from internship to students in the field of Web and Android application development.\nStudents having previous experience in the mentioned areas can apply to the internship.\nWe will contact you in few days</string>
+    <string name="how_to_play">How to play</string>
+    <string name="correct_answers">Correct Answers</string>
+    <string name="result_check_ans_btn">Check Answers</string>
+    <string name="quiz_proceed_play">Proceed to play</string>
+    <string name="skip">Skip question</string>
 
 </resources>

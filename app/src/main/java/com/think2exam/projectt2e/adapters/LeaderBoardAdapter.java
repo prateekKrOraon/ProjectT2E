@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardViewHolder> {
 
-    ArrayList<LeaderBoardModal> list;
-    Context context;
+    private ArrayList<LeaderBoardModal> list;
+    private Context context;
 
     public LeaderBoardAdapter(Context context, ArrayList<LeaderBoardModal> list){
         this.context = context;
@@ -37,7 +37,22 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardViewHold
     public void onBindViewHolder(@NonNull LeaderBoardViewHolder holder, int position) {
         holder.rank.setText(list.get(position).rank);
         holder.name.setText(list.get(position).name);
-        holder.level.setText(list.get(position).level);
+        holder.points.setText(list.get(position).points);
+        /*
+            First position card background gradient_golden.xml
+            second position card background gradient_silver.xml
+            third position card background gradient_bronze.xml
+
+            Gradient files are in drawable folder
+         */
+        if(position == 0){
+            holder.cardView.setBackground(context.getDrawable(R.drawable.gradient_golden));
+        }else if(position == 1){
+            holder.cardView.setBackground(context.getDrawable(R.drawable.gradient_silver));
+        }else if(position == 2){
+            holder.cardView.setBackground(context.getDrawable(R.drawable.gradient_bronze));
+        }
+
         Glide.with(context).load(context.getDrawable(list.get(position).image)).into(holder.imageView);
     }
 

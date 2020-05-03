@@ -33,4 +33,10 @@
     <color name="loginThemeColor">#3868a6</color>
     <color name="loginRed">#FF4336</color>
     <color name="correct_otp_color">#0aa149</color>
+    <color name="golden_metallic">#DAAF37</color>
+    <color name="golden_light">#E0C56E</color>
+    <color name="silver_metallic">#AAA9AD</color>
+    <color name="silver_light">#D5D5D7</color>
+    <color name="bronze_metallic">#B08D57</color>
+    <color name="bronze_light">#C5AB84</color>
 </resources>

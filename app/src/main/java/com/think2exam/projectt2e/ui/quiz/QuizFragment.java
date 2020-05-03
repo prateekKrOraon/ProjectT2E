@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -13,8 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.ui.activities.AboutQuizActivity;
 import com.think2exam.projectt2e.ui.activities.LeaderBoardActivity;
+import com.think2exam.projectt2e.ui.activities.QuizActivity;
 import com.think2exam.projectt2e.ui.activities.QuizCategoryActivity;
 import com.think2exam.projectt2e.ui.activities.QuizResultsActivity;
+import com.think2exam.projectt2e.utilities.User;
 
 public class QuizFragment extends Fragment {
 
@@ -29,7 +32,12 @@ public class QuizFragment extends Fragment {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), QuizCategoryActivity.class));
+                User user = User.getInstance();
+                if(user.id == -1){
+                    Toast.makeText(getContext(),"Login to play",Toast.LENGTH_LONG).show();
+                }else{
+                    startActivity(new Intent(getContext(), QuizCategoryActivity.class));
+                }
             }
         });
 

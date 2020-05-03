@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -14,15 +15,13 @@ import android.widget.Toast;
 import com.think2exam.projectt2e.R;
 
 import static com.think2exam.projectt2e.Constants.PRIVACY;
-import static com.think2exam.projectt2e.Constants.TITLE;
 
 public class AboutAppActivity extends AppCompatActivity {
 
     LinearLayout defaultLayout;
     LinearLayout developersLayout;
-
+    LinearLayout privacyPolicyLink;
     LinearLayout thirdPartyRes;
-    LinearLayout privacyPolicy;
 
     int count=4;
     @Override
@@ -30,8 +29,13 @@ public class AboutAppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        try {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch(NullPointerException ex){
+            ex.printStackTrace();
+        }
 
         defaultLayout = findViewById(R.id.default_ll);
         developersLayout = findViewById(R.id.developers_ll);
@@ -59,13 +63,12 @@ public class AboutAppActivity extends AppCompatActivity {
             }
         });
 
-        privacyPolicy = findViewById(R.id.privacy_button);
-        privacyPolicy.setOnClickListener(new View.OnClickListener() {
+        privacyPolicyLink = findViewById(R.id.privacy_button);
+        privacyPolicyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TermsAndPrivacyActivity.class);
-                intent.putExtra(TITLE,"Privacy Policy");
-                intent.putExtra("URL",PRIVACY);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(PRIVACY));
                 startActivity(intent);
             }
         });

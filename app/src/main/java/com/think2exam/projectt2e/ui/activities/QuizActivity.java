@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.text.HtmlCompat;
+import androidx.core.view.ViewGroupCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.think2exam.projectt2e.R;
 import com.think2exam.projectt2e.modals.QuestionModel;
 import com.think2exam.projectt2e.utilities.DBOperations;
+import com.think2exam.projectt2e.utilities.Questions;
 import com.think2exam.projectt2e.utilities.User;
 
 import org.json.JSONArray;
@@ -62,22 +65,19 @@ public class QuizActivity extends AppCompatActivity {
     Button showQuestionBtn;
     CardView paragraphCard;
 
-    ProgressBar progressBar;
+    private TextView skipBtn;
+    //ProgressBar progressBar;
 
     ArrayList<QuestionModel> questionsModels;
 
     public int points = 0;
     int counter = 0;
-    AppCompatTextView descriptionView;
 
     AppCompatTextView questionView;
     private boolean error = false;
 
-    private ContentLoadingProgressBar quizTimer;
-    private Thread timerThread;
-
-    private String[] questions = new String[10];
-    Options[] options = new Options[10];
+    //private ContentLoadingProgressBar quizTimer;
+    //private Thread timerThread;
 
     Vibrator vibrator;
     MediaPlayer buzzer;
@@ -108,6 +108,8 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void getQuestions(JSONArray array) {
+
+
         questionsModels = new ArrayList<>();
         if(array !=null){
             try {
@@ -133,6 +135,9 @@ public class QuizActivity extends AppCompatActivity {
             }
 
         }
+
+        Questions questions = Questions.getInstance();
+        questions.setInstance(questionsModels);
     }
 
     private void initializeQuizLayout() {
@@ -161,8 +166,8 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionFive = findViewById(R.id.option_5_btn);
         optionFiveText = findViewById(R.id.option_5);
         questionView = findViewById(R.id.quiz_question);
-        descriptionView = findViewById(R.id.quiz_ans_des);
-        quizTimer = findViewById(R.id.quiz_timer);
+        //quizTimer = findViewById(R.id.quiz_timer);
+        skipBtn = findViewById(R.id.skip_btn);
         pointsCounter = findViewById(R.id.quiz_point_counter_text);
         questionCounter = findViewById(R.id.quiz_question_number);
         paragraphTextView = findViewById(R.id.quiz_paragraph);
@@ -221,14 +226,46 @@ public class QuizActivity extends AppCompatActivity {
                 setNextQuestion();
             }
         });
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(counter == questionsModels.size()-1){
+                    user.setTotalMatches(1);
+                    user.setTotalPoints(points);
+                    user.setAvgPoints();
+                    user.setCorrectAns(points/10);
+                    user.setWrongAns(wrongAns);
+                    user.setNoAns(10-(points/10)-wrongAns);
+                    if (points>=50){
+                        user.setWins(1);
+                    }
+                    Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
+                    intent.putExtra("score",points);
+                    startActivity(intent);
+//                    try {
+////                        if(timerThread != null && timerThread.isAlive()){
+////                            timerThread.interrupt();
+////                        }
+//                        finish();
+//                    }catch (Throwable ex){
+//                        ex.printStackTrace();
+//                    }
+//                    return;
+                    finish();
+                }else{
+                    counter++;
+                    setNextQuestion();
+                }
+            }
+        });
 
     }
 
-    private void handleResponse(RelativeLayout layout,int index) {
+    private void handleResponse(RelativeLayout layout, final int index) {
 
-        if(counter == questionsModels.size()-1){
-            timerThread.interrupt();
-        }
+//        if(counter == questionsModels.size()-1){
+//            timerThread.interrupt();
+//        }
 
         if(index == questionsModels.get(counter).answerKey-1){
             layout.setBackground(getResources().getDrawable(R.drawable.quiz_answer_correct));
@@ -265,7 +302,7 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionFive.setClickable(false);
         layoutOptionFive.setFocusable(false);
 
-        timerThread.interrupt();
+        //timerThread.interrupt();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -283,9 +320,9 @@ public class QuizActivity extends AppCompatActivity {
                     intent.putExtra("score",points);
                     startActivity(intent);
                     try {
-                        if(timerThread != null && timerThread.isAlive()){
-                            timerThread.interrupt();
-                        }
+//                        if(timerThread != null && timerThread.isAlive()){
+//                            timerThread.interrupt();
+//                        }
                         finish();
                     }catch (Throwable ex){
                         ex.printStackTrace();
@@ -294,7 +331,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
                 counter++;
                 if (counter < questionsModels.size()){
-                    if(questionsModels.get(counter).paraId!=1 && !questionsModels.get(counter).paragraph.equals("")){
+                    if(questionsModels.get(counter).paraId!=0 && !questionsModels.get(counter).paragraph.equals("")){
                         setParagraphText();
                         questionView.setText("");
                         optionOneText.setText("");
@@ -302,29 +339,23 @@ public class QuizActivity extends AppCompatActivity {
                         optionThreeText.setText("");
                         optionFourText.setText("");
                         optionFiveText.setText("");
-                        progressBar.setProgress(0);
                         layoutOptionOne.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
                         layoutOptionTwo.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
                         layoutOptionThree.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
                         layoutOptionFour.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
                         layoutOptionFive.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
                     }else{
-                        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-                        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-                        params.height = 0;
-                        paragraphCard.getLayoutParams().height = params.height;
-                        paragraphCard.getLayoutParams().width = params.width;
+                        paragraphCard.setVisibility(View.GONE);
                         setNextQuestion();
                     }
                 }
 
             }
-        },(index == questionsModels.get(counter).answerKey-1)?2000:8000);
+        },(index == questionsModels.get(counter).answerKey-1)?2000:3000);
     }
 
     private void viewCorrectAnswer() {
 
-        descriptionView.setText(questionsModels.get(counter).description);
 
         switch(questionsModels.get(counter).answerKey-1){
             case 0:
@@ -354,9 +385,13 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(timerThread!=null) {
-            timerThread.interrupt();
-        }
+//        try {
+//            if(timerThread!=null && timerThread.isAlive()) {
+//                timerThread.interrupt();
+//            }
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//        }
         super.onDestroy();
     }
 
@@ -367,20 +402,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void setParagraphText(){
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        int width = WindowManager.LayoutParams.MATCH_PARENT;
-        int height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        try {
-            params.width = width;
-            params.height =height;
-            params.horizontalMargin = 10;
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        paragraphCard.getLayoutParams().height = params.height;
-        paragraphCard.getLayoutParams().width = params.width;
+        paragraphCard.setVisibility(View.VISIBLE);
         String para = questionsModels.get(counter).paragraph.toString();
         String htmlData = HtmlCompat.fromHtml(para,HtmlCompat.FROM_HTML_MODE_COMPACT).toString();
         Document doc = Jsoup.parse(htmlData);
@@ -392,7 +415,6 @@ public class QuizActivity extends AppCompatActivity {
 
         String questionNo = "Question: "+(counter+1)+"/"+questionsModels.size();
         questionCounter.setText(questionNo);
-        descriptionView.setText("");
 
         layoutOptionOne.setClickable(true);
         layoutOptionOne.setFocusable(true);
@@ -414,7 +436,23 @@ public class QuizActivity extends AppCompatActivity {
 
         layoutOptionFive.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
 
-        questionView.setText(questionsModels.get(counter).question);
+        String question = questionsModels.get(counter).question;
+        System.out.println(question);
+        String htmlData = HtmlCompat.fromHtml(question,HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+
+        if(htmlData.charAt(0)=='<'){
+
+            Document doc = Jsoup.parse(htmlData);
+            String str = doc.select("p").toString().replaceAll("<[^>]*>","");
+            htmlData = HtmlCompat.fromHtml(str,HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+            questionView.setText(htmlData);
+        }else{
+            questionView.setText(htmlData);
+        }
+        //if(str.equals("")){
+        //}else{
+        //    questionView.setText(str);
+        //}
 
         optionOneText.setText(questionsModels.get(counter).option1);
         optionTwoText.setText(questionsModels.get(counter).option2);
@@ -422,81 +460,63 @@ public class QuizActivity extends AppCompatActivity {
         optionFourText.setText(questionsModels.get(counter).option4);
         optionFiveText.setText(questionsModels.get(counter).option5);
 
-        quizTimer.setVisibility(View.VISIBLE);
-        timerThread = new TimerThread();
-        timerThread.start();
+        //quizTimer.setVisibility(View.VISIBLE);
+//        timerThread = new TimerThread();
+//        timerThread.start();
 
     }
 
-    private class Options{
 
-        Options(String option1, String option2, String option3, String option4, int correctIndex) {
-            this.option1 = option1;
-            this.option2 = option2;
-            this.option3 = option3;
-            this.option4 = option4;
-            this.correctIndex = correctIndex;
-        }
-
-        String option1;
-        String option2;
-        String option3;
-        String option4;
-
-        int correctIndex;
-
-    }
-
-    private class TimerThread extends Thread{
-
-        final Handler handler = new Handler();
-
-        @Override
-        public void run() {
-            super.run();
-            final int max = 1000;
-            int current = 1000;
-            final int min = 0;
-            quizTimer.setMax(max);
-
-            while (current>min){
-                try {
-                    sleep(10);
-                }catch (InterruptedException ex){
-                    ex.printStackTrace();
-                    return;
-                }
-
-                current = current - 1;
-                quizTimer.setProgress(current);
-
-                final int end = current;
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(end == min){
-                            handleResponse(null,Integer.MAX_VALUE);
-                            if(counter == questionsModels.size()-1){
-                                onDestroy();
-                                return;
-                            }
-                            if(Build.VERSION.SDK_INT >= 26){
-                                assert vibrator != null;
-                                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
-                            }else{
-                                assert vibrator != null;
-                                vibrator.vibrate(200);
-                            }
-                            timerThread.interrupt();
-                        }
-                    }
-                });
-
-            }
-        }
-
-    }
+//    private class TimerThread extends Thread{
+//
+//        final Handler handler = new Handler();
+//
+//        @Override
+//        public void run() {
+//            super.run();
+//            final int max = 1000;
+//            int current = 1000;
+//            final int min = 0;
+//            quizTimer.setMax(max);
+//
+//            while (current>min){
+//                try {
+//                    sleep(10);
+//                }catch (InterruptedException ex){
+//                    ex.printStackTrace();
+//                    return;
+//                }
+//
+//                current = current - 1;
+//                quizTimer.setProgress(current);
+//
+//                final int end = current;
+//
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(end == min){
+//                            handleResponse(null,Integer.MAX_VALUE);
+//                            if(counter == questionsModels.size()-1){
+//                                onDestroy();
+//                                return;
+//                            }
+//                            if(Build.VERSION.SDK_INT >= 26){
+//                                assert vibrator != null;
+//                                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+//                            }else{
+//                                assert vibrator != null;
+//                                vibrator.vibrate(200);
+//                            }
+//                            interrupt();
+//                        }
+//                    }
+//                });
+//
+//            }
+//        }
+//
+//    }
 
     private class HTTPHandler extends AsyncTask<String,Void,Void> {
 
@@ -508,7 +528,26 @@ public class QuizActivity extends AppCompatActivity {
             }else if(questionsModels!=null && questionsModels.size()!=0){
                 setContentView(R.layout.activity_quiz);
                 initializeQuizLayout();
-                setNextQuestion();
+
+                if(questionsModels.get(counter).paraId!=0 && !questionsModels.get(counter).paragraph.equals("")){
+                    setParagraphText();
+                    String questionNo = "Question: "+(counter+1)+"/"+questionsModels.size();
+                    questionCounter.setText(questionNo);
+                    questionView.setText("");
+                    optionOneText.setText("");
+                    optionTwoText.setText("");
+                    optionThreeText.setText("");
+                    optionFourText.setText("");
+                    optionFiveText.setText("");
+                    layoutOptionOne.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                    layoutOptionTwo.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                    layoutOptionThree.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                    layoutOptionFour.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                    layoutOptionFive.setBackground(getResources().getDrawable(R.drawable.quiz_option_button));
+                }else{
+                    paragraphCard.setVisibility(View.GONE);
+                    setNextQuestion();
+                }
                 setListeners();
             }
         }
@@ -526,7 +565,12 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(timerThread!=null && timerThread.isAlive()){
+        if(counter < questionsModels.size()){
+//            try {
+//                timerThread.wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Your progress will be lost").setTitle("Exit quiz?");
             builder.setPositiveButton("Quit", new DialogInterface.OnClickListener() {
@@ -544,20 +588,23 @@ public class QuizActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(),QuizResultsActivity.class);
                     intent.putExtra("score",points);
                     startActivity(intent);
-                    try {
-                        if(timerThread != null && timerThread.isAlive()){
-                            timerThread.interrupt();
-                        }
-                        finish();
-                    }catch (Throwable ex){
-                        ex.printStackTrace();
-                    }
+//                    try {
+//                        if(timerThread != null && timerThread.isAlive()){
+//                            timerThread.interrupt();
+//                        }else if(timerThread != null && !timerThread.isInterrupted()){
+//                            timerThread.interrupt();
+//                        }
+//                        finish();
+//                    }catch (Throwable ex){
+//                        ex.printStackTrace();
+//                    }
 
                 }
             });
             builder.setNegativeButton("Stay", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
+                    //timerThread.notify();
                 }
             });
 
