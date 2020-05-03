@@ -410,7 +410,6 @@ public class DBOperations {
             Gradient files are in drawable folder
          */
         String result = execute(url,paramStr);
-        System.out.println(result);
         return convertToJSONArray(result);
     }
 

@@ -131,7 +131,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:id="@+id/privacy_policy_link"
             android:padding="10dp">
 
             <ImageView
