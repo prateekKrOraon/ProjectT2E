@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,9 @@ import com.think2exam.projectt2e.modals.UserModel;
 import com.think2exam.projectt2e.utilities.User;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.think2exam.projectt2e.MainActivity.*;
 
 public class ProfileFragment extends Fragment {
@@ -131,6 +135,17 @@ public class ProfileFragment extends Fragment {
 
 
     private void initializeOptions(View root) {
+        //Profile Image
+        CircleImageView user_img = root.findViewById(R.id.user_image);
+
+        user_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Profile Image Clicked");
+                Intent activity2Intent = new Intent(ProfileFragment.super.getContext(), ImgUploadActivity.class);
+                startActivity(activity2Intent);
+            }
+        });
 
         //Creating list for personal section of profile
         personalOptions.add(new ProfileOptionsModal("Edit Profile",R.drawable.outline_person_black_48));
@@ -168,4 +183,9 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         setUserDetails(root);
     }
+
 }
+
+//package net.simplifiedcoding.imageuploadsample;
+
+
